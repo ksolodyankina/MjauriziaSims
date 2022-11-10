@@ -13,8 +13,8 @@
     </div>
     <div class="col-sm-2 p-2">
         <a href="/Character/GiveBirth/@Model.Family.FamilyId" class="btn btn-default">Give birth</a>
-        <a href="#" onclick="showOrHideRemovedCharacters()" title="Show/Hide Removed Characters">
-            <i class="bi-three-dots" style="font-size: 1.5rem; color: black;"></i>
+        <a href="#" onclick="setRemovedCharactersVisibility()" title="Show/Hide Removed Characters">
+            <i id="RemovedCharactersToggle" class="bi-toggle-off" style="font-size: 1.5rem; color: black;"></i>
         </a>
     </div>
 </div>
@@ -90,46 +90,16 @@
 
                         <div class="row">
 
-                            @foreach (var preference in Model.Preferences)
+                            @foreach (var preference in Model.Preferences.OrderBy(p => p.Category))
                             {
-                                if (preference.PreferenceId == character.Color)
+                                if (preference.PreferenceId == character.Color
+                                    || preference.PreferenceId == character.Music
+                                    || preference.PreferenceId == character.Hobby
+                                    || preference.PreferenceId == character.Decor)
                                 {
                                     <div class="col-sm-3">
                                         <img src="/Images/Preferences/@(preference.Title).png" 
                                             width="40px" height="40px" class="rounded" 
-                                            title="@preference.Title" />
-                                    </div>
-                                }
-                            }
-                            @foreach (var preference in Model.Preferences)
-                            {
-                                if (preference.PreferenceId == character.Music)
-                                {
-                                    <div class="col-sm-3">
-                                        <img src="/Images/Preferences/@(preference.Title).png" 
-                                            width="40px" height="40px" class="rounded"
-                                            title="@preference.Title" />
-                                    </div>
-                                }
-                            }
-                            @foreach (var preference in Model.Preferences)
-                            {
-                                if (preference.PreferenceId == character.Hobby)
-                                {
-                                    <div class="col-sm-3">
-                                        <img src="/Images/Preferences/@(preference.Title).png" 
-                                            width="40px" height="40px" class="rounded"
-                                            title="@preference.Title" />
-                                    </div>
-                                }
-                            }
-                            @foreach (var preference in Model.Preferences)
-                            {
-                                if (preference.PreferenceId == character.Decor)
-                                {
-                                    <div class="col-sm-3">
-                                        <img src="/Images/Preferences/@(preference.Title).png" 
-                                            width="40px" height="40px" class="rounded"
                                             title="@preference.Title" />
                                     </div>
                                 }

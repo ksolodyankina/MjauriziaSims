@@ -4,12 +4,17 @@ $(document).ready(function () {
     $(".notInFamily").addClass("hidden");
 });
 
-function showOrHideRemovedCharacters() {
+function setRemovedCharactersVisibility() {
     var $removedCharacters = $(".notInFamily");
+    var $toggle = $("#RemovedCharactersToggle");
     if ($removedCharacters.hasClass("hidden")) {
-        $removedCharacters.removeClass("hidden")
+        $removedCharacters.removeClass("hidden");
+        $toggle.removeClass("bi-toggle-off");
+        $toggle.addClass("bi-toggle-on");
     } else {
         $removedCharacters.addClass("hidden");
+        $toggle.removeClass("bi-toggle-on");
+        $toggle.addClass("bi-toggle-off");
     }
 }
 
