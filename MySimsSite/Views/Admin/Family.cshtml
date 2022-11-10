@@ -1,0 +1,34 @@
+﻿@model Domain.Entities.Family
+
+@{
+    ViewBag.Title = "Admin : Edit family";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Edit family @Model.Surname</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="row">
+            @Html.HiddenFor(m => m.FamilyId)
+
+            <div class="col-sm-6">
+                <label>Surname :</label>
+                @Html.TextBox("Surname", null, new { @class = "form-control" })
+            </div>
+
+            <div class="col-sm-6">
+                <label>Generation :</label>
+                @Html.TextBox("Generation", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <a href="/Admin/DeleteFamily/@Model.FamilyId" class="btn btn-danger">Delete</a>
+        </div>
+    }
+</div>

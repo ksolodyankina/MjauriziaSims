@@ -1,0 +1,162 @@
+﻿@using WebUI.Models
+@using Domain.Entities
+@model FamilyViewModel
+
+@{
+    ViewBag.Title = Model.Family.Surname + " Family";
+}
+
+
+<div class="row">
+    <div class="col-sm-10">
+        <h1>@Model.Family.Surname Family</h1>
+    </div>
+    <div class="col-sm-2 p-2">
+        <a href="/Character/GiveBirth/@Model.Family.FamilyId" class="btn btn-default">Give birth</a>
+        <a href="#" onclick="showOrHideRemovedCharacters()" title="Show/Hide Removed Characters">
+            <i class="bi-three-dots" style="font-size: 1.5rem; color: black;"></i>
+        </a>
+    </div>
+</div>
+
+
+@for (int i = Model.Family.Generation; i > 0; i--)
+{
+    <div class="row">
+        @foreach (var character in Model.Characters.OrderBy(c => !c.InFamily).ThenBy(c => !c.IsHeir).ThenBy(c => !c.InLow))
+        {
+            if (i == character.Generation)
+            {
+                <div class="col-sm-2 p-2 @(character.InFamily ? "inFamily" : "notInFamily") ">
+                    <div class="p-3 border rounded border-@Model.getCardColor(character) text-@(character.InFamily ? "dark" : "secondary")">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <h5 class="text-@Model.getCardColor(character)">
+                                    @character.Name
+                                </h5>
+                            </div>
+                            <div class="col-sm-5">
+                                <h5>Gen @character.Generation</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h6>@character.Age.ToString()</h6>
+                            </div>
+                            <div class="col-sm-8">
+                                @if (@character.Glasses)
+                                {
+                                    <h6 class="m-0">Wear glasses</h6>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @foreach (var goal in Model.Goals)
+                                {
+                                    if (goal.GoalId == character.Goal)
+                                    {
+                                        <img    src="/Images/Goals/@(goal.Title).png" 
+                                                width="50px" height="50px" class="rounded" title="@goal.Title" />
+                                        <p class="m-0">@goal.Title</p>
+                                    }
+                                }
+
+                                @if (character.Gender == 0 || character.Generation > 5)
+                                {
+                                    @foreach (var career in Model.Careers)
+                                    {
+                                        if (career.CareerId == character.Career)
+                                        {
+                                            <p class="m-0">@career.Title</p>
+                                        }
+                                    }
+                                }
+                            </div>
+                        
+                            <div class="col-sm-8">
+                                @if (character.Sexuality != null && character.Sexuality >= 0)
+                                {
+                                    <p class="m-0">@character.Sexuality.ToString()</p>
+                                }
+                                @if (character.Chronotype != null && character.Chronotype >= 0)
+                                {
+                                    <p class="m-0">@character.Chronotype.ToString()</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            @foreach (var preference in Model.Preferences)
+                            {
+                                if (preference.PreferenceId == character.Color)
+                                {
+                                    <div class="col-sm-3">
+                                        <img src="/Images/Preferences/@(preference.Title).png" 
+                                            width="40px" height="40px" class="rounded" 
+                                            title="@preference.Title" />
+                                    </div>
+                                }
+                            }
+                            @foreach (var preference in Model.Preferences)
+                            {
+                                if (preference.PreferenceId == character.Music)
+                                {
+                                    <div class="col-sm-3">
+                                        <img src="/Images/Preferences/@(preference.Title).png" 
+                                            width="40px" height="40px" class="rounded"
+                                            title="@preference.Title" />
+                                    </div>
+                                }
+                            }
+                            @foreach (var preference in Model.Preferences)
+                            {
+                                if (preference.PreferenceId == character.Hobby)
+                                {
+                                    <div class="col-sm-3">
+                                        <img src="/Images/Preferences/@(preference.Title).png" 
+                                            width="40px" height="40px" class="rounded"
+                                            title="@preference.Title" />
+                                    </div>
+                                }
+                            }
+                            @foreach (var preference in Model.Preferences)
+                            {
+                                if (preference.PreferenceId == character.Decor)
+                                {
+                                    <div class="col-sm-3">
+                                        <img src="/Images/Preferences/@(preference.Title).png" 
+                                            width="40px" height="40px" class="rounded"
+                                            title="@preference.Title" />
+                                    </div>
+                                }
+                            }
+
+                        </div>
+
+                        @if (character.InFamily)
+                        {
+                             <div class="mt-2">
+                                <a href="/Character/KickOut/@character.CharacterId" class="btn btn-danger small">Out</a>
+
+                                @if (character.Age < Ages.Old)
+                                {
+                                    <a href="/Character/MakeOlder/@character.CharacterId" class="btn btn-success small">Growth</a>
+                                }
+
+                                @if (character.Age >= Ages.Young && Model.CanGetMarried(character))
+                                {
+                                    <a href="/Character/GetMarried/@character.Family" class="btn btn-light btn-outline-secondary small">Marry</a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+

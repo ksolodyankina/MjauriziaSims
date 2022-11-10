@@ -1,0 +1,24 @@
+﻿@using Domain.Entities
+@model IEnumerable<Family>
+
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="row">
+        <div class="col-sm-8">
+            @foreach (var family in Model)
+            {
+                <div>
+                    <a href="/admin/family/@family.FamilyId">
+                        <h3>@family.Surname - @family.Generation</h3></a>
+                </div>
+            }
+        </div>
+        <div class="col-sm-4">
+            <a href="/Admin/Family/0" class="btn btn-success">Create</a>
+        </div>
+    </div>
+</div>

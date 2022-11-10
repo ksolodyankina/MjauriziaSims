@@ -1,0 +1,23 @@
+﻿@using Domain.Entities
+@model IEnumerable<Family>
+
+@{
+    ViewBag.Title = "Families";
+}
+
+<div>
+    <h1>Families:</h1>
+</div>
+
+<div class="col-sm-8">
+    @foreach (Family family in Model)
+    {
+
+        <a href="/Family/@family.FamilyId">
+            <h3>@family.Surname - @family.Generation</h3>
+        </a>
+    }
+</div>
+<div class="col-sm-4">
+    <a href="/Family/Create/" class="btn btn-success">Create</a>
+</div>

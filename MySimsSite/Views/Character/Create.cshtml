@@ -1,0 +1,176 @@
+﻿@using Domain.Entities
+@using WebUI.Models
+@model WebUI.Models.CharacterViewModel
+
+@{
+    ViewBag.Title = "New family member";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>New family member</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="row">
+            @Html.HiddenFor(m => m.Character.Family)
+            @Html.HiddenFor(m => m.Character.Generation)
+            @Html.HiddenFor(m => m.Character.IsHeir)
+            @Html.HiddenFor(m => m.Character.InLow)
+            
+            <div class="col-sm-6">
+                <div class="p-1">Name :</div>
+                @Html.TextBox("Character.Name", null, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6">
+                <div class="p-1">Gender :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Gender" asp-items="Model.GetGenderSelectItems()" class="form-select"></select>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+
+            @if (Model.Character.IsHeir || Model.Character.InLow)
+            {
+                <div class="col-sm-6">
+                    <div class="p-1">Age :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Age" asp-items="Model.GetAgeSelectItems()" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="p-1">Sexuality :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Sexuality" asp-items="Model.GetSexualitySelectItems()" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="p-1">Chronotype :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Chronotype" asp-items="Model.GetChronotypeSelectItems()" 
+                                id="chronotypeSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="setRandomChronotype()" title="Randomize">
+                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="p-1">Goal :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Goal" asp-items="Model.GetSelectCategory()" id="goalSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="setRandomSelection('goalSelect')" title="Randomize">
+                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="p-1">Color :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Color" asp-items="Model.GetSelectPreferences(0)" id="colorSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="setRandomSelection('colorSelect')" title="Randomize">
+                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="p-1">Music :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Music" asp-items="Model.GetSelectPreferences(1)" id="musicSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="setRandomSelection('musicSelect')" title="Randomize">
+                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="p-1">Hobby :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Hobby" asp-items="Model.GetSelectPreferences(2)" id="hobbySelect" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="setRandomSelection('hobbySelect')" title="Randomize">
+                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="p-1">Decor :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Decor" asp-items="Model.GetSelectPreferences(3)" id="decorSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="setRandomSelection('decorSelect')" title="Randomize">
+                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Family.Generation > 5 || Model.Character.Gender == 0)
+                {
+                    <div class="col-sm-6">
+                        <div class="p-1">Career :</div>
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <select asp-for="Character.Career" 
+                                        asp-items="Model.GetSelectCareer(Model.Family.Generation)" 
+                                        id="careerSelect" class="form-select">
+                                </select>
+                            </div>
+                            <div class="col-sm-1">
+                                <a href="#" onclick="setRandomSelection('careerSelect')" title="Randomize">
+                                    <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="col-sm-6">
+                    <div class="p-1">
+                        Has glasses :
+                        @Html.CheckBox("Character.Glasses")
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="m-1">
+            <input type="submit" value="Save" class="btn btn-primary"/>
+        </div>
+    }
+</div>

@@ -1,0 +1,25 @@
+﻿@using Domain.Entities
+@model IEnumerable<Goal>
+
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="row">
+        <div class="col-sm-8">
+            @foreach (var goal in Model.OrderBy(g => g.Title))
+            {
+                <div>
+                    <a href="/admin/goal/@goal.GoalId">
+                        <h3>@goal.Title</h3>
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="col-sm-4">
+            <a href="/Admin/Goal/0" class="btn btn-success">Create</a>
+        </div>
+    </div>
+</div>

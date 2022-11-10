@@ -1,0 +1,39 @@
+﻿@using Domain.Entities
+@model Domain.Entities.Family
+
+@{
+    ViewBag.Title = "New family";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>New family"</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.FamilyId)
+        @Html.HiddenFor(m => m.Generation)
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="p-1">Surname :</div>
+                @Html.TextBox("Surname", null, new { @class = "form-control" })
+            </div>
+                
+            <div class="col-sm-6">
+                <div class="p-1">Challenge :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Challenge" asp-items="Family.GetChallengeSelectCategory()" class="form-select"></select>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-1">
+            <input type="submit" value="Save" class="btn btn-primary"/>
+        </div>
+    }
+</div>

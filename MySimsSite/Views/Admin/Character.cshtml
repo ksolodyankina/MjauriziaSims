@@ -1,0 +1,90 @@
+﻿@using WebUI.Models
+@using Domain.Entities
+@model CharacterViewModel
+
+@{
+    ViewBag.Title = "Admin : Edit character";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Edit character @Model.Character.Name</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.HiddenFor(m => m.Character.CharacterId)
+                @Html.HiddenFor(m => m.Character.Family)
+
+                <div>
+                    <label>Name :</label>
+                    @Html.TextBox("Character.Name", null, new { @class = "form-control" })
+                </div>
+                <div>
+                    <label>Generation :</label>
+                    @Html.TextBox("Character.Generation", null, new { @class = "form-control" })
+                </div>
+                <div>
+                    <label>Age :</label>
+                    @Html.DropDownList("Character.Age", Model.GetAgeSelectItems(true))
+                </div>
+                <div>
+                    <label>Goal :</label>
+                    @Html.DropDownList("Character.Goal", Model.GetSelectCategory(true))
+                </div>
+                <div>
+                    <label>Has glasses :</label>
+                    @Html.CheckBox("Character.Glasses")
+                </div>
+                <div>
+                    <label>Is heir :</label>
+                    @Html.CheckBox("Character.IsHeir")
+                </div>
+                <div>
+                    <label>In low :</label>
+                    @Html.CheckBox("Character.InLow")
+                </div>
+                <div>
+                    <label>In family :</label>
+                    @Html.CheckBox("Character.InFamily")
+                </div>
+                <div>
+                    <label>Color :</label>
+                    @Html.DropDownList("Character.Color", Model.GetSelectPreferences(0))
+                </div>
+                <div>
+                    <label>Music :</label>
+                    @Html.DropDownList("Character.Music", Model.GetSelectPreferences(1))
+                </div>
+                <div>
+                    <label>Hobby :</label>
+                    @Html.DropDownList("Character.Hobby", Model.GetSelectPreferences(2))
+                </div>
+                <div>
+                    <label>Decor :</label>
+                    @Html.DropDownList("Character.Decor", Model.GetSelectPreferences(3))
+                </div>
+                <div>
+                    <label>Sexuality :</label>
+                    @Html.DropDownList("Character.Sexuality", Model.GetSexualitySelectItems())
+                </div>
+                <div>
+                    <label>Chronotype :</label>
+                    @Html.DropDownList("Character.Chronotype", Model.GetChronotypeSelectItems())
+                </div>
+            </div>
+        </div>
+
+        <div class="m-2">
+            <input type="submit" value="Save" class="btn btn-primary"/>
+            @if (Model.Character.CharacterId > 0)
+            {
+                <a href="/Admin/DeleteCharacter/@Model.Character.CharacterId" class="btn btn-danger">Delete</a>
+            }
+            
+        </div>
+    }
+</div>
