@@ -10,7 +10,8 @@ namespace Domain.Entities
     }
     public class InheritanceLaw
     {
-        public int InheritanceId { get; set; }
+        [Key]
+        public int InheritanceId { get; set; } = 0;
         public string Code { get; set; }
         public string Title { get; set; }
         public bool AllowsManualChoice { get; set; }

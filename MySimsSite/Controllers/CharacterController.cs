@@ -166,33 +166,14 @@ namespace WebUI.Controllers
         {
             var family = _familyRepository.Families.First(f => f.FamilyId == familyId);
             Character result = null;
-            if (family.Challenge == 0)
-            {
-                var nextHeir = _characterRepository.Characters.First(c => c.Family == family.FamilyId && c.Generation == family.Generation);
-                var isMarried = _characterRepository.Characters
-                    .Any(c => c.Family == nextHeir.Family && c.Generation == nextHeir.Generation && c.InLow);
+            var nextHeir = _characterRepository.Characters.First(c => c.Family == family.FamilyId && c.Generation == family.Generation);
+            var isMarried = _characterRepository.Characters
+                .Any(c => c.Family == nextHeir.Family && c.Generation == nextHeir.Generation && c.InLow);
 
-                result = nextHeir;
-                if ((nextHeir.IsHeir && nextHeir.Generation != 1) || isMarried)
-                {
-                    result = null;
-                }
-            }
-            else if (family.Challenge == 1)
+            result = nextHeir;
+            if ((nextHeir.IsHeir && nextHeir.Generation != 1) || isMarried)
             {
-                var currentHeir = _characterRepository.Characters.Last(c => c.Family == family.FamilyId && c.IsHeir);
-                var children = _characterRepository.Characters.
-                    Where(c => c.Family == family.FamilyId && c.Generation == currentHeir.Generation + 1);
-                if (children.Count() > 0)
-                {
-                    var nextHeir = children.LastOrDefault(c => c.Gender == 0);
-                    if (nextHeir == null)
-                    {
-                        nextHeir = children.Last();
-                    }
-
-                    result = nextHeir;
-                }
+                result = null;
             }
             return result;
         }
@@ -315,23 +296,18 @@ namespace WebUI.Controllers
             var result = -1;
             var family = _familyRepository.Families.First(f => f.FamilyId == character.Family);
             {
-                if (family.Challenge == 0 || character.Gender == Genders.Male || character.Generation > 5)
+                var random = new Random();
+                var careers = _careerRepository.Careers;
+                var careerNumber = random.Next(1, careers.Count());
+                var i = 1;
+                foreach (var career in careers)
                 {
-                    var random = new Random();
-                    var careers = family.Challenge == 0
-                                    ? _careerRepository.Careers
-                                    : _careerRepository.Careers.Where(c => c.MinGeneration <= character.Generation);
-                    var careerNumber = random.Next(1, careers.Count());
-                    var i = 1;
-                    foreach (var career in careers)
+                    if (i == careerNumber)
                     {
-                        if (i == careerNumber)
-                        {
-                            result = career.CareerId;
-                            break;
-                        }
-                        i++;
+                        result = career.CareerId;
+                        break;
                     }
+                    i++;
                 }
             }
             return result;

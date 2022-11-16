@@ -8,7 +8,10 @@ namespace Domain.Entities
         public int FamilyId { get; set; }
         public string Surname { get; set; }
         public int Generation { get; set; } = 1;
-        public List<InheritanceLaw> InheritanceLaw { get; set; } = new List<InheritanceLaw>();
+        public int Inheritance1 { get; set; }
+        public int Inheritance2 { get; set; }
+        public int Inheritance3 { get; set; }
+        public int Inheritance4 { get; set; }
 
     }
 }

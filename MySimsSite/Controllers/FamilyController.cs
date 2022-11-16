@@ -44,15 +44,24 @@ namespace WebUI.Controllers
                 Characters = _characterRepository.Characters.Where(c => c.Family == familyId),
                 Goals = _goalRepository.Goals,
                 Preferences = _preferenceRepository.Preferences,
-                Careers = _careerRepository.Careers
+                Careers = _careerRepository.Careers,
+                InheritanceLaws = _inheritanceRepository.InheritanceLaws
             };
 
             return View(familyViewModel);
         }
         public ViewResult Create()
         {
-            var family = new Family();
-            return View(family);
+            FamilyViewModel familyViewModel = new FamilyViewModel
+            {
+                Family = new Family(),
+                Characters = _characterRepository.Characters,
+                Goals = _goalRepository.Goals,
+                Preferences = _preferenceRepository.Preferences,
+                Careers = _careerRepository.Careers,
+                InheritanceLaws = _inheritanceRepository.InheritanceLaws
+            };
+            return View(familyViewModel);
 ;       }
 
         [HttpPost]

@@ -57,7 +57,7 @@ namespace WebUI.Models
             var items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "Not set", Value = "0" });
 
-            foreach (var career in Careers.Where(c => c.MinGeneration <= generation))
+            foreach (var career in Careers)
             {
                 items.Add(new SelectListItem { Text = career.Title, Value = career.CareerId.ToString() });
             }

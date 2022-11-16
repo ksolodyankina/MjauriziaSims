@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,39 +15,7 @@ namespace WebUI.Models
         public IEnumerable<Goal> Goals { get; set; }
         public IEnumerable<Preference> Preferences { get; set; }
         public IEnumerable<Career> Careers { get; set; }
-
-        public int GetNextHeirId()
-        {
-            var result = -1;
-            if (Family.Challenge == 0)
-            {
-                var nextHeir = Characters.First(c => c.Family == Family.FamilyId && c.Generation == Family.Generation);
-                var isMarried = Characters
-                    .Any(c => c.Family == nextHeir.Family && c.Generation == nextHeir.Generation && c.InLow);
-
-                result = nextHeir.CharacterId;
-                if ((nextHeir.IsHeir && nextHeir.Generation != 1) || isMarried)
-                {
-                    result = -1;
-                }
-            } else if (Family.Challenge == 1)
-            {
-                var currentHeir = Characters.Last(c => c.Family == Family.FamilyId && c.IsHeir);
-                var children = Characters.Where(c => c.Family == Family.FamilyId && c.Generation == currentHeir.Generation + 1);
-                if (children.Count() > 0)
-                {
-                    var nextHeir = children.LastOrDefault(c => c.Gender == 0);
-                    if (nextHeir == null)
-                    {
-                        nextHeir = children.Last();
-                    }
-
-                    result = nextHeir.CharacterId;
-                }
-            }
-
-            return result;
-        }
+        public IEnumerable<InheritanceLaw> InheritanceLaws { get; set; }
 
         public bool CanGetMarried(Character character)
         {
@@ -66,6 +35,17 @@ namespace WebUI.Models
         public string getCardColor(Character character)
         {
             return character.InFamily ? character.InLow ? "warning" : character.IsHeir ? "success" : "primary" : "secondary";
+        }
+
+        public List<SelectListItem> GetInheritanceSelectCategory(int category)
+        {
+            var items = new List<SelectListItem>();
+
+            foreach (var law in InheritanceLaws.Where(l => l.Category == category))
+            {
+                items.Add(new SelectListItem { Text = law.Title, Value = law.InheritanceId.ToString() });
+            }
+            return items;
         }
     }
 }
