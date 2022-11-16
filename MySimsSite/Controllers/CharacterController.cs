@@ -67,6 +67,11 @@ namespace WebUI.Controllers
                 }
                 else if (character.Age == Ages.Young)
                 {
+                    var nextHeir = GetNextHeir(character.Family);
+                    if (nextHeir != null && nextHeir.CharacterId == character.CharacterId)
+                    {
+                        SetNewHeir(character);
+                    }
                     character.Decor = RandomizePreferences(PreferenceCategory.Decor);
                     character.Career = RandomizeCareer(character);
                 }
@@ -80,6 +85,16 @@ namespace WebUI.Controllers
             var character = _characterRepository.Characters.First(c => c.CharacterId == id);
             character.InFamily = false; 
             _characterRepository.SaveCharacter(character);
+            return Redirect($"/Family/{character.Family}");
+        }
+        
+        public ActionResult MakeHeir(int id = 1)
+        {
+            var character = _characterRepository.Characters.First(c => c.CharacterId == id);
+            if (GetNextHeir(character.Family) == null)
+            {
+                SetNewHeir(character);
+            }
             return Redirect($"/Family/{character.Family}");
         }
 
@@ -132,7 +147,7 @@ namespace WebUI.Controllers
             {
                 var lastHeir = _characterRepository.Characters
                     .FirstOrDefault(c => c.Family == character.Family && c.Generation == character.Generation - 1 && c.IsHeir);
-                var partner = GetNextHeir(family);
+                var partner = GetNextHeir(family.FamilyId);
                 if (partner != null)
                 {
                     partner.IsHeir = true;
@@ -147,8 +162,9 @@ namespace WebUI.Controllers
             return Redirect($"/Family/{family.FamilyId}");
         }
 
-        public Character GetNextHeir(Family family)
+        public Character GetNextHeir(int familyId)
         {
+            var family = _familyRepository.Families.First(f => f.FamilyId == familyId);
             Character result = null;
             if (family.Challenge == 0)
             {
@@ -320,6 +336,17 @@ namespace WebUI.Controllers
             }
             return result;
         }
+
+        public void SetNewHeir(Character character)
+        {
+            var lastHeir = _characterRepository.Characters
+                .First(c => c.Family == character.Family && c.IsHeir && c.Generation < character.Generation);
+            lastHeir.IsHeir = false;
+            _characterRepository.SaveCharacter(lastHeir);
+            character.IsHeir = true;
+            _characterRepository.SaveCharacter(lastHeir);
+        }
+
 
     }
 }

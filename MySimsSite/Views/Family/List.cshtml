@@ -27,18 +27,51 @@
         {
             if (i == character.Generation)
             {
-                <div class="col-sm-2 p-2 @(character.InFamily ? "inFamily" : "notInFamily") ">
+                <div class="col-sm-2 p-2 @(character.InFamily ? "in-family" : "removed-character hidden" ) ">
                     <div class="p-3 border rounded border-@Model.getCardColor(character) text-@(character.InFamily ? "dark" : "secondary")">
+
                         <div class="row">
-                            <div class="col-sm-7">
+                            <div class="col-sm-6">
                                 <h5 class="text-@Model.getCardColor(character)">
                                     @character.Name
                                 </h5>
                             </div>
-                            <div class="col-sm-5">
-                                <h5>Gen @character.Generation</h5>
-                            </div>
+                            @if (character.InFamily)
+                            {
+                                <div class="col-sm-2">
+                                    @if (Model.CanGetMarried(character))
+                                    {
+                                        <a href="/Character/GetMarried/@character.Family" class="text-reset" title="Get married">
+                                            <i class="bi-balloon-heart" style="font-size: 1rem; color: black;"></i>
+                                        </a>
+                                    }
+                                    @if (Model.CanBecomeHeir(character))
+                                    {
+                                        <a href="/Character/MakeHeir/@character.CharacterId" class="text-reset" title="Make heir">
+                                            <i class="bi-check2" style="font-size: 1rem; color: black;"></i>
+                                        </a>
+                                    }
+                                </div>
+                                
+                                <div class="col-sm-2">
+                                    @if (character.Age < Ages.Old)
+                                    {
+                                            <a href="/Character/MakeOlder/@character.CharacterId" class="text-reset" title="Grown up">
+                                                <i class="bi-arrow-up" style="font-size: 1rem; color: black;"></i>
+                                            </a>
+                                        }
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <a href="/Character/KickOut/@character.CharacterId" class="text-reset" title="Out of family">
+                                        <i class="bi-x-lg" style="font-size: 1rem; color: black;"></i>
+                                    </a>
+                                </div>
+                            }
                         </div>
+
+
+                        <p>Gen @character.Generation</p>
 
                         <div class="row">
                             <div class="col-sm-4">
@@ -107,22 +140,6 @@
 
                         </div>
 
-                        @if (character.InFamily)
-                        {
-                             <div class="mt-2">
-                                <a href="/Character/KickOut/@character.CharacterId" class="btn btn-danger small">Out</a>
-
-                                @if (character.Age < Ages.Old)
-                                {
-                                    <a href="/Character/MakeOlder/@character.CharacterId" class="btn btn-success small">Growth</a>
-                                }
-
-                                @if (character.Age >= Ages.Young && Model.CanGetMarried(character))
-                                {
-                                    <a href="/Character/GetMarried/@character.Family" class="btn btn-light btn-outline-secondary small">Marry</a>
-                                }
-                            </div>
-                        }
                     </div>
                 </div>
             }

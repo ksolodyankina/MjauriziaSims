@@ -1,11 +1,11 @@
 ﻿
 
 $(document).ready(function () {
-    $(".notInFamily").addClass("hidden");
+    $(".removed-character").addClass("hidden");
 });
 
 function setRemovedCharactersVisibility() {
-    var $removedCharacters = $(".notInFamily");
+    var $removedCharacters = $(".removed-character");
     var $toggle = $("#RemovedCharactersToggle");
     if ($removedCharacters.hasClass("hidden")) {
         $removedCharacters.removeClass("hidden");

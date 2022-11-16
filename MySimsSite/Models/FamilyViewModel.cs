@@ -50,19 +50,17 @@ namespace WebUI.Models
 
         public bool CanGetMarried(Character character)
         {
-            if (character.CharacterId != GetNextHeirId() && character.Generation > 1)
+            return character.IsHeir
+                && !Characters.Any(c => c.Family == character.Family && c.Generation == character.Generation && c.InLow);
+        }
+        
+        public bool CanBecomeHeir(Character character)
+        {
+            if (character.Age >= Ages.Young && !character.InLow)
             {
-                return false;
+                return Characters.Any(c => c.IsHeir && c.Generation < character.Generation);
             }
-
-            var isMarried = Characters
-                .Any(c => c.Family == character.Family && c.Generation == character.Generation && c.InLow);
-            if (isMarried)
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
         public string getCardColor(Character character)
