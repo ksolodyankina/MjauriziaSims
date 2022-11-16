@@ -46,6 +46,8 @@ namespace Domain.Concrete
                     dbEntry.Chronotype = character.Chronotype;
                     dbEntry.Gender = character.Gender;
                     dbEntry.Career = character.Career;
+                    dbEntry.IsAdopted = character.IsAdopted;
+                    dbEntry.IsAlien = character.IsAlien;
                 }
             }
             context.SaveChanges();

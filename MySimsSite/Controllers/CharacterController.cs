@@ -13,6 +13,7 @@ namespace WebUI.Controllers
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
+        private readonly IInheritanceLawRepository _lawRepository;
 
         private enum CreationType
         {
@@ -33,13 +34,15 @@ namespace WebUI.Controllers
             ICharacterRepository characterRepository, 
             IGoalRepository goalRepository, 
             IPreferenceRepository preferenceRepository,
-            ICareerRepository careerRepository)
+            ICareerRepository careerRepository,
+            IInheritanceLawRepository lawRepository)
         {
             _familyRepository = familyRepository;
             _characterRepository = characterRepository;
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
+            _lawRepository = lawRepository;
         }
 
         public ActionResult MakeOlder(int id = 1)
@@ -323,6 +326,59 @@ namespace WebUI.Controllers
             _characterRepository.SaveCharacter(lastHeir);
         }
 
+        public bool CanBecomeHeir(Character character)
+        {
+            var family = _familyRepository.Families.First(f => f.FamilyId == character.Family);
+            var characters = _characterRepository.Characters.Where(c => c.Family == character.Family && c.Generation == character.Generation);
+            var laws = _lawRepository.InheritanceLaws.Where(
+                       l => l.InheritanceId == family.Inheritance1
+                         || l.InheritanceId == family.Inheritance2
+                         || l.InheritanceId == family.Inheritance4);
+            foreach (var law in laws)
+            {
 
+                characters = LawFilter(characters, law);
+            }
+
+            foreach (var c in characters)
+            {
+                if (c.CharacterId == character.CharacterId)
+                {
+                    return true;
+                }
+            }            
+            return false;
+        }
+
+        private IEnumerable<Character> LawFilter(IEnumerable<Character> characters, InheritanceLaw law)
+        {
+            if (!law.AllowsManualChoice)
+            {
+                if (law.Value == -1)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    switch (law.Category)
+                    {
+                        case 0:
+                            var result = characters.Where(c => (int)c.Gender == law.Value);
+                            if (result.Any() || law.IsStrict)
+                            {
+                                return result;
+                            }
+                            break;
+                        case 1:
+                            break;
+                        case 3:
+                            break;
+
+                    }
+                }
+            }
+
+            return characters;
+        }
     }
 }

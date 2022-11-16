@@ -57,5 +57,7 @@ namespace Domain.Entities
         public Chronotypes? Chronotype { get; set; }
         public Genders Gender { get; set; }
         public int? Career { get; set; }
+        public bool IsAdopted { get; set; } = 0;
+        public bool IsAlien { get; set; } = 0;
     }
 }
