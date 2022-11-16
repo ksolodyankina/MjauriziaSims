@@ -36,7 +36,6 @@ namespace Domain.Concrete
                 {
                     dbEntry.Surname = family.Surname;
                     dbEntry.Generation = family.Generation;
-                    dbEntry.Challenge = family.Challenge;
                 }
             }
             context.SaveChanges();

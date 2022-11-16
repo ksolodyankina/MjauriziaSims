@@ -6,7 +6,5 @@ namespace Domain.Entities
         public int CareerId { get; set; }
 
         public string Title { get; set; }
- 
-        public int MinGeneration { get; set; }
     }
 }

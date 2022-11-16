@@ -35,7 +35,6 @@ namespace Domain.Concrete
                 if (dbEntry != null)
                 {
                     dbEntry.Title = career.Title;
-                    dbEntry.MinGeneration = career.MinGeneration;
                 }
             }
             context.SaveChanges();

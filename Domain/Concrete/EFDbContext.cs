@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using System.Security.AccessControl;
 
 namespace Domain.Concrete
 {
@@ -11,6 +12,7 @@ namespace Domain.Concrete
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Preference> Preferences { get; set; }
         public DbSet<Career> Careers { get; set; }
+        public DbSet<InheritanceLaw> InheritanceLaws { get; set; }
 
         private readonly string _connectionString;
 
