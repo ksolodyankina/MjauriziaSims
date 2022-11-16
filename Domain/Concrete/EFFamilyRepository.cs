@@ -36,6 +36,10 @@ namespace Domain.Concrete
                 {
                     dbEntry.Surname = family.Surname;
                     dbEntry.Generation = family.Generation;
+                    dbEntry.Inheritance1 = family.Inheritance1;
+                    dbEntry.Inheritance2 = family.Inheritance2;
+                    dbEntry.Inheritance3 = family.Inheritance3;
+                    dbEntry.Inheritance4 = family.Inheritance4;
                 }
             }
             context.SaveChanges();

@@ -13,19 +13,22 @@ namespace WebUI.Controllers
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
+        private readonly IInheritanceLawRepository _inheritanceRepository;
 
         public FamilyController(
             IFamilyRepository familyRepository, 
             ICharacterRepository characterRepository,
             IGoalRepository goalRepository,
             IPreferenceRepository preferenceRepository,
-            ICareerRepository careerRepository)
+            ICareerRepository careerRepository,
+            IInheritanceLawRepository inheritanceRepository)
         {
             _familyRepository = familyRepository;
             _characterRepository = characterRepository;
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
+            _inheritanceRepository = inheritanceRepository;
         }
 
         public ViewResult Index()

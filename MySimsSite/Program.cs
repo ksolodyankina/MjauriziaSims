@@ -14,6 +14,7 @@ builder.Services.AddSingleton<ICharacterRepository, EFCharacterRepository>();
 builder.Services.AddSingleton<IGoalRepository, EFGoalRepository>();
 builder.Services.AddSingleton<IPreferenceRepository, EFPreferenceRepository>();
 builder.Services.AddSingleton<ICareerRepository, EFCareerRepository>();
+builder.Services.AddSingleton<IInheritanceLawRepository, EFInheritanceLawRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
