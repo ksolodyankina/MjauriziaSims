@@ -34,14 +34,14 @@ namespace WebUI.Models
 
         public string getCardColor(Character character)
         {
-            return character.InFamily ? character.InLow ? "warning" : character.IsHeir ? "success" : "primary" : "secondary";
+            return character.InFamily ? character.InLow ? "warning" : character.IsHeir ? "success" : "dark" : "secondary";
         }
 
         public List<SelectListItem> GetInheritanceSelectCategory(int category)
         {
             var items = new List<SelectListItem>();
 
-            foreach (var law in InheritanceLaws.Where(l => l.Category == category))
+            foreach (var law in InheritanceLaws.Where(l => (int)l.Category == category))
             {
                 items.Add(new SelectListItem { Text = law.Title, Value = law.InheritanceId.ToString() });
             }

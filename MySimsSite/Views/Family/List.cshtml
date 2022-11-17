@@ -7,7 +7,7 @@
 }
 
 
-<div class="row">
+<div class="row m-3">
     <div class="col-sm-10">
         <h1>@Model.Family.Surname Family</h1>
     </div>
@@ -20,8 +20,6 @@
             <i id="RemovedCharactersToggle" class="bi-toggle-off" style="font-size: 1.5rem; color: black;"></i>
         </a>
     </div>
-</div>
-
 
 @for (int i = Model.Family.Generation; i > 0; i--)
 {
@@ -30,8 +28,8 @@
         {
             if (i == character.Generation)
             {
-                <div class="col-sm-2 p-2 @(character.InFamily ? "in-family" : "removed-character hidden" ) ">
-                    <div class="p-3 border rounded border-@Model.getCardColor(character) text-@(character.InFamily ? "dark" : "secondary")">
+                <div class="col-sm-3 p-2 @(character.InFamily ? "in-family" : "removed-character hidden" ) ">
+                    <div class="p-3 bg-white border rounded border-@Model.getCardColor(character) text-@(character.InFamily ? "dark" : "secondary")">
 
                         <div class="row">
                             <div class="col-sm-6">
@@ -150,4 +148,4 @@
         }
     </div>
 }
-
+</div>

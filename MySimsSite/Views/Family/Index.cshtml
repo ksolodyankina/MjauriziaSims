@@ -6,13 +6,13 @@
     ViewBag.Title = "Families";
 }
 
-<div class="row justify-content-md-center m-3">
+<div class="row justify-content-md-center mt-3">
     <div class="col col-auto">
         <a href="/Family/Create/" class="btn btn-light">Create new family</a>
     </div>
 </div>
 
-<div class="row">
+<div class="row p-3">
     @foreach (var family in Model.Families)
     {
         <div class="col-sm-3 p-2">
@@ -32,7 +32,14 @@
                     {
                         if (lawValue == law.InheritanceId)
                         {
-                            <p class="m-0">@law.Title</p>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <p class="m-0">@(((InheritanceCategory)law.Category).ToString()) law:</p>
+                                </div>
+                                <div class="col-sm-7">
+                                    <p class="m-0">@law.Title</p>
+                                </div>
+                            </div>
                         }
                     }
                 <div class="row justify-content-md-center mt-3">
