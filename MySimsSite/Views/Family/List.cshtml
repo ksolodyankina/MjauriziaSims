@@ -12,7 +12,10 @@
         <h1>@Model.Family.Surname Family</h1>
     </div>
     <div class="col-sm-2 p-2">
-        <a href="/Character/GiveBirth/@Model.Family.FamilyId" class="btn btn-default">Give birth</a>
+        @if (Model.Characters.Any(c => c.Family == Model.Family.FamilyId && c.InLow))
+        {
+            <a href="/Character/GiveBirth/@Model.Family.FamilyId" class="btn btn-default">Give birth</a>
+        }
         <a href="#" onclick="setRemovedCharactersVisibility()" title="Show/Hide Removed Characters">
             <i id="RemovedCharactersToggle" class="bi-toggle-off" style="font-size: 1.5rem; color: black;"></i>
         </a>

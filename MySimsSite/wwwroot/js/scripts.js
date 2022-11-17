@@ -5,9 +5,10 @@ $(document).ready(function () {
 });
 
 function setRemovedCharactersVisibility() {
+    event.preventDefault();
     var $removedCharacters = $(".removed-character");
     var $toggle = $("#RemovedCharactersToggle");
-    if ($removedCharacters.hasClass("hidden")) {
+    if ($toggle.hasClass("bi-toggle-off")) {
         $removedCharacters.removeClass("hidden");
         $toggle.removeClass("bi-toggle-off");
         $toggle.addClass("bi-toggle-on");
