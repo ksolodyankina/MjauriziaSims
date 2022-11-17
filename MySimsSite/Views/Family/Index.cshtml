@@ -1,19 +1,46 @@
 ﻿@using Domain.Entities
-@model IEnumerable<Family>
+@using WebUI.Models;
+@model FamiliesViewModel
 
 @{
     ViewBag.Title = "Families";
 }
 
-<div class="col-sm-8">
-    @foreach (Family family in Model)
-    {
-
-        <a href="/Family/@family.FamilyId">
-            <h3>@family.Surname - @family.Generation</h3>
-        </a>
-    }
+<div class="row justify-content-md-center m-3">
+    <div class="col col-auto">
+        <a href="/Family/Create/" class="btn btn-light">Create new family</a>
+    </div>
 </div>
-<div class="col-sm-4">
-    <a href="/Family/Create/" class="btn btn-success">Create</a>
+
+<div class="row">
+    @foreach (var family in Model.Families)
+    {
+        <div class="col-sm-3 p-2">
+            <div class="p-3 border rounded bg-white">
+                <a class="text-reset text-decoration-none" href="/Family/@family.FamilyId">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h3>@family.Surname</h3>
+                        </div>
+                        <div class="col-sm-5">
+                            <h3 class="text-end">Gen @family.Generation</h3>
+                        </div>
+                    </div>
+                </a>
+                @foreach (var lawValue in new int[] {family.Inheritance1, family.Inheritance2, family.Inheritance3, family.Inheritance4})
+                    @foreach (var law in Model.InheritanceLaws)
+                    {
+                        if (lawValue == law.InheritanceId)
+                        {
+                            <p class="m-0">@law.Title</p>
+                        }
+                    }
+                <div class="row justify-content-md-center mt-3">
+                    <div class="col col-auto">
+                        <a href="/Family/@family.FamilyId" class="btn btn-light">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>

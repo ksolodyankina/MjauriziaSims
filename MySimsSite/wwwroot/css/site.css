@@ -6,3 +6,7 @@
     display: none;
     visibility: hidden;
 }
+
+body {
+    background-image: url("/Images/background/plumbobs.jpg");
+}

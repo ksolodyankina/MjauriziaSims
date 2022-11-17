@@ -33,12 +33,17 @@ namespace WebUI.Controllers
 
         public ViewResult Index()
         {
-            return View(_familyRepository.Families);
+            var familiesViewModel = new FamiliesViewModel
+            {
+                Families = _familyRepository.Families.ToList(),
+                InheritanceLaws = _inheritanceRepository.InheritanceLaws.ToList()
+            };
+            return View(familiesViewModel);
         }
 
         public ViewResult List(int familyId = 1)
         {
-            FamilyViewModel familyViewModel = new FamilyViewModel
+            var familyViewModel = new FamilyViewModel
             {
                 Family = _familyRepository.Families.First(f => f.FamilyId == familyId),
                 Characters = _characterRepository.Characters.Where(c => c.Family == familyId),
