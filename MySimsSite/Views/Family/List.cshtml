@@ -9,13 +9,14 @@
 
 <div class="row m-3">
     <div class="col-sm-10">
-        <h1>@Model.Family.Surname Family
-        @if (Model.Characters.Any(c => c.Family == Model.Family.FamilyId && c.InLow))
-        {
-            <a href="/Character/GiveBirth/@Model.Family.FamilyId" title="New baby" class="text-decoration-none text-reset">
-                <i class="bi-plus-circle-fill" style="font-size:1.7rem;"></i>
-            </a>
-        }
+        <h1>
+            @Model.Family.Surname Family
+            @if (Model.Characters.Any(c => c.Family == Model.Family.FamilyId && c.InLow))
+            {
+                <a href="/Character/GiveBirth/@Model.Family.FamilyId" title="New baby" class="text-decoration-none text-reset">
+                    <i class="bi-plus-circle-fill" style="font-size:1.7rem;"></i>
+                </a>
+            }
         </h1>
     </div>
     <div class="col-sm-2 p-1">
