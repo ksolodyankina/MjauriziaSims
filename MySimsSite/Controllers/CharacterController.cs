@@ -116,8 +116,9 @@ namespace WebUI.Controllers
                     break;
                 case (int)CreationType.GiveBirth:
                     character.Generation = _characterRepository.Characters
-                        .First(c => c.Family == familyId && c.IsHeir)
-                        .Generation + 1;
+                                    .OrderBy(c => -c.CharacterId)
+                                    .First(c => c.Family == familyId && c.InLow)
+                                    .Generation + 1;
                     break;
                 case (int)CreationType.GetMarried:
                     character.Generation = _familyRepository.Families.First(f => f.FamilyId == familyId).Generation;
@@ -148,37 +149,15 @@ namespace WebUI.Controllers
             }
             else if (character.InLow)
             {
-                var lastHeir = _characterRepository.Characters
-                    .FirstOrDefault(c => c.Family == character.Family && c.Generation == character.Generation - 1 && c.IsHeir);
-                var partner = GetNextHeir(family.FamilyId);
-                if (partner != null)
-                {
-                    partner.IsHeir = true;
-                    _characterRepository.SaveCharacter(partner);
-                }
-                if (lastHeir != null)
-                {
-                    lastHeir.IsHeir = false;
-                    _characterRepository.SaveCharacter(lastHeir);
-                }
+                var partner = _characterRepository.Characters
+                    .First(c => c.Family == character.Family && c.Generation == character.Generation && c.IsHeir);
             }
             return Redirect($"/Family/{family.FamilyId}");
         }
 
         public Character GetNextHeir(int familyId)
         {
-            var family = _familyRepository.Families.First(f => f.FamilyId == familyId);
-            Character result = null;
-            var nextHeir = _characterRepository.Characters.First(c => c.Family == family.FamilyId && c.Generation == family.Generation);
-            var isMarried = _characterRepository.Characters
-                .Any(c => c.Family == nextHeir.Family && c.Generation == nextHeir.Generation && c.InLow);
-
-            result = nextHeir;
-            if ((nextHeir.IsHeir && nextHeir.Generation != 1) || isMarried)
-            {
-                result = null;
-            }
-            return result;
+            return null;
         }
 
 
@@ -324,61 +303,6 @@ namespace WebUI.Controllers
             _characterRepository.SaveCharacter(lastHeir);
             character.IsHeir = true;
             _characterRepository.SaveCharacter(lastHeir);
-        }
-
-        public bool CanBecomeHeir(Character character)
-        {
-            var family = _familyRepository.Families.First(f => f.FamilyId == character.Family);
-            var characters = _characterRepository.Characters.Where(c => c.Family == character.Family && c.Generation == character.Generation);
-            var laws = _lawRepository.InheritanceLaws.Where(
-                       l => l.InheritanceId == family.Inheritance1
-                         || l.InheritanceId == family.Inheritance2
-                         || l.InheritanceId == family.Inheritance4);
-            foreach (var law in laws)
-            {
-
-                characters = LawFilter(characters, law);
-            }
-
-            foreach (var c in characters)
-            {
-                if (c.CharacterId == character.CharacterId)
-                {
-                    return true;
-                }
-            }            
-            return false;
-        }
-
-        private IEnumerable<Character> LawFilter(IEnumerable<Character> characters, InheritanceLaw law)
-        {
-            if (!law.AllowsManualChoice)
-            {
-                if (law.Value == -1)
-                {
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    switch (law.Category)
-                    {
-                        case 0:
-                            var result = characters.Where(c => (int)c.Gender == law.Value);
-                            if (result.Any() || law.IsStrict)
-                            {
-                                return result;
-                            }
-                            break;
-                        case 1:
-                            break;
-                        case 3:
-                            break;
-
-                    }
-                }
-            }
-
-            return characters;
         }
     }
 }
