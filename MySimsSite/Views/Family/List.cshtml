@@ -9,16 +9,21 @@
 
 <div class="row m-3">
     <div class="col-sm-10">
-        <h1>@Model.Family.Surname Family</h1>
-    </div>
-    <div class="col-sm-2 p-2">
+        <h1>@Model.Family.Surname Family
         @if (Model.Characters.Any(c => c.Family == Model.Family.FamilyId && c.InLow))
         {
-            <a href="/Character/GiveBirth/@Model.Family.FamilyId" class="btn btn-default">Give birth</a>
+            <a href="/Character/GiveBirth/@Model.Family.FamilyId" title="New baby" class="text-decoration-none text-reset">
+                <i class="bi-plus-circle-fill" style="font-size:1.7rem;"></i>
+            </a>
         }
-        <a href="#" onclick="setRemovedCharactersVisibility()" title="Show/Hide Removed Characters">
-            <i id="RemovedCharactersToggle" class="bi-toggle-off" style="font-size: 1.5rem; color: black;"></i>
-        </a>
+        </h1>
+    </div>
+    <div class="col-sm-2 p-1">
+        <p class="text-end">
+            <a href="#" onclick="setRemovedCharactersVisibility()" title="Show/Hide Removed Characters" class="text-decoration-none me-4">
+                <i id="RemovedCharactersToggle" class="bi-toggle-off" style="font-size: 1.5rem; color: black;"></i>
+            </a>
+        </p>
     </div>
 
 @for (int i = Model.Family.Generation; i > 0; i--)
@@ -30,7 +35,6 @@
             {
                 <div class="col-sm-3 p-2 @(character.InFamily ? "in-family" : "removed-character hidden" ) ">
                     <div class="p-3 bg-white border rounded border-@Model.getCardColor(character) text-@(character.InFamily ? "dark" : "secondary")">
-
                         <div class="row">
                             <div class="col-sm-6">
                                 <h5 class="text-@Model.getCardColor(character)">
