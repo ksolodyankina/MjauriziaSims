@@ -1,0 +1,26 @@
+﻿@using Domain.Entities
+@using WebUI.Models;
+@model List<Goal>
+
+@{
+    ViewBag.Title = "Randomize goal";
+}
+
+<div class="m-3">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-2 center-block text-center">
+            <i class="bi-question-square-fill text-dark" style="font-size:8rem;"></i></br>
+            <a href="#" class="btn btn-light">Randomize</a>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        @foreach (var goal in Model)
+        {
+            <div class="col-sm-1 center-block text-center p-2">
+                <img src="/Images/Goals/@(goal.Title).png" width="60px" height="60px" class="rounded border border-dark" title="@goal.Title" />
+                <p class="m-0">@goal.Title</p>
+            </div>
+        }
+    </div>
+</div>
