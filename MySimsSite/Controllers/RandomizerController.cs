@@ -26,5 +26,9 @@ namespace WebUI.Controllers
         {
             return View(_goalRepository.Goals.ToList());
         }
+        public ViewResult Career()
+        {
+            return View(_careerRepository.Careers.ToList());
+        }
     }
 }

@@ -1,0 +1,46 @@
+﻿@using Domain.Entities
+@using WebUI.Models;
+@model List<Career>
+
+@{
+    ViewBag.Title = "Randomize goal";
+}
+
+<div class="">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-2 center-block text-center selected-option-box">
+            <i class="bi-question-square-fill text-dark" style="font-size:8rem;"></i>
+            <img src=""
+                 width="120px" height="120px" style="margin-top:42px; margin-bottom:30px"
+                 class="rounded border border-dark hidden"
+                 title="" /></br>
+            <a href="#" class="btn btn-light randomize-button" onclick="showRandomizedValue()">Randomize</a>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+
+        <div class="col-sm-1 center-block text-center">
+            <a href="#" class="text-reset text-decoration-none choice-option-switch choice-option-switch--enabled">
+                <i class="bi-x-square-fill text-dark choice-option-switch__i--enabled" style="font-size:3.8rem;"></i>
+                <i class="bi-check-square-fill text-dark choice-option-switch__i--disabled hidden" style="font-size:3.8rem;"></i>
+            </a>
+            <p class="m-0 choice-option-switch__text--enabled">Disable all</p>
+            <p class="m-0 choice-option-switch__text--disabled hidden">Enable all</p>
+        </div>
+
+        @foreach (var career in Model)
+        {
+            <div class="col-sm-1 center-block text-center">
+                <a href="#" class="text-reset text-decoration-none choice-option choice-option--enabled">
+                    <i class="bi-x-square-fill hidden" style="font-size:3.8rem; color:darkgray"></i>
+                    <img src="/Images/Careers/@(career.Title).png"
+                        width="60px" height="60px" style="margin-top:22px; margin-bottom:9px"
+                        class="rounded border border-dark"
+                        title="@career.Title" />
+                </a>
+                <p class="m-0">@career.Title</p>
+            </div>
+        }
+    </div>
+</div>
