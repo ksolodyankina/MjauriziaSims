@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="/js/jquery-2.2.0.min.js"></script>
     <script src="/js/scripts.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <title>@ViewBag.Title</title>
 </head>
 <body>
@@ -36,6 +37,22 @@
                 <i class="bi-door-open"></i>
                 Log in
             </a>
+
+
+                <div id="g_id_onload"
+                     data-client_id="589496246267-3c6k5j1flaev2mrruei0ftq7bkihrno5.apps.googleusercontent.com"
+                     data-login_uri="https://localhost:7029/"
+                     data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-size="large"
+                     data-theme="outline"
+                     data-text="sign_in_with"
+                     data-shape="rectangular"
+                     data-logo_alignment="left">
+                </div>
+
         </div>
     </nav>
 

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "MySimsSite\WebUI.csproj", "{4D87942E-F663-4A7C-82C3-3F065DFA384A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MjauriziaSims", "MySimsSite\MjauriziaSims.csproj", "{4D87942E-F663-4A7C-82C3-3F065DFA384A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{528DCB09-713D-4033-8C84-2A5FCD54EC31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{528DCB09-713D-4033-8C84-2A5FCD54EC31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
