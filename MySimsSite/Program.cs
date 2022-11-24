@@ -41,7 +41,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     "Start",
     "",
-    new { controller = "Family", action = "Index" }
+    new { controller = "Randomizer", action = "Goal" }
 );
 
 app.MapControllerRoute(
