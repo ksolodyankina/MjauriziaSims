@@ -16,6 +16,10 @@ namespace Domain.Concrete
 
         private readonly string _connectionString;
 
+        public EFDbContext()
+        {
+            _connectionString = "Server=DESKTOP-1CRIPTI;Database=MjauriziaSims;User Id=sa;Password=sa;TrustServerCertificate=True";
+        }
         public EFDbContext(string connectionString)
         {
             _connectionString = connectionString;

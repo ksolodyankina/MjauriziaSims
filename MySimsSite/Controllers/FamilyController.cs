@@ -45,7 +45,7 @@ namespace WebUI.Controllers
         {
             var familyViewModel = new FamilyViewModel
             {
-                Family = _familyRepository.Families.First(f => f.FamilyId == familyId),
+                Family = _familyRepository.Families.FirstOrDefault(f => f.FamilyId == familyId),
                 Characters = _characterRepository.Characters.Where(c => c.Family == familyId),
                 Goals = _goalRepository.Goals,
                 Preferences = _preferenceRepository.Preferences,

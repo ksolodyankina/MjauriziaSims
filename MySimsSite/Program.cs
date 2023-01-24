@@ -13,7 +13,7 @@ services.AddAuthentication().AddGoogle(googleOptions =>
     googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
 });
 
-var connectionString = "Server=DESKTOP-3TT4G7I;Database=(localdb)\\v11.0;User Id=sa;Password=sa;";
+var connectionString = configuration["ConnectionString:DefaultConnection"];
 
 builder.Services.AddSingleton<EFDbContext>(s => new EFDbContext(connectionString));
 
@@ -59,12 +59,6 @@ app.MapControllerRoute(
 );
 
 app.MapControllerRoute(
-    "Family",
-    "Family/{familyId}",
-    new { controller = "Family", action = "List", familyId = @"\d+" }
-);
-
-app.MapControllerRoute(
     "GetMarried",
     "Character/GetMarried/{familyId}",
     new { controller = "Character", action = "Create", familyId = @"\d+", type = 2 }
@@ -103,6 +97,12 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     "default",
     "{controller}/{action}"
+);
+
+app.MapControllerRoute(
+    "Family",
+    "Family/{familyId}",
+    new { controller = "Family", action = "List", familyId = @"\d+" }
 );
 
 
