@@ -26,9 +26,33 @@ namespace MjauriziaSims.Controllers
         {
             return View(_goalRepository.Goals.Where(g => !g.IsChild).ToList());
         }
+        public ViewResult ChildGoal()
+        {
+            return View(_goalRepository.Goals.Where(g => g.IsChild).ToList());
+        }
         public ViewResult Career()
         {
             return View(_careerRepository.Careers.ToList());
+        }
+        public ViewResult PreferenceColor()
+        {
+            return View(_preferenceRepository.Preferences
+                .Where(p => p.Category == (Preference.Categories)0).ToList());
+        }
+        public ViewResult PreferenceMusic()
+        {
+            return View(_preferenceRepository.Preferences
+                .Where(p => p.Category == (Preference.Categories)1).ToList());
+        }
+        public ViewResult PreferenceHobby()
+        {
+            return View(_preferenceRepository.Preferences
+                .Where(p => p.Category == (Preference.Categories)2).ToList());
+        }
+        public ViewResult PreferenceDesign()
+        {
+            return View(_preferenceRepository.Preferences
+                .Where(p => p.Category == (Preference.Categories)3).ToList());
         }
     }
 }
