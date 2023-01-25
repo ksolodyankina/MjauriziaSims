@@ -10,3 +10,15 @@
 body {
     background-image: url("/Images/background/plumbobs.jpg");
 }
+
+.navbar-nav > li > .dropdown-menu {
+    background-color: #343a40;
+}
+
+.navbar-nav > li > .dropdown-menu a {
+    color: #f7f7f7;
+}
+
+.navbar-nav > li > .dropdown-menu a:hover {
+    color: black;
+}
