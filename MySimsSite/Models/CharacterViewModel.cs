@@ -45,7 +45,7 @@ namespace WebUI.Models
             var items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "Not set", Value = "0" });
 
-            foreach (var preference in Preferences.Where(p => p.Category == category))
+            foreach (var preference in Preferences.Where(p => p.Category == (Preference.Categories)category))
             {
                 items.Add(new SelectListItem { Text = preference.Title, Value = preference.PreferenceId.ToString() });
             }

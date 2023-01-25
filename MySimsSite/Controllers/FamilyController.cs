@@ -4,7 +4,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
-namespace WebUI.Controllers
+namespace MjauriziaSims.Controllers
 {
     public class FamilyController : Controller
     {

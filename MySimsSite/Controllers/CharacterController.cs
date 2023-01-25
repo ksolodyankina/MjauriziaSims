@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
-namespace WebUI.Controllers
+namespace MjauriziaSims.Controllers
 {
     public class CharacterController : Controller
     {
@@ -217,7 +217,7 @@ namespace WebUI.Controllers
         private int RandomizePreferences(PreferenceCategory category)
         {
             var random = new Random();
-            var preferences = _preferenceRepository.Preferences.Where(p => p.Category == (int)category);
+            var preferences = _preferenceRepository.Preferences.Where(p => p.Category == (Preference.Categories)category);
             var preferenceNumber = random.Next(1, preferences.Count());
             var preferenceId = -1;
             var i = 1;

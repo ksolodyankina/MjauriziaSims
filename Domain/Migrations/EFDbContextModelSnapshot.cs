@@ -36,7 +36,7 @@ namespace Domain.Migrations
 
                     b.HasKey("CareerId");
 
-                    b.ToTable("Careers");
+                    b.ToTable("Careers", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Character", b =>
@@ -107,7 +107,7 @@ namespace Domain.Migrations
 
                     b.HasKey("CharacterId");
 
-                    b.ToTable("Characters");
+                    b.ToTable("Characters", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Family", b =>
@@ -139,7 +139,7 @@ namespace Domain.Migrations
 
                     b.HasKey("FamilyId");
 
-                    b.ToTable("Families");
+                    b.ToTable("Families", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Goal", b =>
@@ -159,7 +159,7 @@ namespace Domain.Migrations
 
                     b.HasKey("GoalId");
 
-                    b.ToTable("Goals");
+                    b.ToTable("Goals", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.InheritanceLaw", b =>
@@ -192,7 +192,7 @@ namespace Domain.Migrations
 
                     b.HasKey("InheritanceId");
 
-                    b.ToTable("InheritanceLaws");
+                    b.ToTable("InheritanceLaws", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Preference", b =>
@@ -212,7 +212,7 @@ namespace Domain.Migrations
 
                     b.HasKey("PreferenceId");
 
-                    b.ToTable("Preferences");
+                    b.ToTable("Preferences", (string)null);
                 });
 #pragma warning restore 612, 618
         }

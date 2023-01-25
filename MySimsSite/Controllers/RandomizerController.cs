@@ -4,7 +4,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
-namespace WebUI.Controllers
+namespace MjauriziaSims.Controllers
 {
     public class RandomizerController : Controller
     {
@@ -24,7 +24,7 @@ namespace WebUI.Controllers
 
         public ViewResult Goal()
         {
-            return View(_goalRepository.Goals.ToList());
+            return View(_goalRepository.Goals.Where(g => !g.IsChild).ToList());
         }
         public ViewResult Career()
         {

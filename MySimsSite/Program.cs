@@ -1,6 +1,7 @@
 using Domain.Abstract;
 using Domain.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,12 +24,13 @@ builder.Services.AddSingleton<IGoalRepository, EFGoalRepository>();
 builder.Services.AddSingleton<IPreferenceRepository, EFPreferenceRepository>();
 builder.Services.AddSingleton<ICareerRepository, EFCareerRepository>();
 builder.Services.AddSingleton<IInheritanceLawRepository, EFInheritanceLawRepository>();
+builder.Services.AddSingleton<Domain.Migrator.Migrator>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -105,5 +107,7 @@ app.MapControllerRoute(
     new { controller = "Family", action = "List", familyId = @"\d+" }
 );
 
+var migrator = app.Services.GetRequiredService<Domain.Migrator.Migrator>();
+migrator.Migrate();
 
 app.Run();

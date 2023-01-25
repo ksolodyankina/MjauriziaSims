@@ -13,6 +13,6 @@
 
         public string Title { get; set; }
 
-        public int Category { get; set; }
+        public Categories Category { get; set; }
     }
 }

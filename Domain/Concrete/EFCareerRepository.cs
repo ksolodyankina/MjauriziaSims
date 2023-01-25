@@ -23,7 +23,7 @@ namespace Domain.Concrete
         }
 
 
-        public void SaveGoal(Career career)
+        public void SaveCareer(Career career)
         {
             if (career.CareerId == 0)
             {
