@@ -35,6 +35,58 @@ $(document).ready(function () {
             }
         }
     });
+
+    $("#loginBtn, #registrationBtn").on("click",
+        function() {
+            var $loginField = $("#login");
+            if ($loginField.length == 0 || $loginField[0].value == "") {
+                event.preventDefault();
+                var $loginHelp = $("#loginHelp");
+                $loginHelp.removeClass("hidden");
+            }
+
+            var $passwordField = $("#password");
+            if ($passwordField.length == 0 || $passwordField[0].value == "") {
+                event.preventDefault();
+                var $passwordHelp = $("#passwordEmptyHelp");
+                $passwordHelp.removeClass("hidden");
+            }
+        });
+
+    $("#login").on("change",
+        function() {
+            var $loginHelp = $("#loginHelp");
+            $loginHelp.addClass("hidden");
+        });
+    
+    $("#password").on("change",
+        function() {
+            var $passwordHelp = $("#passwordEmptyHelp");
+            $passwordHelp.addClass("hidden");
+            var $passwordHelp = $("#passwordConformationHelp");
+            $passwordHelp.addClass("hidden");
+        });
+
+    $("#closeBtn").on("click",
+        function() {
+            var $loginHelp = $("#loginHelp");
+            $loginHelp.addClass("hidden");
+            var $passwordHelp = $("#passwordEmptyHelp");
+            $passwordHelp.addClass("hidden");
+            var $passwordHelp = $("#passwordConformationHelp");
+            $passwordHelp.addClass("hidden");
+        });
+
+    $("#registrationBtn").on("click",
+        function () {
+            var $password = $("#password");
+            var $confirmPassword = $("#confirmPassword");
+            if ($password[0].value != $confirmPassword[0].value) {
+                event.preventDefault();
+                var $passwordHelp = $("#passwordConformationHelp");
+                $passwordHelp.removeClass("hidden");
+            }
+        });
 });
 
 function setRemovedCharactersVisibility() {

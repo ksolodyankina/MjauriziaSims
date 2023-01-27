@@ -16,26 +16,29 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="p-1">Login :</div>
-                @Html.TextBox("Login", null, new { @class = "form-control" })
+                @Html.TextBox("Login", null, new { @class = "form-control", @id="login" })
+                <div id="loginHelp" class="form-text hidden text-danger">Please, fill login field</div>
             </div>
             <div class="col-sm-6">
             </div>
             <div class="col-sm-6">
                 <div class="p-1">Password :</div>
-                @Html.Password("Password", null, new { @class = "form-control" })
+                @Html.Password("Password", null, new { @class = "form-control", id="password" })
+                <div id="passwordEmptyHelp" class="form-text hidden text-danger">Please, fill password field</div>
+                <div id="passwordConformationHelp" class="form-text hidden text-danger">Passwords do not match</div>
             </div>
             <div class="col-sm-6">
             </div>
             <div class="col-sm-6">
                 <div class="p-1">Confirm password :</div>
-                @Html.Password("Password2", null, new { @class = "form-control" })
+                @Html.Password("ConfirmPassword", null, new { @class = "form-control" , id="confirmPassword"})
             </div>
         </div>
 
 
         <div class="row mt-3">
             <div class="col col-auto">
-                <input type="submit" value="Save" class="btn btn-light" />
+                <input type="submit" value="Save" class="btn btn-light" id="registrationBtn"/>
             </div>
         </div>
     }

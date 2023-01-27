@@ -83,15 +83,19 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="loginModalLabel">Log in</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeBtn"></button>
                 </div>
                 @using (Html.BeginForm("Login", "Account"))
                 {
                     <div class="modal-body">
                         <div class="p-1">Login :</div>
-                        @Html.TextBox("Login", null, new { @class = "form-control" })
+                        @Html.TextBox("Login", null, new { @class = "form-control", @id="login"})
+                        <div id="loginHelp" class="form-text hidden text-danger">Please, fill login field</div>
+
                         <div class="p-1">Password :</div>
-                        @Html.Password("Password", null, new { @class = "form-control" })
+                        @Html.Password("Password", null, new { @class = "form-control", @id="password" })
+                        <div id="passwordEmptyHelp" class="form-text hidden text-danger">Please, fill password field</div>
+                        <div id="passwordIncorrectHelp" class="form-text hidden text-danger">Password or Login is incorrect</div>
 
                         <div class="row justify-content-md-center">
                             <div class="col-sm-11 center-block text-center p-1">Or</div>
@@ -115,7 +119,7 @@
 
                     <div class="modal-footer">
                         <a href="/account/registration"><button type="button" class="btn btn-secondary">Registration</button></a>
-                        <input type="submit" value="Log in" class="btn btn-primary" />
+                        <input type="submit" value="Log in" class="btn btn-primary" id="loginBtn"/>
                     </div>
                 }
             </div>
