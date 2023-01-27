@@ -1,0 +1,42 @@
+﻿@using Domain.Entities
+@using WebUI.Models;
+
+@model MjauriziaSims.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Registration";
+}
+
+<div class="m-3">
+    <h3>New family creation</h3>
+
+    @using (Html.BeginForm())
+    {
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="p-1">Login :</div>
+                @Html.TextBox("Login", null, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+                <div class="p-1">Password :</div>
+                @Html.Password("Password", null, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+                <div class="p-1">Confirm password :</div>
+                @Html.Password("Password2", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+
+        <div class="row mt-3">
+            <div class="col col-auto">
+                <input type="submit" value="Save" class="btn btn-light" />
+            </div>
+        </div>
+    }
+</div>

@@ -49,30 +49,25 @@
                     </li>
                 </ul>
             </div>
-            <a href="/" class="nav-link text-light">
-                <i class="bi-door-open"></i>
-                Log in
-            </a>
+            @if (User.Identity.IsAuthenticated)
+            {
 
-
-                <div id="g_id_onload"
-                     data-client_id="589496246267-3c6k5j1flaev2mrruei0ftq7bkihrno5.apps.googleusercontent.com"
-                     data-login_uri="https://localhost:7029/"
-                     data-auto_prompt="false">
-                </div>
-                <div class="g_id_signin"
-                     data-type="standard"
-                     data-size="large"
-                     data-theme="outline"
-                     data-text="sign_in_with"
-                     data-shape="rectangular"
-                     data-logo_alignment="left">
-                </div>
-
+                <a href="/Account/Logout" class="nav-link text-light">
+                    <i class="bi-box-arrow-right"></i>
+                    Log out
+                </a>
+            }
+            else
+            {
+                <a href="/" class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <i class="bi-door-open"></i>
+                    Log in
+                </a>
+            }
         </div>
     </nav>
 
-    <div class="row mt-5">
+<div class="row mt-5">
         <div class="col-sm-1">
         </div>
         <div class="col-sm-10 bg-light mt-2" style="min-height: 92vh;">
@@ -81,5 +76,51 @@
         <div class="col-sm-1">
         </div>
     </div>
+    
+<!-- Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Log in</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                @using (Html.BeginForm("Login", "Account"))
+                {
+                    <div class="modal-body">
+                        <div class="p-1">Login :</div>
+                        @Html.TextBox("Login", null, new { @class = "form-control" })
+                        <div class="p-1">Password :</div>
+                        @Html.Password("Password", null, new { @class = "form-control" })
+
+                        <div class="row justify-content-md-center">
+                            <div class="col-sm-11 center-block text-center p-1">Or</div>
+                            <div class="col-sm-11 center-block text-center selected-option-box">
+                                <div id="g_id_onload"
+                                     data-client_id="589496246267-3c6k5j1flaev2mrruei0ftq7bkihrno5.apps.googleusercontent.com"
+                                     data-login_uri="https://localhost:7029/"
+                                     data-auto_prompt="false">
+                                </div>
+                                <div class="g_id_signin"
+                                     data-type="standard"
+                                     data-size="large"
+                                     data-theme="outline"
+                                     data-text="sign_in_with"
+                                     data-shape="rectangular"
+                                     data-logo_alignment="left">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="/account/registration"><button type="button" class="btn btn-secondary">Registration</button></a>
+                        <input type="submit" value="Log in" class="btn btn-primary" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

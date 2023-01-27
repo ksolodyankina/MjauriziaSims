@@ -3,6 +3,8 @@ using Domain.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Azure.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -27,6 +29,12 @@ builder.Services.AddSingleton<IInheritanceLawRepository, EFInheritanceLawReposit
 builder.Services.AddSingleton<Domain.Migrator.Migrator>();
 
 
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => //CookieAuthenticationOptions
+    {
+        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+    });
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -46,7 +54,12 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
+
+
+
+app.UseEndpoints(builder => builder.MapControllers());
 
 app.MapControllerRoute(
     "Start",
