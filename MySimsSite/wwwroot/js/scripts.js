@@ -37,19 +37,52 @@ $(document).ready(function () {
     });
 
     $("#loginBtn, #registrationBtn").on("click",
-        function() {
+        function () {
+            event.preventDefault();
+            var isOk = true;
+
             var $loginField = $("#login");
             if ($loginField.length == 0 || $loginField[0].value == "") {
-                event.preventDefault();
                 var $loginHelp = $("#loginHelp");
                 $loginHelp.removeClass("hidden");
+                isOk = false;
             }
 
             var $passwordField = $("#password");
             if ($passwordField.length == 0 || $passwordField[0].value == "") {
-                event.preventDefault();
                 var $passwordHelp = $("#passwordEmptyHelp");
                 $passwordHelp.removeClass("hidden");
+                isOk = false;
+            }
+
+            var $password = $("#password");
+            var $confirmPassword = $("#confirmPassword");
+            if ($confirmPassword.length > 0 && $password[0].value != $confirmPassword[0].value) {
+                event.preventDefault();
+                var $passwordHelp = $("#passwordConformationHelp");
+                $passwordHelp.removeClass("hidden");
+                isOk = false;
+            }
+
+            if (isOk) {
+                var isLogin = this.id == "loginBtn";
+                var url = isLogin ? "/Account/Login" : "/Account/Registration";
+                var selector = isLogin ? "#loginForm" : "#registrationForm";
+                $.post(url, $(selector).serialize())
+                    .done(function (response) {
+                        if (response.isSuccess) {
+                            if (isLogin) {
+                                location.reload();
+                            } else {
+                                var $successMsg = $("#successMsg");
+                                $successMsg.removeClass("hidden");
+                            }
+                        } else {
+                            var $errMsg = $("#errMsg");
+                            $errMsg.text(response.errorMsg);
+                            $errMsg.removeClass("hidden");
+                        }
+                    });
             }
         });
 
@@ -75,17 +108,6 @@ $(document).ready(function () {
             $passwordHelp.addClass("hidden");
             var $passwordHelp = $("#passwordConformationHelp");
             $passwordHelp.addClass("hidden");
-        });
-
-    $("#registrationBtn").on("click",
-        function () {
-            var $password = $("#password");
-            var $confirmPassword = $("#confirmPassword");
-            if ($password[0].value != $confirmPassword[0].value) {
-                event.preventDefault();
-                var $passwordHelp = $("#passwordConformationHelp");
-                $passwordHelp.removeClass("hidden");
-            }
         });
 });
 

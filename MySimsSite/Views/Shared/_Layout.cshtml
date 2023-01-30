@@ -85,15 +85,16 @@
                     <h5 class="modal-title" id="loginModalLabel">Log in</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeBtn"></button>
                 </div>
-                @using (Html.BeginForm("Login", "Account"))
+                @using (Html.BeginForm("Login", "Account", new { }, (FormMethod)1, false, new { id = "loginForm" }))
                 {
                     <div class="modal-body">
+                        <div id="errMsg" class="form-text hidden text-danger"></div>
                         <div class="p-1">Login :</div>
-                        @Html.TextBox("Login", null, new { @class = "form-control", @id="login"})
+                        @Html.TextBox("Login", null, new { @class = "form-control", @id = "login" })
                         <div id="loginHelp" class="form-text hidden text-danger">Please, fill login field</div>
 
                         <div class="p-1">Password :</div>
-                        @Html.Password("Password", null, new { @class = "form-control", @id="password" })
+                        @Html.Password("Password", null, new { @class = "form-control", @id = "password" })
                         <div id="passwordEmptyHelp" class="form-text hidden text-danger">Please, fill password field</div>
                         <div id="passwordIncorrectHelp" class="form-text hidden text-danger">Password or Login is incorrect</div>
 

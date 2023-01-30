@@ -23,19 +23,23 @@ namespace MjauriziaSims.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<Result> Login(LoginModel model)
         {
+            var result = new Result() {IsSuccess = true};
             if (ModelState.IsValid)
             {
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(model.Login); // аутентификация
+                    await Authenticate(model.Login);
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                else
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMsg = "Incorrect login or password";
+                }
             }
-            return Redirect(Request.Headers["Referer"].ToString());
+            return result;
         }
 
         [HttpGet]
@@ -45,9 +49,9 @@ namespace MjauriziaSims.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registration(RegisterModel model)
+        public async Task<Result> Registration(RegisterModel model)
         {
+            var result = new Result() { IsSuccess = true };
             if (ModelState.IsValid)
             {
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
@@ -57,13 +61,20 @@ namespace MjauriziaSims.Controllers
                     await db.SaveChangesAsync();
 
                     await Authenticate(model.Login);
-
-                    return Redirect("/");
                 }
                 else
-                    ModelState.AddModelError("", "Uncorrect login or password");
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMsg = "User with this login already exists";
+                }
             }
-            return RedirectToAction("Registration", "Account");
+            else
+            {
+                result.IsSuccess = false;
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                result.ErrorMsg = String.Join(". ", allErrors.Select(v => v.ErrorMessage));
+            }
+            return result;
         }
         private async Task Authenticate(string userName)
         {
@@ -81,5 +92,11 @@ namespace MjauriziaSims.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect(Request.Headers["Referer"].ToString());
         }
+    }
+
+    public class Result
+    {
+        public bool IsSuccess { get; set; }
+        public string ErrorMsg { get; set; }
     }
 }
