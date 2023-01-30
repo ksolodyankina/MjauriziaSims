@@ -6,6 +6,10 @@ namespace MjauriziaSims.Models
     {
         [Required(ErrorMessage = "Please, fill the login field")]
         public string Login { get; set; }
+        
+        [Required(ErrorMessage = "Please, fill the email field")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Please, fill the password field")]
         [DataType(DataType.Password)]

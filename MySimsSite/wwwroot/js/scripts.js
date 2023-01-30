@@ -39,7 +39,11 @@ $(document).ready(function () {
     $("#loginBtn, #registrationBtn").on("click",
         function () {
             event.preventDefault();
+            var isLogin = this.id == "loginBtn";
             var isOk = true;
+            
+            var $successMsg = $("#successMsg");
+            $successMsg.addClass("hidden");
 
             var $loginField = $("#login");
             if ($loginField.length == 0 || $loginField[0].value == "") {
@@ -55,17 +59,25 @@ $(document).ready(function () {
                 isOk = false;
             }
 
-            var $password = $("#password");
-            var $confirmPassword = $("#confirmPassword");
-            if ($confirmPassword.length > 0 && $password[0].value != $confirmPassword[0].value) {
-                event.preventDefault();
-                var $passwordHelp = $("#passwordConformationHelp");
-                $passwordHelp.removeClass("hidden");
-                isOk = false;
+            if (!isLogin) {
+                var $password = $("#password");
+                var $confirmPassword = $("#confirmPassword");
+                if ($confirmPassword.length > 0 && $password[0].value != $confirmPassword[0].value) {
+                    var $passwordHelp = $("#passwordConformationHelp");
+                    $passwordHelp.removeClass("hidden");
+                    isOk = false;
+                };
+
+                var $email = $("#email");
+                var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                if (!$email[0].value.match(validRegex)) {
+                    var $emailHelp = $("#emailHelp");
+                    $emailHelp.removeClass("hidden");
+                    isOk = false;
+                }
             }
 
             if (isOk) {
-                var isLogin = this.id == "loginBtn";
                 var url = isLogin ? "/Account/Login" : "/Account/Registration";
                 var selector = isLogin ? "#loginForm" : "#registrationForm";
                 $.post(url, $(selector).serialize())
@@ -91,6 +103,12 @@ $(document).ready(function () {
             var $loginHelp = $("#loginHelp");
             $loginHelp.addClass("hidden");
         });
+
+    $("#email").on("change",
+        function() {
+            var $emailHelp = $("#emailHelp");
+            $emailHelp.addClass("hidden");
+        });
     
     $("#password").on("change",
         function() {
@@ -108,6 +126,8 @@ $(document).ready(function () {
             $passwordHelp.addClass("hidden");
             var $passwordHelp = $("#passwordConformationHelp");
             $passwordHelp.addClass("hidden");
+            var $emailHelp = $("#emailHelp");
+            $emailHelp.addClass("hidden");
         });
 });
 

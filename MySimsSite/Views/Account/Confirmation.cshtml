@@ -1,0 +1,16 @@
+﻿@model bool
+
+@{
+    ViewBag.Title = "Registration";
+}
+
+<div class="m-3">
+    @if (Model)
+    {
+        <div class="text-success">Email is successfully confirmed.</div>
+    }
+    else
+    {
+        <div class="text-danger">Your link is wrong. Please, try to register again.</div>
+    }
+</div>

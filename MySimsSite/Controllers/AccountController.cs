@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using MjauriziaSims.Models;
 using System.Security.Policy;
 using Microsoft.AspNetCore.Components.RenderTree;
+using System.Net.Mail;
+using System.Net;
 
 namespace MjauriziaSims.Controllers
 {
@@ -57,10 +59,19 @@ namespace MjauriziaSims.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
                 if (user == null)
                 {
-                    db.Users.Add(new User { Login = model.Login, Password = model.Password });
+                    var token = Guid.NewGuid();
+                    db.Users.Add(new User { Login = model.Login, Email = model.Email, Password = model.Password, ConfirmationToken = token});
                     await db.SaveChangesAsync();
 
-                    await Authenticate(model.Login);
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential("ks.solodyankina@gmail.com", "xnzbtoydlqtocnov"),
+                        EnableSsl = true,
+                    };
+
+                    var emailText = $"To confirm your email follow the link:\n https://localhost:7029/Account/Confirmation?ConfirmationToken={token}";
+                    smtpClient.Send("ks.solodyankina@gmail.com", model.Email, "Registration at MjauriziaSims", emailText);
                 }
                 else
                 {
@@ -76,6 +87,23 @@ namespace MjauriziaSims.Controllers
             }
             return result;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Confirmation(Guid ConfirmationToken)
+        {
+            var isSuccess = false;
+            var user = await db.Users.FirstOrDefaultAsync(u => u.ConfirmationToken == ConfirmationToken);
+            if (user != null)
+            {
+                isSuccess = true;
+                user.IsActive = true;
+                await db.SaveChangesAsync();
+                await Authenticate(user.Login);
+            }
+
+            return View(isSuccess);
+        }
+
         private async Task Authenticate(string userName)
         {
             var claims = new List<Claim>
