@@ -95,7 +95,8 @@
 
                         <div class="p-1">Password :</div>
                         @Html.Password("Password", null, new { @class = "form-control", @id = "password" })
-                        <div id="passwordEmptyHelp" class="form-text hidden text-danger">Please, fill password field</div>
+                        <div id="passwordEmptyHelp" class="form-text"><a href="/Account/Recovery" class="text-black">Forgot password?</a></div>
+                        <div id="passwordHelp" class="form-text hidden text-danger">Please, fill password field</div>
                         <div id="passwordIncorrectHelp" class="form-text hidden text-danger">Password or Login is incorrect</div>
 
                         <div class="row justify-content-md-center">

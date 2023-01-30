@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Password recovery";
+}
+
+<div class="m-3">
+    <h3>Password recovery</h3>
+
+    @using (Html.BeginForm("Recovery", "Account", new { }, (FormMethod)1, false, new { id = "recoveryForm" }))
+    {
+        <div id="successMsg" class="form-text hidden text-success">Recovery message was sent. Please check your email.</div>
+        <div id="errMsg" class="form-text hidden text-danger"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="p-1">Email :</div>
+                @Html.TextBox("Email", null, new { @class = "form-control", @id="email" })
+                <div id="emailHelp" class="form-text hidden text-danger">Please, input correct password</div>
+            </div>
+            <div class="col-sm-6">
+            </div>
+
+            <div class="row mt-3">
+                <div class="col col-auto">
+                    <input type="submit" value="Send verification code" class="btn btn-light" id="recoverySendBtn" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
