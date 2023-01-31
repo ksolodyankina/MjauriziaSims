@@ -34,6 +34,7 @@ namespace Domain.Concrete
                 Family dbEntry = context.Families.Find(family.FamilyId);
                 if (dbEntry != null)
                 {
+                    dbEntry.UserId = family.UserId;
                     dbEntry.Surname = family.Surname;
                     dbEntry.Generation = family.Generation;
                     dbEntry.Inheritance1 = family.Inheritance1;

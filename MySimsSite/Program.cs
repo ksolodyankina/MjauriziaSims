@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Azure.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -20,7 +22,8 @@ var connectionString = configuration["ConnectionString:DefaultConnection"];
 
 builder.Services.AddSingleton<EFDbContext>(s => new EFDbContext(connectionString));
 
-builder.Services.AddSingleton<IFamilyRepository, EFFamilyRepository>();
+builder.Services.AddTransient<IUserRepository, EFUserRepository>();
+builder.Services.AddTransient<IFamilyRepository, EFFamilyRepository>();
 builder.Services.AddSingleton<ICharacterRepository, EFCharacterRepository>();
 builder.Services.AddSingleton<IGoalRepository, EFGoalRepository>();
 builder.Services.AddSingleton<IPreferenceRepository, EFPreferenceRepository>();
@@ -30,7 +33,7 @@ builder.Services.AddSingleton<Domain.Migrator.Migrator>();
 
 
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => //CookieAuthenticationOptions
+    .AddCookie(options =>
     {
         options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
     });

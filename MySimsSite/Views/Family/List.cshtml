@@ -3,23 +3,24 @@
 @model FamilyViewModel
 
 @{
-    ViewBag.Title = Model.Family.Surname + " Family";
+    ViewBag.Title = Model.Family.Family.Surname + " Family";
 }
 
 
 <div class="row m-3">
-    <div class="col-sm-10">
+    <div class="col-sm-10 mb-4">
         <h1>
-            @Model.Family.Surname Family
-            @if (Model.Characters.Any(c => c.Family == Model.Family.FamilyId && c.InLow))
+            @Model.Family.Family.Surname Family
+            @if (Model.CanEdit && Model.Characters.Any(c => c.Family == Model.Family.Family.FamilyId && c.InLow))
             {
-                <a href="/Character/GiveBirth/@Model.Family.FamilyId" title="New baby" class="text-decoration-none text-reset">
+                <a href="/Character/GiveBirth/@Model.Family.Family.FamilyId" title="New baby" class="text-decoration-none text-reset">
                     <i class="bi-plus-circle-fill" style="font-size:1.7rem;"></i>
                 </a>
             }
         </h1>
+        <a href="/Family/Index?user=@Model.Family.Family.UserId" class="text-reset text-decoration-none">@@@Model.Family.User</a>
     </div>
-    <div class="col-sm-2 p-1">
+    <div class="col-sm-2 p-1 mb-3">
         <p class="text-end">
             <a href="#" onclick="setRemovedCharactersVisibility()" title="Show/Hide Removed Characters" class="text-decoration-none me-4">
                 <i id="RemovedCharactersToggle" class="bi-toggle-off" style="font-size: 1.5rem; color: black;"></i>
@@ -27,10 +28,13 @@
         </p>
     </div>
 
-@for (int i = Model.Family.Generation; i > 0; i--)
+@for (int i = Model.Family.Family.Generation; i > 0; i--)
 {
     <div class="row">
-        @foreach (var character in Model.Characters.OrderBy(c => !c.InFamily).ThenBy(c => !c.IsHeir).ThenBy(c => !c.InLow))
+        @foreach (var character in Model.Characters
+                                    .OrderBy(c => !c.InFamily)
+                                    .ThenBy(c => !c.IsHeir)
+                                    .ThenBy(c => !c.InLow))
         {
             if (i == character.Generation)
             {
@@ -42,7 +46,7 @@
                                     @character.Name
                                 </h5>
                             </div>
-                            @if (character.InFamily)
+                            @if (character.InFamily && Model.CanEdit)
                             {
                                 <div class="col-sm-2">
                                     @if (Model.CanGetMarried(character))

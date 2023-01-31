@@ -16,21 +16,31 @@
 </div>
 
 <div class="row p-3">
-    @foreach (var family in Model.Families)
+    @foreach (var family in Model.FamiliesWithUsers)
     {
         <div class="col-sm-3 p-2">
             <div class="p-3 border rounded bg-white">
-                <a class="text-reset text-decoration-none" href="/Family/@family.FamilyId">
+                <a class="text-reset text-decoration-none" href="/Family/@family.Family.FamilyId">
                     <div class="row">
                         <div class="col-sm-7">
-                            <h3>@family.Surname</h3>
+                            <h3>@family.Family.Surname</h3>
                         </div>
                         <div class="col-sm-5">
-                            <h3 class="text-end">Gen @family.Generation</h3>
+                            <h3 class="text-end">Gen @family.Family.Generation</h3>
                         </div>
                     </div>
                 </a>
-                @foreach (var lawValue in new int[] {family.Inheritance1, family.Inheritance2, family.Inheritance3, family.Inheritance4})
+                <div class="row mb-4">
+                    <div class="col-sm-7">
+                        <a href="?user=@family.Family.UserId" class="text-reset text-decoration-none">@@@family.User</a>
+                    </div>
+                </div>
+
+                @foreach (var lawValue in new int[] 
+                            { family.Family.Inheritance1, 
+                                family.Family.Inheritance2, 
+                                family.Family.Inheritance3, 
+                                family.Family.Inheritance4 })
                     @foreach (var law in Model.InheritanceLaws)
                     {
                         if (lawValue == law.InheritanceId)
@@ -47,7 +57,16 @@
                     }
                 <div class="row justify-content-md-center mt-3">
                     <div class="col col-auto">
-                        <a href="/Family/@family.FamilyId" class="btn btn-light">View</a>
+                        <a href="/Family/@family.Family.FamilyId" class="btn btn-light">
+                            @if (Model.EditRules[family.Family.FamilyId])
+                            {
+                                <span>Edit</span>
+                            }
+                            else
+                            {
+                                <span>View</span>
+                            }
+                        </a>
                     </div>
                 </div>
             </div>

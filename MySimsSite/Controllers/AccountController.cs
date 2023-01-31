@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Components.RenderTree;
 using System.Net.Mail;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace MjauriziaSims.Controllers
 {
@@ -36,7 +37,7 @@ namespace MjauriziaSims.Controllers
                 {
                     if (user.IsActive)
                     {
-                        await Authenticate(model.Login);
+                        await Authenticate(user);
                     }
                     else
                     {
@@ -105,7 +106,7 @@ namespace MjauriziaSims.Controllers
                 isSuccess = true;
                 user.IsActive = true;
                 await db.SaveChangesAsync();
-                await Authenticate(user.Login);
+                await Authenticate(user);
             }
 
             return View(isSuccess);
@@ -196,15 +197,17 @@ namespace MjauriziaSims.Controllers
             }
             return result;
         }
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim("UserId", user.UserId.ToString())
             };
             ClaimsIdentity id = new ClaimsIdentity
                 (claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            var authProperties = new AuthenticationProperties();
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id), authProperties);
         }
 
         public async Task<IActionResult> Logout()

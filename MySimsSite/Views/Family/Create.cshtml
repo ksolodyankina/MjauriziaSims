@@ -1,6 +1,6 @@
 ﻿@using Domain.Entities
 @using WebUI.Models;
-@model FamilyViewModel
+@model FamilyCreationModel
 
 @{
     ViewBag.Title = "New family creation";
@@ -12,6 +12,7 @@
     @using (Html.BeginForm())
     {
         @Html.HiddenFor(m => m.Family.FamilyId)
+        @Html.HiddenFor(m => m.Family.UserId)
         @Html.HiddenFor(m => m.Family.Generation)
 
         <div class="row">

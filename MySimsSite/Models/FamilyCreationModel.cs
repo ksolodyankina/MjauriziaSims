@@ -8,9 +8,9 @@ using System.Web;
 
 namespace WebUI.Models
 {
-    public class FamilyViewModel
+    public class FamilyCreationModel
     {
-        public FamiliesWithUser Family { get; set; }
+        public Family Family { get; set; }
         public IEnumerable<Character> Characters { get; set; }
         public IEnumerable<Goal> Goals { get; set; }
         public IEnumerable<Preference> Preferences { get; set; }

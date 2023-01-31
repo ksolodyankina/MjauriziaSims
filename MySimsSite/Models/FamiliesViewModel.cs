@@ -5,8 +5,8 @@ namespace WebUI.Models
 {
     public class FamiliesViewModel
     {
-        public List<Family> Families { get; set; }
+        public List<FamiliesWithUser> FamiliesWithUsers { get; set; }
         public List<InheritanceLaw> InheritanceLaws { get; set; }
-
+        public Dictionary<int, bool> EditRules { get; set; }
     }
 }
