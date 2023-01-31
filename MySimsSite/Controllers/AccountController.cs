@@ -34,7 +34,15 @@ namespace MjauriziaSims.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(model.Login);
+                    if (user.IsActive)
+                    {
+                        await Authenticate(model.Login);
+                    }
+                    else
+                    {
+                        result.IsSuccess = false;
+                        result.ErrorMsg = "You should confirm your email first";
+                    }
                 }
                 else
                 {
