@@ -24,7 +24,7 @@ namespace MjauriziaSims.Controllers
 
         public ViewResult Goal()
         {
-            return View(_goalRepository.Goals.Where(g => !g.IsChild).ToList());
+            return View(_goalRepository.Goals.Where(g => !g.IsChild).OrderBy(g => g.Title).ToList());
         }
         public ViewResult ChildGoal()
         {
@@ -53,6 +53,11 @@ namespace MjauriziaSims.Controllers
         {
             return View(_preferenceRepository.Preferences
                 .Where(p => p.Category == (Preference.Categories)3).ToList());
+        }
+        public ViewResult PreferenceClothes()
+        {
+            return View(_preferenceRepository.Preferences
+                .Where(p => p.Category == (Preference.Categories)4).ToList());
         }
     }
 }

@@ -139,9 +139,10 @@
                                 if (preference.PreferenceId == character.Color
                                     || preference.PreferenceId == character.Music
                                     || preference.PreferenceId == character.Hobby
-                                    || preference.PreferenceId == character.Decor)
+                                    || preference.PreferenceId == character.Decor
+                                    || preference.PreferenceId == character.Clothes)
                                 {
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <img src="/Images/Preferences/@(preference.Title).png" 
                                             width="40px" height="40px" class="rounded" 
                                             title="@preference.Title" />

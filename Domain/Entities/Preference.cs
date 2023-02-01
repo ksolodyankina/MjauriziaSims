@@ -7,7 +7,8 @@
             Color,
             Music,
             Hobby,
-            Decor
+            Decor,
+            Clothes
         }
         public int PreferenceId { get; set; }
 

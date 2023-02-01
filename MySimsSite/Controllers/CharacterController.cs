@@ -26,7 +26,8 @@ namespace MjauriziaSims.Controllers
             Color,
             Music,
             Hobby,
-            Decor
+            Decor,
+            Clothes
         }
 
         public CharacterController(
@@ -66,6 +67,7 @@ namespace MjauriziaSims.Controllers
                     character.Goal = RandomizeGoal(character);
                     character.Music = RandomizePreferences(PreferenceCategory.Music);
                     character.Hobby = RandomizePreferences(PreferenceCategory.Hobby);
+                    character.Clothes = RandomizePreferences(PreferenceCategory.Clothes);
                     character.Sexuality = RandomizeSexuality();
                 }
                 else if (character.Age == Ages.Young)

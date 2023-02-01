@@ -73,7 +73,12 @@ namespace Domain.Migrator
             new Goal {IsChild = false, Title = "Vampire master"},
             new Goal {IsChild = false, Title = "Wizard"},
             new Goal {IsChild = false, Title = "Writer"},
-            new Goal {IsChild = false, Title = "Zen"}
+            new Goal {IsChild = false, Title = "Zen"},
+            new Goal {IsChild = false, Title = "Werewolf"},
+            new Goal {IsChild = false, Title = "Party-goer"},
+            new Goal {IsChild = false, Title = "Legend"},
+            new Goal {IsChild = false, Title = "Drama"},
+            new Goal {IsChild = false, Title = "Goal"}
         };
 
         private static readonly Preference[] Preferences = new[]
@@ -169,7 +174,16 @@ namespace Domain.Migrator
             new Preference { Category = (Preference.Categories)1, Title = "World" },
             new Preference { Category = (Preference.Categories)2, Title = "Writing" },
             new Preference { Category = (Preference.Categories)1, Title = "Yard" },
-            new Preference { Category = (Preference.Categories)0, Title = "Yellow" }
+            new Preference { Category = (Preference.Categories)0, Title = "Yellow" },
+            new Preference { Category = (Preference.Categories)4, Title = "Base" },
+            new Preference { Category = (Preference.Categories)4, Title = "Bohema" },
+            new Preference { Category = (Preference.Categories)4, Title = "Active" },
+            new Preference { Category = (Preference.Categories)4, Title = "Rock" },
+            new Preference { Category = (Preference.Categories)4, Title = "Village" },
+            new Preference { Category = (Preference.Categories)4, Title = "Streetstyle" },
+            new Preference { Category = (Preference.Categories)4, Title = "Hipster" },
+            new Preference { Category = (Preference.Categories)4, Title = "Preppy" },
+            new Preference { Category = (Preference.Categories)4, Title = "Elegant" }
         };                              
 
         private static readonly Career[] Careers = new[]
@@ -361,33 +375,37 @@ namespace Domain.Migrator
 
         public void Migrate()
         {
-            if (!_goalRepository.Goals.Any() )
+            foreach (var goal in Goals)
             {
-                foreach (var goal in Goals)
+                if (_goalRepository.Goals.FirstOrDefault(g => g.Title == goal.Title) == null)
                 {
                     _goalRepository.SaveGoal(goal);
                 }
             }
 
-            if (!_preferenceRepository.Preferences.Any())
+            foreach (var preference in Preferences)
             {
-                foreach (var preference in Preferences)
+                if (_preferenceRepository.Preferences.FirstOrDefault(p =>
+                        p.Title == preference.Title && p.Category == preference.Category)
+                    == null)
                 {
                     _preferenceRepository.SavePreference(preference);
                 }
             }
 
-            if (!_careerRepository.Careers.Any())
+            foreach (var career in Careers)
             {
-                foreach (var career in Careers)
+                if (_careerRepository.Careers.FirstOrDefault(c => c.Title == career.Title) == null)
                 {
                     _careerRepository.SaveCareer(career);
                 }
             }
 
-            if (!_inheritanceRepository.InheritanceLaws.Any())
+            foreach (var law in InheritanceLaws)
             {
-                foreach (var law in InheritanceLaws)
+                if (_inheritanceRepository.InheritanceLaws.
+                        FirstOrDefault(l => l.Category == law.Category && l.Title == law.Title)
+                    == null)
                 {
                     _inheritanceRepository.SaveInheritanceLaw(law);
                 }

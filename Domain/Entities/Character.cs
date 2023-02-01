@@ -53,6 +53,7 @@ namespace Domain.Entities
         public int? Music { get; set; }
         public int? Hobby { get; set; }
         public int? Decor { get; set; }
+        public int? Clothes { get; set; }
         public Sexualities? Sexuality { get; set; }
         public Chronotypes? Chronotype { get; set; }
         public Genders Gender { get; set; }
