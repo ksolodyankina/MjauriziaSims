@@ -7,5 +7,6 @@ namespace Domain.Abstract
     {
         IEnumerable<User> Users { get; }
         void SaveUser(User user);
+        void DeleteUser(User user);
     }
 }

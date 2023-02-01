@@ -97,7 +97,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     "Admin",
     "Admin/",
-    new { controller = "Admin", action = "Families" }
+    new { controller = "Admin", action = "Users" }
 );
 
 app.MapControllerRoute(

@@ -52,7 +52,7 @@ namespace WebUI.Models
             return items;
         }
 
-        public List<SelectListItem> GetSelectCareer(int generation)
+        public List<SelectListItem> GetSelectCareer()
         {
             var items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "Not set", Value = "0" });

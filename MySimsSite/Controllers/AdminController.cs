@@ -7,32 +7,66 @@ namespace MjauriziaSims.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IUserRepository _userRepository;
         private readonly IFamilyRepository _familyRepository;
         private readonly ICharacterRepository _characterRepository;
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
+        private readonly IInheritanceLawRepository _inheritanceLawRepository;
 
         public AdminController(
+            IUserRepository userRepository, 
             IFamilyRepository familyRepository, 
             ICharacterRepository characterRepository, 
             IGoalRepository goalRepository, 
             IPreferenceRepository preferenceRepository,
-            ICareerRepository careerRepository
+            ICareerRepository careerRepository,
+            IInheritanceLawRepository inheritanceLawRepository
         )
         {
+            _userRepository = userRepository;
             _familyRepository = familyRepository;
             _characterRepository = characterRepository;
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
+            _inheritanceLawRepository = inheritanceLawRepository;
         }
 
-        public ViewResult Index()
+        [HttpGet]
+        public ViewResult Users()
         {
-            return View();
+            return View(_userRepository.Users);
         }
-        
+        [HttpGet]
+        public ViewResult User(int id)
+        {
+            var user = new User();
+
+            if (id > 0)
+            {
+                user = _userRepository.Users.First(f => f.UserId == id);
+            }
+
+            return View(user);
+        }
+        [HttpPost]
+        public ActionResult User(User user)
+        {
+            _userRepository.SaveUser(user);
+
+            return Redirect("/Admin/Users/");
+        }
+        [HttpPost]
+        public ActionResult DeleteUser(int id)
+        {
+            var user = _userRepository.Users.First(f => f.UserId == id);
+            _userRepository.DeleteUser(user);
+
+            return Redirect("/Admin/Users/");
+        }
+
         public ViewResult Families()
         {
             return View(_familyRepository.Families);
@@ -164,6 +198,34 @@ namespace MjauriziaSims.Controllers
             _preferenceRepository.SavePreference(preference);
 
             return Redirect("/Admin/Preferences/");
+        }
+
+
+        [HttpGet]
+        public ViewResult Careers()
+        {
+            return View(_careerRepository.Careers);
+        }
+
+        [HttpGet]
+        public ViewResult Career(int id)
+        {
+            var career = new Career();
+
+            if (id > 0)
+            {
+                career = _careerRepository.Careers.First(c => c.CareerId == id);
+            }
+
+            return View(career);
+        }
+        
+        [HttpPost]
+        public ActionResult Career(Career career)
+        {
+            _careerRepository.SaveCareer(career);
+
+            return Redirect("/Admin/Careers/");
         }
     }
 }

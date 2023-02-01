@@ -43,5 +43,19 @@ namespace Domain.Concrete
             }
             context.SaveChanges();
         }
+
+        public void DeleteUser(User user)
+        {
+            foreach (var family in context.Families.Where(f => f.UserId == user.UserId))
+            {
+                foreach (var character in context.Characters.Where(c => c.Family == family.FamilyId))
+                {
+                    context.Characters.Remove(character);
+                }
+                context.Families.Remove(family);
+            }
+            context.Users.Remove(user);
+            context.SaveChanges();
+        }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model Domain.Entities.User
+
+@{
+    ViewBag.Title = "Admin : Edit User";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Edit user @Model.Login</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="row">
+            @Html.HiddenFor(m => m.UserId)
+
+            <div class="col-sm-6">
+                <label>Login` :</label>
+                @Html.TextBox("Login", null, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6">
+                <label>Generation :</label>
+                @Html.TextBox("Email", null, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6">
+                <label>Password :</label>
+                @Html.Password("Password", null, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6">
+                <label>Confirm Password :</label>
+                @Html.Password("ConfirmPassword", null, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6">
+                <label>IsActive :</label>
+                @Html.CheckBox("IsActive", null, new { @class = "form-check-label" })
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <a href="/Admin/DeleteUser/@Model.UserId" class="btn btn-danger">Delete</a>
+        </div>
+    }
+</div>

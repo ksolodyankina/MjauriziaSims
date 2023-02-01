@@ -1,24 +1,25 @@
 ﻿@using Domain.Entities
-@model IEnumerable<Family>
+@model IEnumerable<User>
 
 @{
-    ViewBag.Title = "Admin Families";
+    ViewBag.Title = "Admin Users";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="panel panel-default">
     <div class="row">
         <div class="col-sm-8">
-            @foreach (var family in Model)
+            @foreach (var user in Model)
             {
                 <div>
-                    <a href="/admin/family/@family.FamilyId">
-                        <h3>@family.Surname - @family.Generation</h3></a>
+                    <a href="/Admin/User/@user.UserId">
+                        <h3>@user.Login</h3>
+                    </a>
                 </div>
             }
         </div>
         <div class="col-sm-4">
-            <a href="/Admin/Family/0" class="btn btn-success">Create</a>
+            <a href="/Admin/User/0" class="btn btn-success">Create</a>
         </div>
     </div>
 </div>

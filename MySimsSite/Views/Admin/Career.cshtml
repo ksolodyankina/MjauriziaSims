@@ -1,0 +1,28 @@
+﻿@model Domain.Entities.Career
+
+@{
+    ViewBag.Title = "Admin : Edit career";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Edit career @Model.Title</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.HiddenFor(m => m.CareerId)
+
+                <label>Title :</label>
+                @Html.TextBox("Title", Model.Title, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary"/>
+        </div>
+    }
+</div>

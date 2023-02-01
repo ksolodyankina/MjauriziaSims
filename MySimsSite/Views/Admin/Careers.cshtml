@@ -1,19 +1,19 @@
 ﻿@using Domain.Entities
-@model IEnumerable<Preference>
+@model IEnumerable<Career>
 
 @{
-    ViewBag.Title = "Admin Preferences";
+    ViewBag.Title = "Admin Careers";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="panel panel-default">
     <div class="row">
         <div class="col-sm-8">
-            @foreach (var preference in Model.OrderBy(p => p.Title))
+            @foreach (var career in Model.OrderBy(c => c.Title))
             {
                 <div>
-                    <a href="/admin/preference/@preference.PreferenceId">
-                        <h3>@preference.Title</h3>
+                    <a href="/admin/career/@career.CareerId">
+                        <h3>@career.Title</h3>
                     </a>
                 </div>
             }
