@@ -22,7 +22,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="/Randomizer/Goal" role="button" id="nav-goals"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             Aspiration
                         </a>
                         <ul class="dropdown-menu">
@@ -31,10 +32,11 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Randomizer/Career">Career</a>
+                        <a class="nav-link" id="nav-careers" href="/Randomizer/Career">Career</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="/Randomizer/PreferenceColor/" role="button" id="nav-preferences"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             Preferences
                         </a>
                         <ul class="dropdown-menu">
@@ -46,7 +48,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Family/Index">Families</a>
+                        <a class="nav-link" id="nav-families" href="/Family/Index">Families</a>
                     </li>
                 </ul>
             </div>
@@ -128,6 +130,11 @@
             </div>
         </div>
     </div>
+    
+
+<script>
+    setActiveTab("@ViewBag.TabId");
+</script>
 
 </body>
 </html>
