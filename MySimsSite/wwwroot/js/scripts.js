@@ -107,6 +107,11 @@ function postForm(formId, url) {
         });
 }
 
+function setActiveTab(tabId) {
+    $activeTab = $(".nav-link#" + tabId);
+    $activeTab.addClass("active");
+}
+
 $(document).ready(function () {
     $(".removed-character").addClass("hidden");
 

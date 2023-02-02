@@ -3,22 +3,21 @@
 
 @{
     ViewBag.Title = "Admin Families";
+    ViewBag.TabId = "admin-families";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="panel panel-default">
-    <div class="row">
-        <div class="col-sm-8">
-            @foreach (var family in Model)
-            {
-                <div>
-                    <a href="/admin/family/@family.FamilyId">
-                        <h3>@family.Surname - @family.Generation</h3></a>
-                </div>
-            }
-        </div>
-        <div class="col-sm-4">
-            <a href="/Admin/Family/0" class="btn btn-success">Create</a>
-        </div>
+<div class="row">
+    <div class="col-sm-11">
+        @foreach (var family in Model)
+        {
+            <div>
+                <a href="/admin/family/@family.FamilyId" class="text-decoration-none text-black">
+                    @family.Surname - @family.Generation</a>
+            </div>
+        }
+    </div>
+    <div class="col-sm-1">
+        <a href="/Admin/Family/0" class="btn btn-success">Create</a>
     </div>
 </div>

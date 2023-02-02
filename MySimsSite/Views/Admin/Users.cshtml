@@ -3,23 +3,22 @@
 
 @{
     ViewBag.Title = "Admin Users";
+    ViewBag.TabId = "admin-users";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="panel panel-default">
-    <div class="row">
-        <div class="col-sm-8">
-            @foreach (var user in Model)
-            {
-                <div>
-                    <a href="/Admin/User/@user.UserId">
-                        <h3>@user.Login</h3>
-                    </a>
-                </div>
-            }
-        </div>
-        <div class="col-sm-4">
-            <a href="/Admin/User/0" class="btn btn-success">Create</a>
-        </div>
+<div class="row">
+    <div class="col-sm-11">
+        @foreach (var user in Model)
+        {
+            <div>
+                <a href="/Admin/User/@user.UserId" class="text-decoration-none text-black">
+                    @user.Login
+                </a>
+            </div>
+        }
+    </div>
+    <div class="col-sm-1">
+        <a href="/Admin/User/0" class="btn btn-success">Create</a>
     </div>
 </div>

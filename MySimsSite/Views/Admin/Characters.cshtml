@@ -3,23 +3,22 @@
 
 @{
     ViewBag.Title = "Admin";
+    ViewBag.TabId = "admin-characters";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="panel panel-default">
-    <div class="row">
-        <div class="col-sm-8">
-            @foreach (var character in Model.OrderBy(c => c.Family).ThenBy(c => c.Generation))
-            {
-                <div>
-                    <a href="/admin/character/@character.CharacterId">
-                        @character.Family - @character.Name - @character.Generation @(character.IsHeir ? " - Heir" : "")
-                    </a>
-                </div>
-            }
-        </div>
-        <div class="col-sm-4">
-            <a href="/Admin/NewCharacter/" class="btn btn-success">Create</a>
-        </div>
+<div class="row">
+    <div class="col-sm-11">
+        @foreach (var character in Model.OrderBy(c => c.Family).ThenBy(c => c.Generation))
+        {
+            <div>
+                <a href="/admin/character/@character.CharacterId" class="text-decoration-none text-black">
+                    @character.Family - @character.Name - @character.Generation @(character.IsHeir ? " - Heir" : "")
+                </a>
+            </div>
+        }
+    </div>
+    <div class="col-sm-1">
+        <a href="/Admin/NewCharacter/" class="btn btn-success">Create</a>
     </div>
 </div>

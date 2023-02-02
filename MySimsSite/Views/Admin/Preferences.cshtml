@@ -3,23 +3,22 @@
 
 @{
     ViewBag.Title = "Admin Preferences";
+    ViewBag.TabId = "admin-preferences";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="panel panel-default">
-    <div class="row">
-        <div class="col-sm-8">
-            @foreach (var preference in Model.OrderBy(p => p.Title))
-            {
-                <div>
-                    <a href="/admin/preference/@preference.PreferenceId">
-                        <h3>@preference.Title</h3>
-                    </a>
-                </div>
-            }
-        </div>
-        <div class="col-sm-4">
-            <a href="/Admin/preference/0" class="btn btn-success">Create</a>
-        </div>
+<div class="row">
+    <div class="col-sm-11">
+        @foreach (var preference in Model.OrderBy(p => p.Category).ThenBy(p => p.Title))
+        {
+            <div>
+                <a href="/admin/preference/@preference.PreferenceId" class="text-decoration-none text-black">
+                    @preference.Category.ToString() - @preference.Title
+                </a>
+            </div>
+        }
+    </div>
+    <div class="col-sm-1">
+        <a href="/Admin/preference/0" class="btn btn-success">Create</a>
     </div>
 </div>

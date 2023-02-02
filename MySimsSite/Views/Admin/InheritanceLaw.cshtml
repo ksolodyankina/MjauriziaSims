@@ -1,8 +1,8 @@
-﻿@model Domain.Entities.Preference
+﻿@model Domain.Entities.InheritanceLaw
 
 @{
-    ViewBag.Title = "Admin : Edit preference";
-    ViewBag.TabId = "admin-preferences";
+    ViewBag.Title = "Admin : Edit Inheritance Law";
+    ViewBag.TabId = "admin-laws";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -15,7 +15,7 @@
     {
         <div class="panel-body">
             <div class="form-group">
-                @Html.HiddenFor(m => m.PreferenceId)
+                @Html.HiddenFor(m => m.InheritanceId)
 
                 <label>Title :</label>
                 @Html.TextBox("Title", Model.Title, new { @class = "form-control" })

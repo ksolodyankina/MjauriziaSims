@@ -3,23 +3,22 @@
 
 @{
     ViewBag.Title = "Admin Careers";
+    ViewBag.TabId = "admin-careers";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="panel panel-default">
-    <div class="row">
-        <div class="col-sm-8">
-            @foreach (var career in Model.OrderBy(c => c.Title))
-            {
-                <div>
-                    <a href="/admin/career/@career.CareerId">
-                        <h3>@career.Title</h3>
-                    </a>
-                </div>
-            }
-        </div>
-        <div class="col-sm-4">
-            <a href="/Admin/preference/0" class="btn btn-success">Create</a>
-        </div>
+<div class="row">
+    <div class="col-sm-11">
+        @foreach (var career in Model.OrderBy(c => c.Title))
+        {
+            <div>
+                <a href="/admin/career/@career.CareerId" class="text-decoration-none text-black">
+                    @career.Title
+                </a>
+            </div>
+        }
+    </div>
+    <div class="col-sm-1">
+        <a href="/Admin/preference/0" class="btn btn-success">Create</a>
     </div>
 </div>

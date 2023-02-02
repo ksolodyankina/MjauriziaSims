@@ -1,6 +1,7 @@
 ﻿using Domain.Abstract;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.AccessControl;
 using WebUI.Models;
 
 namespace MjauriziaSims.Controllers
@@ -202,6 +203,33 @@ namespace MjauriziaSims.Controllers
 
 
         [HttpGet]
+        public ViewResult InheritanceLaws()
+        {
+            return View(_inheritanceLawRepository.InheritanceLaws);
+        }
+
+        [HttpGet]
+        public ViewResult InheritanceLaw(int id)
+        {
+            var law = new InheritanceLaw();
+            if (id > 0)
+            {
+                law = _inheritanceLawRepository.InheritanceLaws.First(c => c.InheritanceId == id);
+            }
+
+            return View(law);
+        }
+        
+        [HttpPost]
+        public ActionResult InheritanceLaw(InheritanceLaw law)
+        {
+            _inheritanceLawRepository.SaveInheritanceLaw(law);
+
+            return Redirect("/Admin/InheritanceLaws/");
+        }
+
+
+        [HttpGet]
         public ViewResult Careers()
         {
             return View(_careerRepository.Careers);
@@ -219,7 +247,7 @@ namespace MjauriziaSims.Controllers
 
             return View(career);
         }
-        
+
         [HttpPost]
         public ActionResult Career(Career career)
         {

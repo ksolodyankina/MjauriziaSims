@@ -22,3 +22,22 @@ body {
 .navbar-nav > li > .dropdown-menu a:hover {
     color: black;
 }
+
+.sidebar {
+    min-height: 100vh;
+    width: 280px;
+}
+
+.admin-layout {
+    margin-left: 280px;
+    background: white;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-pills .nav-link.active {
+    background-color: white;
+    color: black;
+}
