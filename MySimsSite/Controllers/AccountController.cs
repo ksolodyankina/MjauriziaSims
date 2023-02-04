@@ -20,10 +20,10 @@ namespace MjauriziaSims.Controllers
 {
     public class AccountController : Controller
     {
-        private EFDbContext db;
-        public AccountController(EFDbContext context)
+        private IUserRepository _userRepository;
+        public AccountController(IUserRepository userRepository)
         {
-            db = context;
+            _userRepository = userRepository;
         }
 
         [HttpPost]
@@ -32,7 +32,7 @@ namespace MjauriziaSims.Controllers
             var result = new Result() {IsSuccess = true};
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
+                User user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login && u.Password == model.Password);
                 if (user != null)
                 {
                     if (user.IsActive)
@@ -57,7 +57,12 @@ namespace MjauriziaSims.Controllers
         [HttpGet]
         public ViewResult Registration()
         {
-            return View();
+            var newUser = new User();
+            var model = new RegisterModel()
+            {
+                Role = newUser.Role
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -66,15 +71,18 @@ namespace MjauriziaSims.Controllers
             var result = new Result() { IsSuccess = true };
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
+                User user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login && u.Password == model.Password);
                 if (user == null)
                 {
                     var token = Guid.NewGuid();
-                    db.Users.Add(new User
+                    _userRepository.SaveUser(new User
                     {
-                        Login = model.Login, Email = model.Email, Password = model.Password, ConfirmationToken = token
+                        Login = model.Login, 
+                        Email = model.Email, 
+                        Password = model.Password, 
+                        ConfirmationToken = token, 
+                        Role=model.Role
                     });
-                    await db.SaveChangesAsync();
 
                     var emailText =
                         "To confirm your email follow the link:\n " +
@@ -100,12 +108,12 @@ namespace MjauriziaSims.Controllers
         public async Task<IActionResult> Confirmation(Guid ConfirmationToken)
         {
             var isSuccess = false;
-            var user = await db.Users.FirstOrDefaultAsync(u => u.ConfirmationToken == ConfirmationToken);
+            var user = _userRepository.Users.FirstOrDefault(u => u.ConfirmationToken == ConfirmationToken);
             if (user != null)
             {
                 isSuccess = true;
                 user.IsActive = true;
-                await db.SaveChangesAsync();
+                _userRepository.SaveUser(user);
                 await Authenticate(user);
             }
 
@@ -124,7 +132,7 @@ namespace MjauriziaSims.Controllers
             var result = new Result() { IsSuccess = true };
             if (ModelState.IsValid)
             {
-                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                var user = _userRepository.Users.FirstOrDefault(u => u.Email == model.Email);
                 if (user == null)
                 {
                     result.IsSuccess = false;
@@ -135,7 +143,7 @@ namespace MjauriziaSims.Controllers
                     var token = Guid.NewGuid();
 
                     user.ConfirmationToken = token;
-                    db.SaveChangesAsync();
+                    _userRepository.SaveUser(user);
 
                     var emailText =
                         "Follow link to set new password:\n " +
@@ -160,7 +168,7 @@ namespace MjauriziaSims.Controllers
             var model = new ResetPassModel();
             model.ConfirmationToken = Guid.Parse(ConfirmationToken);
 
-            var user = await db.Users.FirstOrDefaultAsync(u => u.ConfirmationToken == Guid.Parse(ConfirmationToken));
+            var user = _userRepository.Users.FirstOrDefault(u => u.ConfirmationToken == Guid.Parse(ConfirmationToken));
             if (user != null)
             {
                 model.UserId = user.UserId;
@@ -175,7 +183,7 @@ namespace MjauriziaSims.Controllers
             var result = new Result() { IsSuccess = true };
             if (ModelState.IsValid)
             {
-                var user = await db.Users.FirstOrDefaultAsync
+                var user = _userRepository.Users.FirstOrDefault
                     (u => u.UserId == model.UserId && u.ConfirmationToken == model.ConfirmationToken);
                 if (user == null)
                 {
@@ -185,7 +193,7 @@ namespace MjauriziaSims.Controllers
                 else
                 {
                     user.Password = model.Password;
-                    db.SaveChanges();
+                    _userRepository.SaveUser(user);
                 }
 
             }
@@ -202,8 +210,11 @@ namespace MjauriziaSims.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
-                new Claim("UserId", user.UserId.ToString())
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim(ClaimTypes.Role, ((Roles)(user.Role)).ToString())
             };
+
+
             ClaimsIdentity id = new ClaimsIdentity
                 (claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             var authProperties = new AuthenticationProperties();

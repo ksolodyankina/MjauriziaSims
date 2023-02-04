@@ -12,6 +12,7 @@
 
     @using (Html.BeginForm("Registration", "Account", new { }, (FormMethod)1, false, new { id = "registrationForm" }))
     {
+        @Html.HiddenFor(m => m.Role)
         <div class="row">
             <div id="errMsg" class="form-text hidden text-danger"></div>
             <div id="successMsg" class="form-text hidden text-success">

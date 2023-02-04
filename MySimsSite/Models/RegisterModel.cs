@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Entities;
 
 namespace MjauriziaSims.Models
 {
@@ -18,5 +19,6 @@ namespace MjauriziaSims.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; }
+        public Roles Role { get; set; }
     }
 }

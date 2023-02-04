@@ -39,6 +39,7 @@ namespace Domain.Concrete
                     dbEntry.Password = user.Password;
                     dbEntry.ConfirmationToken = user.ConfirmationToken;
                     dbEntry.IsActive = user.IsActive;
+                    dbEntry.Role = user.Role;
                 }
             }
             context.SaveChanges();

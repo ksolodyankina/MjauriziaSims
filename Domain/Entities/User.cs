@@ -1,6 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace Domain.Entities
 {
+    public enum Roles
+    {
+        User,
+        Admin
+    } 
     public class User
     {
         public int UserId { get; set; }
@@ -15,5 +20,6 @@ namespace Domain.Entities
         public string Password { get; set; }
         public bool IsActive { get; set; } = false;
         public Guid ConfirmationToken { get; set; }
+        public Roles Role { get; set; } = Roles.User;
     }
 }

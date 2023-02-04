@@ -37,7 +37,8 @@ builder.Services.AddSingleton<Domain.Migrator.Migrator>();
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/");
+        options.LoginPath = "/";
+        options.AccessDeniedPath = "/";
     });
 
 

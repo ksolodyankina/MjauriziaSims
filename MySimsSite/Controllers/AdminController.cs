@@ -7,7 +7,7 @@ using WebUI.Models;
 
 namespace MjauriziaSims.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Admin")]
     public class AdminController : Controller
     {
         private readonly IUserRepository _userRepository;
