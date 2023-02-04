@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 namespace Domain.Entities
 {
     public enum Roles
@@ -21,5 +22,18 @@ namespace Domain.Entities
         public bool IsActive { get; set; } = false;
         public Guid ConfirmationToken { get; set; }
         public Roles Role { get; set; } = Roles.User;
+        
+        public List<SelectListItem> GetSelectRoles()
+        {
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Not set", Value = "0" });
+
+            foreach (var role in (Roles[])Enum.GetValues(typeof(Roles)))
+            {
+                items.Add(new SelectListItem { Text = role.ToString(), Value = ((int)(role)).ToString() });
+            }
+            return items;
+        }
     }
+
 }

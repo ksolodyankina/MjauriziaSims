@@ -1,4 +1,5 @@
-﻿@model Domain.Entities.User
+﻿@using Domain.Entities
+@model User
 
 @{
     ViewBag.Title = "Admin : Edit User";
@@ -17,7 +18,7 @@
             @Html.HiddenFor(m => m.UserId)
 
             <div class="col-sm-6">
-                <label>Login` :</label>
+                <label>Login :</label>
                 @Html.TextBox("Login", null, new { @class = "form-control" })
             </div>
             <div class="col-sm-6">
@@ -35,6 +36,10 @@
             <div class="col-sm-6">
                 <label>IsActive :</label>
                 @Html.CheckBox("IsActive", null, new { @class = "form-check-label" })
+            </div>
+            <div>
+                <label>Role :</label>
+                @Html.DropDownList("Role", Model.GetSelectRoles())
             </div>
         </div>
 
