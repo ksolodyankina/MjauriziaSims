@@ -99,10 +99,10 @@ namespace MjauriziaSims.Controllers
 
             return View(familyViewModel);
         }
-        
+
+        [Authorize]
         public ViewResult Create()
         {
-
             var userId = User.FindFirst("UserId").Value;
             var familyCreationModel = new FamilyCreationModel
             {
@@ -117,6 +117,7 @@ namespace MjauriziaSims.Controllers
 ;       }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Family family)
         {
             _familyRepository.SaveFamily(family);

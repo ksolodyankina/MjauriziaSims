@@ -3,9 +3,11 @@ using Domain.Entities;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MjauriziaSims.Controllers
 {
+    [Authorize]
     public class CharacterController : Controller
     {
         private readonly IFamilyRepository _familyRepository;

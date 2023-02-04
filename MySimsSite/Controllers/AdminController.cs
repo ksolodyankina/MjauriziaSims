@@ -1,11 +1,13 @@
 ﻿using Domain.Abstract;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.AccessControl;
 using WebUI.Models;
 
 namespace MjauriziaSims.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly IUserRepository _userRepository;

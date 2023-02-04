@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Domain.Abstract;
 using Domain.Concrete;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Azure.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -35,8 +37,9 @@ builder.Services.AddSingleton<Domain.Migrator.Migrator>();
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/");
     });
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -56,11 +59,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
-
-
-
+app.UseAuthorization();
 
 app.UseEndpoints(builder => builder.MapControllers());
 
