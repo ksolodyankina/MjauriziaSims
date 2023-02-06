@@ -1,16 +1,20 @@
-﻿@model bool
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@model bool
 
 @{
-    ViewBag.Title = "Email Confirmation Info";
+    ViewBag.Title = @Localizer["ConfirmationHeader"];
 }
 
 <div class="m-3">
     @if (Model)
     {
-        <div class="text-success">Email is successfully confirmed.</div>
+        <div class="text-success">@Localizer["Success"]</div>
     }
     else
     {
-        <div class="text-danger">Your link is wrong. Please, try to register again.</div>
+        <div class="text-danger">@Localizer["Fail"]</div>
     }
 </div>

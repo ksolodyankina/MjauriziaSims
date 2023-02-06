@@ -17,6 +17,7 @@ namespace MjauriziaSims.Controllers
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
         private readonly IInheritanceLawRepository _inheritanceLawRepository;
+        private readonly MessageManager.MessageManager _messageManager;
 
         public AdminController(
             IUserRepository userRepository, 
@@ -25,7 +26,8 @@ namespace MjauriziaSims.Controllers
             IGoalRepository goalRepository, 
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
-            IInheritanceLawRepository inheritanceLawRepository
+            IInheritanceLawRepository inheritanceLawRepository,
+            MessageManager.MessageManager messageManager
         )
         {
             _userRepository = userRepository;
@@ -35,6 +37,7 @@ namespace MjauriziaSims.Controllers
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
             _inheritanceLawRepository = inheritanceLawRepository;
+            _messageManager = messageManager;
         }
 
         [HttpGet]
@@ -127,7 +130,8 @@ namespace MjauriziaSims.Controllers
                 character,
                 _goalRepository.Goals,
                 _preferenceRepository.Preferences,
-                _careerRepository.Careers
+                _careerRepository.Careers,
+                _messageManager
             );
 
             return View(characterVewModel);

@@ -21,20 +21,11 @@ namespace Domain.Entities
         Adult,
         Old
     }
-
-    public enum Sexualities
-    {
-        Heterosexual,
-        Bisexual,
-        Homosexual
-    }
-
+    
     public enum Chronotypes
     {
-        Sleepyhead,
-        Morning_Person,
-        Nigth_Person,
-        Hiperproductive
+        MorningPerson,
+        NightPerson
     }
 
     public class Character
@@ -54,7 +45,6 @@ namespace Domain.Entities
         public int? Hobby { get; set; }
         public int? Decor { get; set; }
         public int? Clothes { get; set; }
-        public Sexualities? Sexuality { get; set; }
         public Chronotypes? Chronotype { get; set; }
         public Genders Gender { get; set; }
         public int? Career { get; set; }

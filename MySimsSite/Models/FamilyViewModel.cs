@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Channels;
 using System.Web;
+using MjauriziaSims.MessageManager;
 
 namespace WebUI.Models
 {
@@ -17,6 +18,7 @@ namespace WebUI.Models
         public IEnumerable<Career> Careers { get; set; }
         public IEnumerable<InheritanceLaw> InheritanceLaws { get; set; }
         public bool CanEdit { get; set; }
+        public MessageManager MsgManager { get; set; }
 
         public bool CanGetMarried(Character character)
         {
@@ -37,18 +39,5 @@ namespace WebUI.Models
         {
             return character.InFamily ? character.InLow ? "warning" : character.IsHeir ? "success" : "dark" : "secondary";
         }
-
-        public List<SelectListItem> GetInheritanceSelectCategory(int category)
-        {
-            var items = new List<SelectListItem>();
-
-            foreach (var law in InheritanceLaws.Where(l => (int)l.Category == category))
-            {
-                items.Add(new SelectListItem { Text = law.Title, Value = law.InheritanceId.ToString() });
-            }
-            return items;
-        }
-
-
     }
 }

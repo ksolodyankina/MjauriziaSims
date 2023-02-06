@@ -1,9 +1,12 @@
 ﻿@using Domain.Entities
 @using WebUI.Models;
 @model FamiliesViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = "Families";
+    ViewBag.Title = @Localizer["FamiliesHeader"];
     ViewBag.TabId = "nav-families";
 }
 
@@ -11,7 +14,7 @@
     <div class="col col-auto">
         @if (User.Identity.IsAuthenticated)
         {
-            <a href="/Family/Create/" class="btn btn-light">Create new family</a>
+            <a href="/Family/Create/" class="btn btn-light">@Localizer["Create"]</a>
         }
     </div>
 </div>
@@ -22,19 +25,10 @@
         <div class="col-sm-3 p-2">
             <div class="p-3 border rounded bg-white">
                 <a class="text-reset text-decoration-none" href="/Family/@family.Family.FamilyId">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <h3>@family.Family.Surname</h3>
-                        </div>
-                        <div class="col-sm-5">
-                            <h3 class="text-end">Gen @family.Family.Generation</h3>
-                        </div>
-                    </div>
+                    <h3>@family.Family.Surname</h3>
                 </a>
-                <div class="row mb-4">
-                    <div class="col-sm-7">
-                        <a href="?user=@family.Family.UserId" class="text-reset text-decoration-none">@@@family.User</a>
-                    </div>
+                <div class="col-sm-7">
+                    <a href="?user=@family.Family.UserId" class="text-reset text-decoration-none">@@@family.User</a>
                 </div>
 
                 @foreach (var lawValue in new int[] 
@@ -48,10 +42,12 @@
                         {
                             <div class="row">
                                 <div class="col-sm-5">
-                                    <p class="m-0">@(((InheritanceCategory)law.Category).ToString()) law:</p>
+                                    <p class="m-0">
+                                        @Model.MsgManager.Msg("inheritanceCategory_" + law.Category.ToString()):
+                                    </p>
                                 </div>
                                 <div class="col-sm-7">
-                                    <p class="m-0">@law.Title</p>
+                                    <p class="m-0">@Model.MsgManager.Msg(law.Title)</p>
                                 </div>
                             </div>
                         }
@@ -61,11 +57,11 @@
                         <a href="/Family/@family.Family.FamilyId" class="btn btn-light">
                             @if (Model.EditRules[family.Family.FamilyId])
                             {
-                                <span>Edit</span>
+                                <span>@Localizer["Edit"]</span>
                             }
                             else
                             {
-                                <span>View</span>
+                                <span>@Localizer["View"]</span>
                             }
                         </a>
                     </div>

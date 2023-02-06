@@ -1,9 +1,12 @@
 ﻿@using Domain.Entities
 @using WebUI.Models
 @model WebUI.Models.CharacterViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = Model.Character.IsHeir || Model.Character.InLow ? "New family member" : "New baby";
+    ViewBag.Title = Model.Character.IsHeir || Model.Character.InLow ? Localizer["newMember"].ToString() : Localizer["NewBaby"].ToString();
     ViewBag.TabId = "nav-families";
 }
 
@@ -21,11 +24,11 @@
             @Html.HiddenFor(m => m.Character.InLow)
             
             <div class="col-sm-6">
-                <div class="p-1">Name :</div>
+                <div class="p-1">@Localizer["Name"] :</div>
                 @Html.TextBox("Character.Name", null, new { @class = "form-control" })
             </div>
             <div class="col-sm-6">
-                <div class="p-1">Gender :</div>
+                <div class="p-1">@Localizer["Gender"] :</div>
                 <div class="row">
                     <div class="col-sm-11">
                         <select asp-for="Character.Gender" asp-items="Model.GetGenderSelectItems()" class="form-select"></select>
@@ -37,7 +40,7 @@
             @if (Model.Character.IsHeir || Model.Character.InLow)
             {
                 <div class="col-sm-6">
-                    <div class="p-1">Age :</div>
+                    <div class="p-1">@Localizer["Age"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Age" asp-items="Model.GetAgeSelectItems()" class="form-select"></select>
@@ -45,19 +48,9 @@
                         <div class="col-sm-1"></div>
                     </div>
                 </div>
-
+                
                 <div class="col-sm-6">
-                    <div class="p-1">Sexuality :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Sexuality" asp-items="Model.GetSexualitySelectItems()" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1"></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="p-1">Chronotype :</div>
+                    <div class="p-1">@Localizer["Chronotype"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Chronotype" asp-items="Model.GetChronotypeSelectItems()" 
@@ -72,7 +65,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="p-1">Goal :</div>
+                    <div class="p-1">@Localizer["Goal"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Goal" asp-items="Model.GetSelectCategory()" id="goalSelect" class="form-select"></select>
@@ -86,7 +79,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="p-1">Color :</div>
+                    <div class="p-1">@Localizer["Color"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Color" asp-items="Model.GetSelectPreferences(0)" id="colorSelect" class="form-select"></select>
@@ -100,7 +93,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="p-1">Music :</div>
+                    <div class="p-1">@Localizer["Music"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Music" asp-items="Model.GetSelectPreferences(1)" id="musicSelect" class="form-select"></select>
@@ -114,7 +107,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="p-1">Hobby :</div>
+                    <div class="p-1">@Localizer["Hobby"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Hobby" asp-items="Model.GetSelectPreferences(2)" id="hobbySelect" class="form-select"></select>
@@ -128,7 +121,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="p-1">Decor :</div>
+                    <div class="p-1">@Localizer["Design"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Decor" asp-items="Model.GetSelectPreferences(3)" id="decorSelect" class="form-select"></select>
@@ -142,7 +135,7 @@
                 </div>
                 
                 <div class="col-sm-6">
-                    <div class="p-1">Clothes :</div>
+                    <div class="p-1">@Localizer["Clothes"] :</div>
                     <div class="row">
                         <div class="col-sm-11">
                             <select asp-for="Character.Clothes" asp-items="Model.GetSelectPreferences(4)" id="clothesSelect" class="form-select"></select>
@@ -161,7 +154,7 @@
                 @if (Model.Family.Generation > 5 || Model.Character.Gender == 0)
                 {
                     <div class="col-sm-6">
-                        <div class="p-1">Career :</div>
+                        <div class="p-1">@Localizer["Career"] :</div>
                         <div class="row">
                             <div class="col-sm-11">
                                 <select asp-for="Character.Career" 
@@ -183,7 +176,7 @@
 
                 <div class="col-sm-6">
                     <div class="p-1">
-                        Has glasses :
+                        @Localizer["glasses"] :
                         @Html.CheckBox("Character.Glasses")
                     </div>
                 </div>
@@ -192,14 +185,14 @@
             {
                 <div class="col-sm-6">
                     <div class="p-1">
-                        Is adopted :
+                        @Localizer["IsAdopted"] :
                         @Html.CheckBox("Character.IsAdopted")
                     </div>
                 </div>
             }
             <div class="col-sm-6">
                 <div class="p-1">
-                    Is Alien :
+                    @Localizer["IsAlien"] :
                     @Html.CheckBox("Character.IsAlien")
                 </div>
             </div>
@@ -207,7 +200,7 @@
 
         <div class="row justify-content-md-center mt-3">
             <div class="col col-auto">
-                <input type="submit" value="Save" class="btn btn-light" />
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-light" />
             </div>
         </div>
     }

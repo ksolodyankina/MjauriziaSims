@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace MjauriziaSims.Models
 {
     public class RecoveryModel
     {
-        [Required(ErrorMessage = "Please, fill the email field")]
-        [DataType(DataType.EmailAddress,ErrorMessage = "Please, input correct email")]
+        [Required(ErrorMessage = "err_required")]
+        [DataType(DataType.EmailAddress,ErrorMessage = "err_DataType")]
         public string Email { get; set; }
     }
 }

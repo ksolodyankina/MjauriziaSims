@@ -1,9 +1,12 @@
 ﻿@using Domain.Entities
 @using WebUI.Models;
-@model List<Goal>
+@model RandomizerViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = "Randomize goal";
+    ViewBag.Title = @Localizer["ChildGoalHeader"];
     ViewBag.TabId = "nav-goals";
 }
 
@@ -15,7 +18,7 @@
                  width="120px" height="120px" style="margin-top:42px; margin-bottom:30px"
                  class="rounded border border-dark hidden"
                  title="" /></br>
-            <a href="#" class="btn btn-light randomize-button" onclick="showRandomizedValue()">Randomize</a>
+            <a href="#" class="btn btn-light randomize-button" onclick="showRandomizedValue()">@Localizer["Randomize"]</a>
         </div>
     </div>
 
@@ -30,17 +33,17 @@
             <p class="m-0 choice-option-switch__text--disabled hidden">Enable all</p>
         </div>
 
-        @foreach (var goal in Model)
+        @foreach (var goal in Model.Goals)
         {
             <div class="col-sm-1 center-block text-center">
                 <a href="#" class="text-reset text-decoration-none choice-option choice-option--enabled">
                     <i class="bi-x-square-fill hidden" style="font-size:3.8rem; color:darkgray"></i>
-                    <img src="/Images/Goals/@(goal.Title).png" 
+                    <img src="/Images/Goals/@(goal.Code).png" 
                         width="60px" height="60px" style="margin-top:22px; margin-bottom:9px"
-                        class="rounded border border-dark" 
-                        title="@goal.Title" />
+                        class="rounded border border-dark"
+                        title="@Model.MsgManager.Msg(goal.Title)" />
                 </a>
-                <p class="m-0">@goal.Title</p>
+                <p class="m-0">@Model.MsgManager.Msg(goal.Title)</p>
             </div>
         }
     </div>

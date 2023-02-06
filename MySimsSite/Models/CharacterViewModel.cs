@@ -2,6 +2,7 @@
 using Domain.Concrete;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Domain.Abstract;
+using MjauriziaSims.MessageManager;
 
 namespace WebUI.Models
 {
@@ -12,22 +13,24 @@ namespace WebUI.Models
         public IEnumerable<Goal> Goals { get; set; }
         public IEnumerable<Preference> Preferences { get; set; }
         public IEnumerable<Career> Careers { get; set; }
+        public MessageManager MsgManager { get; set; }
 
         public CharacterViewModel
                     (Family family, 
                     Character character, 
                     IEnumerable<Goal> goals, 
                     IEnumerable<Preference> preferences, 
-                    IEnumerable<Career> careers)
+                    IEnumerable<Career> careers,
+                    MessageManager msgManager)
         {
             Family = family;
             Character = character;
             Goals = goals;
             Preferences = preferences;
             Careers = careers;
+            MsgManager = msgManager;
         }
-
-
+        
         public List<SelectListItem> GetSelectCategory(bool includeChildGoals = false)
         {
             var items = new List<SelectListItem>();
@@ -35,7 +38,7 @@ namespace WebUI.Models
 
             foreach (var goal in Goals.Where(g => !g.IsChild || includeChildGoals ? true : false))
             {
-                items.Add(new SelectListItem { Text = goal.Title, Value = goal.GoalId.ToString() });
+                items.Add(new SelectListItem { Text = MsgManager.Msg(goal.Title), Value = goal.GoalId.ToString() });
             }
             return items;
         }
@@ -47,7 +50,7 @@ namespace WebUI.Models
 
             foreach (var preference in Preferences.Where(p => p.Category == (Preference.Categories)category))
             {
-                items.Add(new SelectListItem { Text = preference.Title, Value = preference.PreferenceId.ToString() });
+                items.Add(new SelectListItem { Text = MsgManager.Msg(preference.Title), Value = preference.PreferenceId.ToString() });
             }
             return items;
         }
@@ -59,44 +62,44 @@ namespace WebUI.Models
 
             foreach (var career in Careers)
             {
-                items.Add(new SelectListItem { Text = career.Title, Value = career.CareerId.ToString() });
-            }
-            return items;
-        }
-
-        public List<SelectListItem> GetSelectItems(int start, int end, Func<int, Enum> f, bool addNotSetItem = true)
-        {
-            var items = new List<SelectListItem>();
-            if (addNotSetItem)
-            {
-                items.Add(new SelectListItem { Text = "Not set", Value = "-1" });
-            }
-
-            for (var i = start; i <= end; i++)
-            {
-                items.Add(new SelectListItem { Text = f(i).ToString(), Value = $"{i}" });
+                items.Add(new SelectListItem { Text = MsgManager.Msg(career.Title), Value = career.CareerId.ToString() });
             }
             return items;
         }
 
         public List<SelectListItem> GetAgeSelectItems(bool allValues = false)
         {
-            return GetSelectItems(allValues ? 0 : 4, 6, i => (Ages)i, false);
-        }
+            var items = new List<SelectListItem>();
 
-        public List<SelectListItem> GetSexualitySelectItems()
-        {
-            return GetSelectItems(0, 2, i => (Sexualities)i, false);
+            for (var i = allValues ? 0 : 4; i <= 6; i++)
+            {
+                items.Add(new SelectListItem { Text = MsgManager.Msg("age_" + ((Ages)i).ToString()), Value = $"{i}" });
+            }
+            return items;
         }
-
+        
         public List<SelectListItem> GetChronotypeSelectItems()
         {
-            return GetSelectItems(0, 3, i => (Chronotypes)i);
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Not set", Value = "-1" });
+
+            for (var i = 0; i <= 1; i++)
+            {
+                items.Add(new SelectListItem 
+                    { Text = MsgManager.Msg("chronotype_" + ((Chronotypes)(i)).ToString()), Value = $"{i}" });
+            }
+            return items;
         }
 
         public List<SelectListItem> GetGenderSelectItems()
         {
-            return GetSelectItems(0, 1, i => (Genders)i, false);
+            var items = new List<SelectListItem>();
+
+            for (var i = 0; i <= 1; i++)
+            {
+                items.Add(new SelectListItem { Text = MsgManager.Msg("gender_" + ((Genders)(i)).ToString()), Value = $"{i}" });
+            }
+            return items;
         }
     }
 }

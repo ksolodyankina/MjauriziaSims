@@ -12,6 +12,7 @@
         }
         public int PreferenceId { get; set; }
 
+        public string Code { get; set; }
         public string Title { get; set; }
 
         public Categories Category { get; set; }

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -24,112 +28,142 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="/Randomizer/Goal" role="button" id="nav-goals"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Aspiration
+                            @Localizer["Goal"]
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/Randomizer/Goal">Aspiration</a></li>
-                            <li><a class="dropdown-item" href="/Randomizer/ChildGoal">Children Aspiration</a></li>
+                            <li><a class="dropdown-item" href="/Randomizer/Goal">@Localizer["Goal"]</a></li>
+                            <li><a class="dropdown-item" href="/Randomizer/ChildGoal">@Localizer["Children_Goal"]</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="nav-careers" href="/Randomizer/Career">Career</a>
+                        <a class="nav-link" id="nav-careers" href="/Randomizer/Career">@Localizer["Career"]</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="/Randomizer/PreferenceColor/" role="button" id="nav-preferences"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Preferences
+                            @Localizer["Preferences"]
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/Randomizer/PreferenceColor/">Color</a></li>
-                            <li><a class="dropdown-item" href="/Randomizer/PreferenceMusic/">Music</a></li>
-                            <li><a class="dropdown-item" href="/Randomizer/PreferenceHobby/">Hobby</a></li>
-                            <li><a class="dropdown-item" href="/Randomizer/PreferenceDesign/">Design</a></li>
-                            <li><a class="dropdown-item" href="/Randomizer/PreferenceClothes/">Clothes</a></li>
+                            <li><a class="dropdown-item" href="/Randomizer/PreferenceColor/">@Localizer["Color"]</a></li>
+                            <li><a class="dropdown-item" href="/Randomizer/PreferenceMusic/">@Localizer["Music"]</a></li>
+                            <li><a class="dropdown-item" href="/Randomizer/PreferenceHobby/">@Localizer["Hobby"]</a></li>
+                            <li><a class="dropdown-item" href="/Randomizer/PreferenceDesign/">@Localizer["Design"]</a></li>
+                            <li><a class="dropdown-item" href="/Randomizer/PreferenceClothes/">@Localizer["Clothes"]</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="nav-families" href="/Family/Index">Families</a>
+                        <a class="nav-link" id="nav-families" href="/Family/Index">@Localizer["Families"]</a>
                     </li>
                 </ul>
             </div>
+            
+            <div class="collapse navbar-collapse" id="locale">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 dropstart">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="nav-goals"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            @if (Thread.CurrentThread.CurrentCulture.ToString() == "ru")
+                            {
+                                <img src="/Images/Locale/ru.png" width="20" height="20" title="Русский"/>
+                            }
+                            else
+                            {
+                                <img src="/Images/Locale/en.png" width="20" height="20" title="English"/>
+                            }
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item localeSwitcher" id="localeSwitcherEn" href="#">
+                                <img src="/Images/Locale/en.png" width="20" height="20" title="English"/> English
+                            </a></li>
+                            <li><a class="dropdown-item localeSwitcher" id="localeSwitcherRu" href="#">
+                                <img src="/Images/Locale/ru.png" width="20" height="20" title="Русский"/> Русский
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
             @if (User.Identity.IsAuthenticated)
             {
 
-                <a href="/Account/Logout" class="nav-link text-light">
+                <a href="/Account/Logout" class="nav-link text-light loginBtn">
                     <i class="bi-box-arrow-right"></i>
-                    Log out
+                    @Localizer["LogOut"]
                 </a>
             }
             else
             {
-                <a href="/" class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <a href="/" class="nav-link text-light loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal">
                     <i class="bi-door-open"></i>
-                    Log in
+                    @Localizer["Log_In"]
                 </a>
             }
         </div>
     </nav>
 
 <div class="row mt-5">
-        <div class="col-sm-1">
-        </div>
-        <div class="col-sm-10 bg-light mt-2" style="min-height: 92vh;">
-            @RenderBody()
-        </div>
-        <div class="col-sm-1">
-        </div>
+    <div class="col-sm-1">
     </div>
+    <div class="col-sm-10 bg-light mt-2" style="min-height: 92vh;">
+        @RenderBody()
+    </div>
+    <div class="col-sm-1">
+    </div>
+</div>
     
 <!-- Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Log in</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeBtn"></button>
-                </div>
-                @using (Html.BeginForm("Login", "Account", new { }, (FormMethod)1, false, new { id = "loginForm" }))
-                {
-                    <div class="modal-body">
-                        <div id="errMsg" class="form-text hidden text-danger"></div>
-                        <div class="p-1">Login :</div>
-                        @Html.TextBox("Login", null, new { @class = "form-control", @id = "login" })
-                        <div id="loginHelp" class="form-text hidden text-danger">Please, fill login field</div>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">@Localizer["Log_In"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeBtn"></button>
+            </div>
+            @using (Html.BeginForm("Login", "Account", new { }, (FormMethod)1, false, new { id = "loginForm" }))
+            {
+                <div class="modal-body">
+                    <div id="errMsg" class="form-text hidden text-danger"></div>
+                        <div class="p-1">@Localizer["Login"] :</div>
+                    @Html.TextBox("Login", null, new { @class = "form-control", @id = "login" })
+                        <div id="loginHelp" class="form-text hidden text-danger">@Localizer["LoginHelp"]</div>
 
-                        <div class="p-1">Password :</div>
-                        @Html.Password("Password", null, new { @class = "form-control", @id = "password" })
-                        <div id="passwordEmptyHelp" class="form-text"><a href="/Account/Recovery" class="text-black">Forgot password?</a></div>
-                        <div id="passwordHelp" class="form-text hidden text-danger">Please, fill password field</div>
-                        <div id="passwordIncorrectHelp" class="form-text hidden text-danger">Password or Login is incorrect</div>
+                    <div class="p-1">@Localizer["Password"] :</div>
+                    @Html.Password("Password", null, new { @class = "form-control", @id = "password" })
+                    <div id="passwordEmptyHelp" class="form-text">
+                        <a href="/Account/Recovery" class="text-black">@Localizer["ForgotPass"]</a>
+                    </div>
+                    <div id="passwordHelp" class="form-text hidden text-danger">@Localizer["passwordHelp"]</div>
 
-                        <div class="row justify-content-md-center">
-                            <div class="col-sm-11 center-block text-center p-1">Or</div>
-                            <div class="col-sm-11 center-block text-center selected-option-box">
-                                <div id="g_id_onload"
-                                     data-client_id="589496246267-3c6k5j1flaev2mrruei0ftq7bkihrno5.apps.googleusercontent.com"
-                                     data-login_uri="https://localhost:7029/"
-                                     data-auto_prompt="false">
-                                </div>
-                                <div class="g_id_signin"
-                                     data-type="standard"
-                                     data-size="large"
-                                     data-theme="outline"
-                                     data-text="sign_in_with"
-                                     data-shape="rectangular"
-                                     data-logo_alignment="left">
-                                </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-sm-11 center-block text-center p-1">@Localizer["Or"]</div>
+                        <div class="col-sm-11 center-block text-center selected-option-box">
+                            <div id="g_id_onload"
+                                 data-client_id="589496246267-3c6k5j1flaev2mrruei0ftq7bkihrno5.apps.googleusercontent.com"
+                                 data-login_uri="https://localhost:7029/"
+                                 data-auto_prompt="false">
+                            </div>
+                            <div class="g_id_signin"
+                                 data-type="standard"
+                                 data-size="large"
+                                 data-theme="outline"
+                                 data-text="sign_in_with"
+                                 data-shape="rectangular"
+                                 data-logo_alignment="left">
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="modal-footer">
-                        <a href="/account/registration"><button type="button" class="btn btn-secondary">Registration</button></a>
-                        <input type="submit" value="Log in" class="btn btn-primary" id="loginBtn"/>
-                    </div>
-                }
-            </div>
+                <div class="modal-footer">
+                    <a href="/account/registration"><button type="button" class="btn btn-secondary">
+                        @Localizer["Registration"]
+                    </button></a>
+                    <input type="submit" value="@Localizer["Log_In"]" class="btn btn-primary" id="loginBtn" />
+                </div>
+            }
         </div>
     </div>
+</div>
     
 
 <script>

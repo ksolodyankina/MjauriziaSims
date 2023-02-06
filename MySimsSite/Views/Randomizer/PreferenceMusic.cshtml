@@ -1,9 +1,12 @@
 ﻿@using Domain.Entities
 @using WebUI.Models;
-@model List<Preference>
+@model RandomizerViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = "Randomize music";
+    ViewBag.Title = @Localizer["musicHeader"];
     ViewBag.TabId = "nav-preferences";
 }
 
@@ -15,7 +18,7 @@
                  width="120px" height="120px" style="margin-top:42px; margin-bottom:30px"
                  class="rounded border border-dark hidden"
                  title="" /></br>
-            <a href="#" class="btn btn-light randomize-button" onclick="showRandomizedValue()">Randomize</a>
+            <a href="#" class="btn btn-light randomize-button" onclick="showRandomizedValue()">@Localizer["Randomize"]</a>
         </div>
     </div>
 
@@ -30,17 +33,17 @@
             <p class="m-0 choice-option-switch__text--disabled hidden">Enable all</p>
         </div>
 
-        @foreach (var preference in Model)
+        @foreach (var preference in Model.Preferences)
         {
             <div class="col-sm-1 center-block text-center">
                 <a href="#" class="text-reset text-decoration-none choice-option choice-option--enabled">
                     <i class="bi-x-square-fill hidden" style="font-size:3.8rem; color:darkgray"></i>
-                    <img src="/Images/Preferences/@(preference.Title).png"
+                    <img src="/Images/Preferences/@(preference.Code).png"
                      width="60px" height="60px" style="margin-top:22px; margin-bottom:9px"
                         class="rounded border border-dark"
-                     title="@preference.Title" />
+                     title="@Model.MsgManager.Msg(preference.Title)" />
                 </a>
-                <p class="m-0">@preference.Title</p>
+                <p class="m-0">@Model.MsgManager.Msg(preference.Title)</p>
             </div>
         }
     </div>

@@ -9,41 +9,68 @@ using Azure.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using MjauriziaSims.MessageManager;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-services.AddAuthentication().AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-});
-
 var connectionString = configuration["ConnectionString:DefaultConnection"];
 
 builder.Services.AddSingleton<EFDbContext>(s => new EFDbContext(connectionString));
-
 builder.Services.AddTransient<IUserRepository, EFUserRepository>();
+builder.Services.AddTransient<IMsgRepository, EFMsgRepository>();
 builder.Services.AddTransient<IFamilyRepository, EFFamilyRepository>();
 builder.Services.AddSingleton<ICharacterRepository, EFCharacterRepository>();
 builder.Services.AddSingleton<IGoalRepository, EFGoalRepository>();
 builder.Services.AddSingleton<IPreferenceRepository, EFPreferenceRepository>();
 builder.Services.AddSingleton<ICareerRepository, EFCareerRepository>();
 builder.Services.AddSingleton<IInheritanceLawRepository, EFInheritanceLawRepository>();
+services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<Domain.Migrator.Migrator>();
+builder.Services.AddSingleton<MessageManager>();
+builder.Services.AddSingleton<IHtmlLocalizerFactory, HtmlLocalizerFactory>();
+builder.Services.AddSingleton<IViewLocalizer, ViewLocalizer>();
 
+services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("en"),
+        new CultureInfo("ru"),
+    };
+    options.DefaultRequestCulture = new RequestCulture("ru");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/";
         options.AccessDeniedPath = "/";
+    })
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
     });
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+services.AddMvc()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
+
 
 var app = builder.Build();
 
@@ -57,8 +84,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+
+var supportedCultures = new[] { "en", "ru" };
+var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[1])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOptions);
 
 app.UseAuthentication();
 app.UseAuthorization();

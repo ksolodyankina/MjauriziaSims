@@ -15,7 +15,7 @@ namespace MjauriziaSims.Controllers
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
-        private readonly IInheritanceLawRepository _lawRepository;
+        private readonly MessageManager.MessageManager _messageManager;
 
         private enum CreationType
         {
@@ -38,14 +38,14 @@ namespace MjauriziaSims.Controllers
             IGoalRepository goalRepository, 
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
-            IInheritanceLawRepository lawRepository)
+            MessageManager.MessageManager messageManager)
         {
             _familyRepository = familyRepository;
             _characterRepository = characterRepository;
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
-            _lawRepository = lawRepository;
+            _messageManager = messageManager;
         }
 
         public ActionResult MakeOlder(int id = 1)
@@ -70,7 +70,6 @@ namespace MjauriziaSims.Controllers
                     character.Music = RandomizePreferences(PreferenceCategory.Music);
                     character.Hobby = RandomizePreferences(PreferenceCategory.Hobby);
                     character.Clothes = RandomizePreferences(PreferenceCategory.Clothes);
-                    character.Sexuality = RandomizeSexuality();
                 }
                 else if (character.Age == Ages.Young)
                 {
@@ -135,7 +134,8 @@ namespace MjauriziaSims.Controllers
                 character,
                 _goalRepository.Goals,
                 _preferenceRepository.Preferences,
-                _careerRepository.Careers
+                _careerRepository.Careers,
+                _messageManager
             );
 
             return View(characterVewModel);
@@ -240,40 +240,14 @@ namespace MjauriziaSims.Controllers
         private Chronotypes RandomizeChronotype()
         {
             var random = new Random();
-            var chronotype = random.Next(1, 100);
+            var chronotype = random.Next(1, 2);
             if (chronotype == 1)
             {
-                return Chronotypes.Hiperproductive;
-            }
-            else if (chronotype <= 50)
-            {
-                return Chronotypes.Morning_Person;
-            }
-            else if (chronotype < 100)
-            {
-                return Chronotypes.Nigth_Person;
+                return Chronotypes.MorningPerson;
             }
             else
             {
-                return Chronotypes.Sleepyhead;
-            }
-        }
-
-        private Sexualities RandomizeSexuality()
-        {
-            var random = new Random();
-            var sexuality = random.Next(1, 5);
-            if (sexuality == 1)
-            {
-                return Sexualities.Heterosexual;
-            }
-            else if (sexuality < 5)
-            {
-                return Sexualities.Bisexual;
-            }
-            else
-            {
-                return Sexualities.Homosexual;
+                return Chronotypes.NightPerson;
             }
         }
 

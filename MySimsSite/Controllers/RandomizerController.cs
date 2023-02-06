@@ -11,53 +11,96 @@ namespace MjauriziaSims.Controllers
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
+        private readonly MessageManager.MessageManager _msgManager;
 
         public RandomizerController(
             IGoalRepository goalRepository,
             IPreferenceRepository preferenceRepository,
-            ICareerRepository careerRepository)
+            ICareerRepository careerRepository,
+            MessageManager.MessageManager msgManager)
         {
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
+            _msgManager = msgManager;
         }
 
         public ViewResult Goal()
         {
-            return View(_goalRepository.Goals.Where(g => !g.IsChild).OrderBy(g => g.Title).ToList());
+            var model = new RandomizerViewModel()
+            {
+                Goals = _goalRepository.Goals.Where(g => !g.IsChild).OrderBy(g => g.Title).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
         public ViewResult ChildGoal()
         {
-            return View(_goalRepository.Goals.Where(g => g.IsChild).ToList());
+            var model = new RandomizerViewModel()
+            {
+                Goals = _goalRepository.Goals.Where(g => g.IsChild).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
         public ViewResult Career()
         {
-            return View(_careerRepository.Careers.ToList());
+            var model = new RandomizerViewModel()
+            {
+                Careers = _careerRepository.Careers.ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
         public ViewResult PreferenceColor()
         {
-            return View(_preferenceRepository.Preferences
-                .Where(p => p.Category == (Preference.Categories)0).ToList());
+            var model = new RandomizerViewModel()
+            {
+                Preferences = _preferenceRepository.Preferences
+                    .Where(p => p.Category == (Preference.Categories)0).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
         public ViewResult PreferenceMusic()
         {
-            return View(_preferenceRepository.Preferences
-                .Where(p => p.Category == (Preference.Categories)1).ToList());
+            var model = new RandomizerViewModel()
+            {
+                Preferences = _preferenceRepository.Preferences
+                    .Where(p => p.Category == (Preference.Categories)1).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
         public ViewResult PreferenceHobby()
         {
-            return View(_preferenceRepository.Preferences
-                .Where(p => p.Category == (Preference.Categories)2).ToList());
+            var model = new RandomizerViewModel()
+            {
+                Preferences = _preferenceRepository.Preferences
+                    .Where(p => p.Category == (Preference.Categories)2).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
         public ViewResult PreferenceDesign()
         {
-            return View(_preferenceRepository.Preferences
-                .Where(p => p.Category == (Preference.Categories)3).ToList());
+            var model = new RandomizerViewModel()
+            {
+                Preferences = _preferenceRepository.Preferences
+                    .Where(p => p.Category == (Preference.Categories)3).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
         public ViewResult PreferenceClothes()
         {
-            return View(_preferenceRepository.Preferences
-                .Where(p => p.Category == (Preference.Categories)4).ToList());
+            var model = new RandomizerViewModel()
+            {
+                Preferences = _preferenceRepository.Preferences
+                    .Where(p => p.Category == (Preference.Categories)4).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace Domain.Concrete
                 Career dbEntry = context.Careers.Find(career.CareerId);
                 if (dbEntry != null)
                 {
+                    dbEntry.Code = career.Code;
                     dbEntry.Title = career.Title;
                 }
             }

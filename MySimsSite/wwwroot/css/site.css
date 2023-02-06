@@ -45,3 +45,7 @@ body {
 .navbar-nav .nav-link.active  {
     color: white;
 }
+
+.loginBtn {
+    margin-left: 10px;
+}

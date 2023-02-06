@@ -1,5 +1,9 @@
-﻿@{
-    ViewBag.Title = "Password recovery";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewBag.Title = Localizer["RecoveryHeader"];
 }
 
 <div class="m-3">
@@ -7,20 +11,20 @@
 
     @using (Html.BeginForm("Recovery", "Account", new { }, (FormMethod)1, false, new { id = "recoveryForm" }))
     {
-        <div id="successMsg" class="form-text hidden text-success">Recovery message was sent. Please check your email.</div>
+        <div id="successMsg" class="form-text hidden text-success">@Localizer["successMsg"]</div>
         <div id="errMsg" class="form-text hidden text-danger"></div>
         <div class="row">
             <div class="col-sm-6">
-                <div class="p-1">Email :</div>
+                <div class="p-1">@Localizer["Email"] :</div>
                 @Html.TextBox("Email", null, new { @class = "form-control", @id="email" })
-                <div id="emailHelp" class="form-text hidden text-danger">Please, input correct password</div>
+                <div id="emailHelp" class="form-text hidden text-danger">@Localizer["emailHelp"]</div>
             </div>
             <div class="col-sm-6">
             </div>
 
             <div class="row mt-3">
                 <div class="col col-auto">
-                    <input type="submit" value="Send verification code" class="btn btn-light" id="recoverySendBtn" />
+                    <input type="submit" value="@Localizer["submit"]" class="btn btn-light" id="recoverySendBtn" />
                 </div>
             </div>
         </div>

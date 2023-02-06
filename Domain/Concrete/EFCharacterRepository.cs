@@ -42,7 +42,6 @@ namespace Domain.Concrete
                     dbEntry.Music = character.Music;
                     dbEntry.Hobby = character.Hobby;
                     dbEntry.Decor = character.Decor;
-                    dbEntry.Sexuality = character.Sexuality;
                     dbEntry.Chronotype = character.Chronotype;
                     dbEntry.Gender = character.Gender;
                     dbEntry.Career = character.Career;

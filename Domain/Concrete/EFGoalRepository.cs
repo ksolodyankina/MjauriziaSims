@@ -34,6 +34,7 @@ namespace Domain.Concrete
                 Goal dbEntry = context.Goals.Find(goal.GoalId);
                 if (dbEntry != null)
                 {
+                    dbEntry.Code = goal.Code;
                     dbEntry.Title = goal.Title;
                     dbEntry.IsChild = goal.IsChild;
                 }

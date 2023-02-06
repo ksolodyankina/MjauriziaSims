@@ -5,19 +5,19 @@ namespace MjauriziaSims.Models
 {
     public class RegisterModel
     {
-        [Required(ErrorMessage = "Please, fill the login field")]
+        [Required(ErrorMessage = "err_loginRequired")]
         public string Login { get; set; }
         
-        [Required(ErrorMessage = "Please, fill the email field")]
+        [Required(ErrorMessage = "err_emailRequired")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please, fill the password field")]
+        [Required(ErrorMessage = "err_passRequired")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [Compare("Password", ErrorMessage = "err_passConfirmation")]
         public string ConfirmPassword { get; set; }
         public Roles Role { get; set; }
     }

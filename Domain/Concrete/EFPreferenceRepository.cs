@@ -29,6 +29,7 @@ namespace Domain.Concrete
                 var dbEntry = context.Preferences.Find(preference.PreferenceId);
                 if (dbEntry != null)
                 {
+                    dbEntry.Code = preference.Code;
                     dbEntry.Title = preference.Title;
                     dbEntry.Category = preference.Category;
                 }

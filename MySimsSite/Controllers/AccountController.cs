@@ -21,9 +21,11 @@ namespace MjauriziaSims.Controllers
     public class AccountController : Controller
     {
         private IUserRepository _userRepository;
-        public AccountController(IUserRepository userRepository)
+        private MessageManager.MessageManager _msgManager;
+        public AccountController(IUserRepository userRepository, MessageManager.MessageManager msgManager)
         {
             _userRepository = userRepository;
+            _msgManager = msgManager;
         }
 
         [HttpPost]
@@ -42,13 +44,13 @@ namespace MjauriziaSims.Controllers
                     else
                     {
                         result.IsSuccess = false;
-                        result.ErrorMsg = "You should confirm your email first";
+                        result.ErrorMsg = _msgManager.Msg("err_emailNotConfirmed");
                     }
                 }
                 else
                 {
                     result.IsSuccess = false;
-                    result.ErrorMsg = "Incorrect login or password";
+                    result.ErrorMsg = _msgManager.Msg("err_incorrectPass");
                 }
             }
             return result;
@@ -84,15 +86,14 @@ namespace MjauriziaSims.Controllers
                         Role=model.Role
                     });
 
-                    var emailText =
-                        "To confirm your email follow the link:\n " +
-                        $"https://localhost:7029/Account/Confirmation?ConfirmationToken={token}";
-                    SendEmail(new EmailInformation(model.Email, "Registration at MjauriziaSims", emailText));
+                    var emailText = _msgManager.Msg("registrationText").
+                            Replace("<url>", $"https://localhost:7029/Account/Confirmation?ConfirmationToken={token}");
+                    SendEmail(new EmailInformation(model.Email, _msgManager.Msg("registrationSubject"), emailText));
                 }
                 else
                 {
                     result.IsSuccess = false;
-                    result.ErrorMsg = "User with this login already exists";
+                    result.ErrorMsg = _msgManager.Msg("err_registration");
                 }
             }
             else
@@ -136,7 +137,7 @@ namespace MjauriziaSims.Controllers
                 if (user == null)
                 {
                     result.IsSuccess = false;
-                    result.ErrorMsg = "No user with such email was register";
+                    result.ErrorMsg = _msgManager.Msg("err_recovery");
                 }
                 else
                 {
@@ -145,10 +146,9 @@ namespace MjauriziaSims.Controllers
                     user.ConfirmationToken = token;
                     _userRepository.SaveUser(user);
 
-                    var emailText =
-                        "Follow link to set new password:\n " +
-                        $"https://localhost:7029/Account/ResetPassword?ConfirmationToken={token}";
-                    SendEmail(new EmailInformation(user.Email, "Reset password for MjauriziaSims", emailText));
+                    var emailText = _msgManager.Msg("recoveryText").
+                            Replace("<url>", $"https://localhost:7029/Account/ResetPassword?ConfirmationToken={token}");
+                    SendEmail(new EmailInformation(user.Email, _msgManager.Msg("recoverySubject"), emailText));
                 }
 
             }
@@ -188,7 +188,7 @@ namespace MjauriziaSims.Controllers
                 if (user == null)
                 {
                     result.IsSuccess = false;
-                    result.ErrorMsg = "Your link is wrong. Please, try to reset password again.";
+                    result.ErrorMsg = _msgManager.Msg("err_PassReset");
                 }
                 else
                 {
@@ -213,8 +213,6 @@ namespace MjauriziaSims.Controllers
                 new Claim("UserId", user.UserId.ToString()),
                 new Claim(ClaimTypes.Role, ((Roles)(user.Role)).ToString())
             };
-
-
             ClaimsIdentity id = new ClaimsIdentity
                 (claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             var authProperties = new AuthenticationProperties();

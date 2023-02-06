@@ -17,6 +17,9 @@
             <div class="form-group">
                 @Html.HiddenFor(m => m.GoalId)
 
+                <label>Code :</label>
+                @Html.TextBox("Code", Model.Title, new { @class = "form-control" })
+
                 <label>Title :</label>
                 @Html.TextBox("Title", Model.Title, new { @class = "form-control" })
 

@@ -263,6 +263,21 @@ $(document).ready(function () {
             var $emailHelp = $("#emailHelp");
             $emailHelp.addClass("hidden");
         });
+
+    $(".localeSwitcher").on("click",
+        function() {
+            event.preventDefault();
+            var url = "";
+            if (this.id == "localeSwitcherEn") {
+                url = "/Locale/SetLocale?culture=en";
+            } else {
+                url = "/Locale/SetLocale?culture=ru";
+            }
+            $.get(url)
+                .done(function () {
+                    location.reload();
+                });
+        });
 });
 
 function setRemovedCharactersVisibility() {

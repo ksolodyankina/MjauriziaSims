@@ -1,9 +1,12 @@
 ﻿@using WebUI.Models
 @using Domain.Entities
 @model FamilyViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = Model.Family.Family.Surname + " Family";
+    ViewBag.Title = @Localizer["FamilyHeader"].ToString().Replace("<family>", Model.Family.Family.Surname);
     ViewBag.TabId = "nav-families";
 }
 
@@ -11,10 +14,11 @@
 <div class="row m-3">
     <div class="col-sm-10 mb-4">
         <h1>
-            @Model.Family.Family.Surname Family
+            @Localizer["FamilyHeader"]
             @if (Model.CanEdit && Model.Characters.Any(c => c.Family == Model.Family.Family.FamilyId && c.InLow))
             {
-                <a href="/Character/GiveBirth/@Model.Family.Family.FamilyId" title="New baby" class="text-decoration-none text-reset">
+                <a href="/Character/GiveBirth/@Model.Family.Family.FamilyId" 
+                   title="@Localizer["Create"]" class="text-decoration-none text-reset">
                     <i class="bi-plus-circle-fill" style="font-size:1.7rem;"></i>
                 </a>
             }
@@ -23,7 +27,7 @@
     </div>
     <div class="col-sm-2 p-1 mb-3">
         <p class="text-end">
-            <a href="#" onclick="setRemovedCharactersVisibility()" title="Show/Hide Removed Characters" class="text-decoration-none me-4">
+            <a href="#" onclick="setRemovedCharactersVisibility()" title="@Localizer["ToggleText"]" class="text-decoration-none me-4">
                 <i id="RemovedCharactersToggle" class="bi-toggle-off" style="font-size: 1.5rem; color: black;"></i>
             </a>
         </p>
@@ -40,7 +44,9 @@
             if (i == character.Generation)
             {
                 <div class="col-sm-3 p-2 @(character.InFamily ? "in-family" : "removed-character hidden" ) ">
-                    <div class="p-3 bg-white border rounded border-@Model.getCardColor(character) text-@(character.InFamily ? "dark" : "secondary")">
+                    <div class="p-3 bg-white border rounded 
+                                border-@Model.getCardColor(character) 
+                                text-@(character.InFamily ? "dark" : "secondary")">
                         <div class="row">
                             <div class="col-sm-6">
                                 <h5 class="text-@Model.getCardColor(character)">
@@ -52,13 +58,13 @@
                                 <div class="col-sm-2">
                                     @if (Model.CanGetMarried(character))
                                     {
-                                        <a href="/Character/GetMarried/@character.Family" class="text-reset" title="Get married">
+                                        <a href="/Character/GetMarried/@character.Family" class="text-reset" title="@Localizer["GetMarried"]">
                                             <i class="bi-balloon-heart" style="font-size: 1rem; color: black;"></i>
                                         </a>
                                     }
                                     @if (Model.CanBecomeHeir(character))
                                     {
-                                        <a href="/Character/MakeHeir/@character.CharacterId" class="text-reset" title="Make heir">
+                                        <a href="/Character/MakeHeir/@character.CharacterId" class="text-reset" title="@Localizer["MakeHeir"]">
                                             <i class="bi-check2" style="font-size: 1rem; color: black;"></i>
                                         </a>
                                     }
@@ -67,31 +73,30 @@
                                 <div class="col-sm-2">
                                     @if (character.Age < Ages.Old)
                                     {
-                                            <a href="/Character/MakeOlder/@character.CharacterId" class="text-reset" title="Grown up">
-                                                <i class="bi-arrow-up" style="font-size: 1rem; color: black;"></i>
-                                            </a>
-                                        }
+                                        <a href="/Character/MakeOlder/@character.CharacterId" class="text-reset" title="@Localizer["GrownUp"]">
+                                            <i class="bi-arrow-up" style="font-size: 1rem; color: black;"></i>
+                                        </a>
+                                    }
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <a href="/Character/KickOut/@character.CharacterId" class="text-reset" title="Out of family">
+                                    <a href="/Character/KickOut/@character.CharacterId" class="text-reset" title="@Localizer["Out"]">
                                         <i class="bi-x-lg" style="font-size: 1rem; color: black;"></i>
                                     </a>
                                 </div>
                             }
                         </div>
-
-
-                        <p>Gen @character.Generation</p>
+                        
+                        <p>@Localizer["Generation"] @character.Generation</p>
 
                         <div class="row">
                             <div class="col-sm-4">
-                                <h6>@character.Age.ToString()</h6>
+                                <h6>@Model.MsgManager.Msg("age_" + character.Age.ToString())</h6>
                             </div>
                             <div class="col-sm-8">
                                 @if (@character.Glasses)
                                 {
-                                    <h6 class="m-0">Wear glasses</h6>
+                                    <h6 class="m-0">@Localizer["glasses"]</h6>
                                 }
                             </div>
                         </div>
@@ -102,10 +107,10 @@
                                 {
                                     if (goal.GoalId == character.Goal)
                                     {
-                                        <img    src="/Images/Goals/@(goal.Title).png" 
+                                        <img    src="/Images/Goals/@(goal.Code).png" 
                                                 width="50px" height="50px" class="rounded" 
-                                                title="@goal.Title" />
-                                        <p class="m-0">@goal.Title</p>
+                                                title="@Model.MsgManager.Msg(goal.Title)" />
+                                        <p class="m-0">@Model.MsgManager.Msg(goal.Title)</p>
                                     }
                                 }
 
@@ -115,20 +120,16 @@
                                     {
                                         if (career.CareerId == character.Career)
                                         {
-                                            <p class="m-0">@career.Title</p>
+                                            <p class="m-0">@Model.MsgManager.Msg(career.Title)</p>
                                         }
                                     }
                                 }
                             </div>
                         
                             <div class="col-sm-8">
-                                @if (character.Sexuality != null && character.Sexuality >= 0)
-                                {
-                                    <p class="m-0">@character.Sexuality.ToString()</p>
-                                }
                                 @if (character.Chronotype != null && character.Chronotype >= 0)
                                 {
-                                    <p class="m-0">@character.Chronotype.ToString()</p>
+                                    <p class="m-0">@Model.MsgManager.Msg("chronotype_" + character.Chronotype.ToString())</p>
                                 }
                             </div>
                         </div>
@@ -144,9 +145,9 @@
                                     || preference.PreferenceId == character.Clothes)
                                 {
                                     <div class="col-sm-2">
-                                        <img src="/Images/Preferences/@(preference.Title).png" 
-                                            width="40px" height="40px" class="rounded" 
-                                            title="@preference.Title" />
+                                        <img src="/Images/Preferences/@(preference.Code).png" 
+                                            width="40px" height="40px" class="rounded"
+                                            title="@Model.MsgManager.Msg(preference.Title)" />
                                     </div>
                                 }
                             }
