@@ -17,6 +17,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -70,7 +73,6 @@ services.AddLocalization(options => options.ResourcesPath = "Resources");
 services.AddMvc()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
-
 
 var app = builder.Build();
 

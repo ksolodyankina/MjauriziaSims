@@ -15,6 +15,9 @@ using System.Net.Mail;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Google;
+using Azure;
+using Azure.Core;
 
 namespace MjauriziaSims.Controllers
 {
@@ -22,7 +25,9 @@ namespace MjauriziaSims.Controllers
     {
         private IUserRepository _userRepository;
         private MessageManager.MessageManager _msgManager;
-        public AccountController(IUserRepository userRepository, MessageManager.MessageManager msgManager)
+        public AccountController(
+            IUserRepository userRepository, 
+            MessageManager.MessageManager msgManager)
         {
             _userRepository = userRepository;
             _msgManager = msgManager;

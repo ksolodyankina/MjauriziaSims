@@ -24,18 +24,32 @@
     {
         <div class="col-sm-3 p-2">
             <div class="p-3 border rounded bg-white">
-                <a class="text-reset text-decoration-none" href="/Family/@family.Family.FamilyId">
-                    <h3>@family.Family.Surname</h3>
-                </a>
-                <div class="col-sm-7">
-                    <a href="?user=@family.Family.UserId" class="text-reset text-decoration-none">@@@family.User</a>
-                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <a class="text-reset text-decoration-none" href="/Family/@family.Family.FamilyId">
+                            <h3>@family.Family.Surname</h3>
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+                        @if (Model.EditRules[family.Family.FamilyId])
+                        {
+                            <a href="/Family/Edit/@family.Family.FamilyId" class="text-reset"
+                               title="@Localizer["Edit"]">
+                                <i class="bi-pencil-square" style="font-size: 1rem; color: black;"></i>
+                            </a>
+                        }
+                    </div>
+                    <div class="col-sm-7">
+                        <a href="?user=@family.Family.UserId" class="text-reset text-decoration-none">@@@family.User</a>
+                    </div>
 
-                @foreach (var lawValue in new int[] 
-                            { family.Family.Inheritance1, 
-                                family.Family.Inheritance2, 
-                                family.Family.Inheritance3, 
-                                family.Family.Inheritance4 })
+                    @foreach (var lawValue in new int[]
+                    {
+                        family.Family.Inheritance1,
+                        family.Family.Inheritance2,
+                        family.Family.Inheritance3,
+                        family.Family.Inheritance4
+                    })
                     @foreach (var law in Model.InheritanceLaws)
                     {
                         if (lawValue == law.InheritanceId)
@@ -52,18 +66,19 @@
                             </div>
                         }
                     }
-                <div class="row justify-content-md-center mt-3">
-                    <div class="col col-auto">
-                        <a href="/Family/@family.Family.FamilyId" class="btn btn-light">
-                            @if (Model.EditRules[family.Family.FamilyId])
-                            {
-                                <span>@Localizer["Edit"]</span>
-                            }
-                            else
-                            {
-                                <span>@Localizer["View"]</span>
-                            }
-                        </a>
+                    <div class="row justify-content-md-center mt-3">
+                        <div class="col col-auto">
+                            <a href="/Family/@family.Family.FamilyId" class="btn btn-light">
+                                @if (Model.EditRules[family.Family.FamilyId])
+                                {
+                                    <span>@Localizer["Edit"]</span>
+                                }
+                                else
+                                {
+                                    <span>@Localizer["View"]</span>
+                                }
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

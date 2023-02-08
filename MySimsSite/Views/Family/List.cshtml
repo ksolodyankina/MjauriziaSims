@@ -6,7 +6,7 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = @Localizer["FamilyHeader"].ToString().Replace("<family>", Model.Family.Family.Surname);
+    ViewBag.Title = Model.Family.Family.Surname;
     ViewBag.TabId = "nav-families";
 }
 
@@ -14,7 +14,7 @@
 <div class="row m-3">
     <div class="col-sm-10 mb-4">
         <h1>
-            @Localizer["FamilyHeader"]
+            @ViewBag.Title
             @if (Model.CanEdit && Model.Characters.Any(c => c.Family == Model.Family.Family.FamilyId && c.InLow))
             {
                 <a href="/Character/GiveBirth/@Model.Family.Family.FamilyId" 
@@ -49,22 +49,32 @@
                                 text-@(character.InFamily ? "dark" : "secondary")">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h5 class="text-@Model.getCardColor(character)">
-                                    @character.Name
-                                </h5>
+                                @if (Model.CanEdit)
+                                {
+                                    <h5><a class="text-decoration-none text-@Model.getCardColor(character)"
+                                           href="/Character/Edit/@character.CharacterId">
+                                        @character.Name
+                                    </a></h5>
+                                }
+                                else
+                                {
+                                    <h5 class ="text-@Model.getCardColor(character)">@character.Name</h5>
+                                }
                             </div>
                             @if (character.InFamily && Model.CanEdit)
                             {
                                 <div class="col-sm-2">
                                     @if (Model.CanGetMarried(character))
                                     {
-                                        <a href="/Character/GetMarried/@character.Family" class="text-reset" title="@Localizer["GetMarried"]">
+                                        <a href="/Character/GetMarried/@character.Family" class="text-reset" 
+                                           title="@Localizer["GetMarried"]">
                                             <i class="bi-balloon-heart" style="font-size: 1rem; color: black;"></i>
                                         </a>
                                     }
                                     @if (Model.CanBecomeHeir(character))
                                     {
-                                        <a href="/Character/MakeHeir/@character.CharacterId" class="text-reset" title="@Localizer["MakeHeir"]">
+                                        <a href="/Character/MakeHeir/@character.CharacterId" class="text-reset" 
+                                           title="@Localizer["MakeHeir"]">
                                             <i class="bi-check2" style="font-size: 1rem; color: black;"></i>
                                         </a>
                                     }
@@ -93,16 +103,10 @@
                             <div class="col-sm-4">
                                 <h6>@Model.MsgManager.Msg("age_" + character.Age.ToString())</h6>
                             </div>
-                            <div class="col-sm-8">
-                                @if (@character.Glasses)
-                                {
-                                    <h6 class="m-0">@Localizer["glasses"]</h6>
-                                }
-                            </div>
                         </div>
                         
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 @foreach (var goal in Model.Goals)
                                 {
                                     if (goal.GoalId == character.Goal)
@@ -110,29 +114,43 @@
                                         <img    src="/Images/Goals/@(goal.Code).png" 
                                                 width="50px" height="50px" class="rounded" 
                                                 title="@Model.MsgManager.Msg(goal.Title)" />
-                                        <p class="m-0">@Model.MsgManager.Msg(goal.Title)</p>
+                                            <p>@Model.MsgManager.Msg(goal.Title)</p>
                                     }
                                 }
 
-                                @if (character.Gender == 0 || character.Generation > 5)
+                            </div>
+                        
+                            <div class="col-sm-6">
+                                
+                                @foreach (var career in Model.Careers)
                                 {
-                                    @foreach (var career in Model.Careers)
+                                    if (career.CareerId == character.Career)
                                     {
-                                        if (career.CareerId == character.Career)
-                                        {
-                                            <p class="m-0">@Model.MsgManager.Msg(career.Title)</p>
-                                        }
+                                        <img src="/Images/Careers/@(career.Code).png"
+                                             width="50px" height="50px" class="rounded"
+                                             title="@Model.MsgManager.Msg(career.Title)" />
+                                            <p>@Model.MsgManager.Msg(career.Title)</p>
                                     }
                                 }
                             </div>
-                        
-                            <div class="col-sm-8">
-                                @if (character.Chronotype != null && character.Chronotype >= 0)
-                                {
-                                    <p class="m-0">@Model.MsgManager.Msg("chronotype_" + character.Chronotype.ToString())</p>
-                                }
-                            </div>
+
                         </div>
+
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    @if (character.Chronotype != null && character.Chronotype >= 0)
+                                    {
+                                        <p class="m-0">@Model.MsgManager.Msg("chronotype_" + character.Chronotype.ToString())</p>
+                                    }
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    @if (@character.Glasses)
+                                    {
+                                        <p class="m-0">@Localizer["glasses"]</p>
+                                    }
+                                </div>
+                            </div>
 
                         <div class="row">
 

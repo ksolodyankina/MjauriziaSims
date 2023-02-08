@@ -117,31 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>Добавить ребенка</value>
+  <data name="Age" xml:space="preserve">
+    <value>Возраст</value>
   </data>
-  <data name="FamilyHeader" xml:space="preserve">
-    <value>Семья</value>
+  <data name="Career" xml:space="preserve">
+    <value>Карьера</value>
   </data>
-  <data name="Generation" xml:space="preserve">
-    <value>Поколение</value>
+  <data name="Chronotype" xml:space="preserve">
+    <value>Хронотип</value>
   </data>
-  <data name="GetMarried" xml:space="preserve">
-    <value>Добавить супруга</value>
+  <data name="Clothes" xml:space="preserve">
+    <value>Стиль одежды</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Цвет</value>
+  </data>
+  <data name="Design" xml:space="preserve">
+    <value>Декор</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Пол</value>
   </data>
   <data name="glasses" xml:space="preserve">
     <value>Носит очки</value>
   </data>
-  <data name="GrownUp" xml:space="preserve">
-    <value>Повзрослеть</value>
+  <data name="Goal" xml:space="preserve">
+    <value>Цель</value>
   </data>
-  <data name="MakeHeir" xml:space="preserve">
-    <value>Сделать наследником</value>
+  <data name="header" xml:space="preserve">
+    <value>Редактирование персонажа</value>
   </data>
-  <data name="Out" xml:space="preserve">
-    <value>Исключить из семьи</value>
+  <data name="Hobby" xml:space="preserve">
+    <value>Хобби</value>
   </data>
-  <data name="ToggleText" xml:space="preserve">
-    <value>Показать/скрыть удаленных персонажей</value>
+  <data name="IsAdopted" xml:space="preserve">
+    <value>Приемный ребенок</value>
+  </data>
+  <data name="IsAlien" xml:space="preserve">
+    <value>Инпланетянин</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Жанр музыки</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
 </root>

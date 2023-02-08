@@ -6,7 +6,7 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = Model.Character.IsHeir || Model.Character.InLow ? Localizer["newMember"].ToString() : Localizer["NewBaby"].ToString();
+    ViewBag.Title = Model.Character.IsHeir || Model.Character.InLow ? Localizer["newMember"] : Localizer["NewBaby"];
     ViewBag.TabId = "nav-families";
 }
 

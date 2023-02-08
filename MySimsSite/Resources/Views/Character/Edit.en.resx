@@ -117,31 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>Добавить ребенка</value>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
   </data>
-  <data name="FamilyHeader" xml:space="preserve">
-    <value>Семья</value>
+  <data name="Career" xml:space="preserve">
+    <value>Career</value>
   </data>
-  <data name="Generation" xml:space="preserve">
-    <value>Поколение</value>
+  <data name="Chronotype" xml:space="preserve">
+    <value>Chronotype</value>
   </data>
-  <data name="GetMarried" xml:space="preserve">
-    <value>Добавить супруга</value>
+  <data name="Clothes" xml:space="preserve">
+    <value>Clothes style</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Design" xml:space="preserve">
+    <value>Decor</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
   </data>
   <data name="glasses" xml:space="preserve">
-    <value>Носит очки</value>
+    <value>Has glasses</value>
   </data>
-  <data name="GrownUp" xml:space="preserve">
-    <value>Повзрослеть</value>
+  <data name="Goal" xml:space="preserve">
+    <value>Aspiration</value>
   </data>
-  <data name="MakeHeir" xml:space="preserve">
-    <value>Сделать наследником</value>
+  <data name="header" xml:space="preserve">
+    <value>Edit character</value>
   </data>
-  <data name="Out" xml:space="preserve">
-    <value>Исключить из семьи</value>
+  <data name="Hobby" xml:space="preserve">
+    <value>Activity</value>
   </data>
-  <data name="ToggleText" xml:space="preserve">
-    <value>Показать/скрыть удаленных персонажей</value>
+  <data name="IsAdopted" xml:space="preserve">
+    <value>Is adopted</value>
+  </data>
+  <data name="IsAlien" xml:space="preserve">
+    <value>Is alien</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Music genre</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
 </root>

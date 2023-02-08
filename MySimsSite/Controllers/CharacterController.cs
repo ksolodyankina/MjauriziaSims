@@ -106,39 +106,49 @@ namespace MjauriziaSims.Controllers
 
         public ViewResult Create(int familyId, int type)
         {
-            var character = new Character()
-            {
-                Family = familyId
-            };
+            var family = _familyRepository.Families.First(f => f.FamilyId == familyId);
+            var canEdit = User.FindFirst("UserId").Value == family.UserId.ToString();
 
-            switch (type)
+            if (canEdit)
             {
-                case (int)CreationType.NewHeir:
-                    character.Generation = 1;
-                    character.IsHeir = true;
-                    break;
-                case (int)CreationType.GiveBirth:
-                    character.Generation = _characterRepository.Characters
-                                    .OrderBy(c => -c.CharacterId)
-                                    .First(c => c.Family == familyId && c.InLow)
-                                    .Generation + 1;
-                    break;
-                case (int)CreationType.GetMarried:
-                    character.Generation = _familyRepository.Families.First(f => f.FamilyId == familyId).Generation;
-                    character.InLow = true;
-                    break;
+                var character = new Character()
+                {
+                    Family = familyId
+                };
+
+                switch (type)
+                {
+                    case (int)CreationType.NewHeir:
+                        character.Generation = 1;
+                        character.IsHeir = true;
+                        break;
+                    case (int)CreationType.GiveBirth:
+                        character.Generation = _characterRepository.Characters
+                            .OrderBy(c => -c.CharacterId)
+                            .First(c => c.Family == familyId && c.InLow)
+                            .Generation + 1;
+                        break;
+                    case (int)CreationType.GetMarried:
+                        character.Generation = _familyRepository.Families.First(f => f.FamilyId == familyId).Generation;
+                        character.InLow = true;
+                        break;
+                }
+
+                var characterVewModel = new CharacterViewModel(
+                    _familyRepository.Families.First(f => f.FamilyId == familyId),
+                    character,
+                    _goalRepository.Goals,
+                    _preferenceRepository.Preferences,
+                    _careerRepository.Careers,
+                    _messageManager
+                );
+
+                return View(characterVewModel);
             }
-
-            var characterVewModel = new CharacterViewModel(
-                _familyRepository.Families.First(f => f.FamilyId == familyId),
-                character,
-                _goalRepository.Goals,
-                _preferenceRepository.Preferences,
-                _careerRepository.Careers,
-                _messageManager
-            );
-
-            return View(characterVewModel);
+            else
+            {
+                throw new Exception("Access Denied");
+            }
         }
 
         [HttpPost]
@@ -158,6 +168,41 @@ namespace MjauriziaSims.Controllers
             }
             return Redirect($"/Family/{family.FamilyId}");
         }
+
+        [HttpGet]
+        public ViewResult Edit(int id)
+        {
+            var character = _characterRepository.Characters.First(c => c.CharacterId == id);
+
+            var family = _familyRepository.Families.First(f => f.FamilyId == character.Family);
+            var canEdit = User.FindFirst("UserId").Value == family.UserId.ToString();
+
+            if (canEdit)
+            {
+                var characterVewModel = new CharacterViewModel(
+                    _familyRepository.Families.First(f => f.FamilyId == character.Family),
+                    character,
+                    _goalRepository.Goals,
+                    _preferenceRepository.Preferences,
+                    _careerRepository.Careers,
+                    _messageManager
+                );
+
+                return View(characterVewModel);
+            }
+            else
+            {
+                throw new Exception("Access Denied");
+            }
+        }
+        [HttpPost]
+        public ActionResult Edit(Character character)
+        {
+            _characterRepository.SaveCharacter(character);
+
+            return Redirect($"/Family/{character.Family}");
+        }
+
 
         public Character GetNextHeir(int familyId)
         {

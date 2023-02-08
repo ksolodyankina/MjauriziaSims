@@ -129,5 +129,37 @@ namespace MjauriziaSims.Controllers
             
             return Redirect($"/Character/Create/{family.FamilyId}");
         }
+        
+        [Authorize]
+        public ViewResult Edit(int id)
+        {;
+            var family = _familyRepository.Families.First(f => f.FamilyId == id);
+
+            var userId = User.FindFirst("UserId").Value;
+            var canEdit = family.UserId.ToString() == userId;
+            if (canEdit)
+            {
+                var familyCreationModel = new FamilyCreationModel
+                {
+                    Family = family,
+                    InheritanceLaws = _inheritanceRepository.InheritanceLaws,
+                    MsgManager = _msgManager
+                };
+                return View(familyCreationModel);
+            }
+            else
+            {
+                throw new Exception("Access Denied");
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Edit(Family family)
+        {
+            _familyRepository.SaveFamily(family);
+
+            return Redirect($"/Family/{family.FamilyId}");
+        }
     }
 }

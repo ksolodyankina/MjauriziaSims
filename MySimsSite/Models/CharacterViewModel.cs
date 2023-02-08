@@ -14,14 +14,16 @@ namespace WebUI.Models
         public IEnumerable<Preference> Preferences { get; set; }
         public IEnumerable<Career> Careers { get; set; }
         public MessageManager MsgManager { get; set; }
+        public bool CanEdit { get; set; }
 
-        public CharacterViewModel
-                    (Family family, 
+        public CharacterViewModel(
+                    Family family, 
                     Character character, 
                     IEnumerable<Goal> goals, 
                     IEnumerable<Preference> preferences, 
                     IEnumerable<Career> careers,
-                    MessageManager msgManager)
+                    MessageManager msgManager
+                )
         {
             Family = family;
             Character = character;

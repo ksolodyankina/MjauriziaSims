@@ -117,31 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>Добавить ребенка</value>
+  <data name="Header" xml:space="preserve">
+    <value>Редактирование семьи</value>
   </data>
-  <data name="FamilyHeader" xml:space="preserve">
-    <value>Семья</value>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
-  <data name="Generation" xml:space="preserve">
-    <value>Поколение</value>
-  </data>
-  <data name="GetMarried" xml:space="preserve">
-    <value>Добавить супруга</value>
-  </data>
-  <data name="glasses" xml:space="preserve">
-    <value>Носит очки</value>
-  </data>
-  <data name="GrownUp" xml:space="preserve">
-    <value>Повзрослеть</value>
-  </data>
-  <data name="MakeHeir" xml:space="preserve">
-    <value>Сделать наследником</value>
-  </data>
-  <data name="Out" xml:space="preserve">
-    <value>Исключить из семьи</value>
-  </data>
-  <data name="ToggleText" xml:space="preserve">
-    <value>Показать/скрыть удаленных персонажей</value>
+  <data name="Surname" xml:space="preserve">
+    <value>Фамилия</value>
   </data>
 </root>
