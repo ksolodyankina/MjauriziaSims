@@ -77,6 +77,20 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="col-sm-6">
+                    <div class="p-1">@Localizer["Career"] :</div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <select asp-for="Character.Career" asp-items="Model.GetSelectCareer()" id="careerSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="setRandomSelection('careerSelect')" title="Randomize">
+                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-sm-6">
                     <div class="p-1">@Localizer["Color"] :</div>
@@ -147,34 +161,8 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-sm-6">
-                </div>
-
-                @if (Model.Family.Generation > 5 || Model.Character.Gender == 0)
-                {
-                    <div class="col-sm-6">
-                        <div class="p-1">@Localizer["Career"] :</div>
-                        <div class="row">
-                            <div class="col-sm-11">
-                                <select asp-for="Character.Career" 
-                                        asp-items="Model.GetSelectCareer()" 
-                                        id="careerSelect" class="form-select">
-                                </select>
-                            </div>
-                            <div class="col-sm-1">
-                                <a href="#" onclick="setRandomSelection('careerSelect')" title="Randomize">
-                                    <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                }
-
-                <div class="col-sm-6">
-                </div>
-
-                <div class="col-sm-6">
+                
+                <div class="col-sm-6 mt-2">
                     <div class="p-1">
                         @Localizer["glasses"] :
                         @Html.CheckBox("Character.Glasses")
@@ -183,6 +171,9 @@
             }
             else
             {
+                <div class="col-sm-6">
+                </div>
+
                 <div class="col-sm-6">
                     <div class="p-1">
                         @Localizer["IsAdopted"] :
