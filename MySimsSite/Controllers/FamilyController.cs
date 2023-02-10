@@ -48,9 +48,15 @@ namespace MjauriziaSims.Controllers
                     f => f.UserId, 
                     u => u.UserId,
                 (f, u) => new FamiliesWithUser(){ Family = f, User = u.Login });
+
+            var myFamilies = false; 
             if (user > 0)
             {
                 familiesWithUsersQuery = familiesWithUsersQuery.Where(f => f.Family.UserId == user);
+                if (user.ToString() == User.FindFirst("UserId").Value)
+                {
+                    myFamilies = true;
+                }
             }
             var familiesWithUsers = familiesWithUsersQuery.ToList();
 
@@ -73,7 +79,8 @@ namespace MjauriziaSims.Controllers
                 FamiliesWithUsers = familiesWithUsers,
                 InheritanceLaws = _inheritanceRepository.InheritanceLaws.ToList(),
                 EditRules = editRules,
-                MsgManager = _msgManager
+                MsgManager = _msgManager,
+                MyFamilies = myFamilies
             };
             return View(familiesViewModel);
         }

@@ -126,6 +126,12 @@
   <data name="FamiliesHeader" xml:space="preserve">
     <value>Семьи</value>
   </data>
+  <data name="Generation" xml:space="preserve">
+    <value>Поколение</value>
+  </data>
+  <data name="myFamilies" xml:space="preserve">
+    <value>Показывать только мои семьи</value>
+  </data>
   <data name="View" xml:space="preserve">
     <value>Открыть</value>
   </data>

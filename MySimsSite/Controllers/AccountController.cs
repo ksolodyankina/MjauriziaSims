@@ -13,11 +13,14 @@ using System.Security.Policy;
 using Microsoft.AspNetCore.Components.RenderTree;
 using System.Net.Mail;
 using System.Net;
+using System.Net.WebSockets;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Google;
 using Azure;
 using Azure.Core;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MjauriziaSims.Controllers
 {
@@ -39,7 +42,8 @@ namespace MjauriziaSims.Controllers
             var result = new Result() {IsSuccess = true};
             if (ModelState.IsValid)
             {
-                User user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login && u.Password == model.Password);
+                var pass = EncryptPassword(model.Password, model.Login);
+                var user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login && u.Password == pass);
                 if (user != null)
                 {
                     if (user.IsActive)
@@ -86,7 +90,7 @@ namespace MjauriziaSims.Controllers
                     {
                         Login = model.Login, 
                         Email = model.Email, 
-                        Password = model.Password, 
+                        Password = EncryptPassword(model.Password, model.Login), 
                         ConfirmationToken = token, 
                         Role=model.Role
                     });
@@ -244,6 +248,14 @@ namespace MjauriziaSims.Controllers
                 info.Email, 
                 info.Subject, 
                 info.Text);
+        }
+
+        private string EncryptPassword(string password, string login)
+        {
+
+            var md5 = MD5.Create();
+            var result =  md5.ComputeHash(Encoding.UTF8.GetBytes(password + login));
+            return Convert.ToBase64String(result);
         }
     }
 

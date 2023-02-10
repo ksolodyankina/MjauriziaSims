@@ -278,6 +278,11 @@ $(document).ready(function () {
                     location.reload();
                 });
         });
+
+    $("#myFamiliesCheckbox").on("click",
+        function() {
+            location.href = $(this).attr("link");
+        });
 });
 
 function setRemovedCharactersVisibility() {

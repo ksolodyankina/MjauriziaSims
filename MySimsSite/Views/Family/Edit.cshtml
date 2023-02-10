@@ -24,23 +24,6 @@
                 <div class="p-1">@Localizer["Surname"] :</div>
                 @Html.TextBox("Family.Surname", null, new { @class = "form-control" })
             </div>
-                
-            <div class="col-sm-6">
-                <div class="p-1">@Model.MsgManager.Msg("inheritanceCategory_Gender"):</div>
-                <select asp-for="Family.Inheritance1" asp-items="@Model.GetInheritanceSelectCategory(0)" class="form-select"></select>
-            </div>    
-            <div class="col-sm-6">
-                <div class="p-1">@Model.MsgManager.Msg("inheritanceCategory_Bloodline"):</div>
-                <select asp-for="Family.Inheritance2" asp-items="@Model.GetInheritanceSelectCategory(1)" class="form-select"></select>
-            </div>    
-            <div class="col-sm-6">
-                <div class="p-1">@Model.MsgManager.Msg("inheritanceCategory_Heir"):</div>
-                <select asp-for="Family.Inheritance3" asp-items="@Model.GetInheritanceSelectCategory(2)" class="form-select"></select>
-            </div>    
-            <div class="col-sm-6">
-                <div class="p-1">@Model.MsgManager.Msg("inheritanceCategory_Species"):</div>
-                <select asp-for="Family.Inheritance4" asp-items="@Model.GetInheritanceSelectCategory(3)" class="form-select"></select>
-            </div>
         </div>
 
         <div class="row justify-content-md-center mt-3">

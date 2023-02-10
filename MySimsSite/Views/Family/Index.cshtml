@@ -11,12 +11,20 @@
 }
 
 <div class="row justify-content-md-center mt-3">
-    <div class="col col-auto">
-        @if (User.Identity.IsAuthenticated)
-        {
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="col-sm-9">
+        </div>
+        <div class="col-sm-3 ps-5 mb-1">
+            @Localizer["myFamilies"] :
+            <input type="checkbox" checked="@Model.MyFamilies" id="myFamiliesCheckbox"
+               link="/family/index?user=@(Model.MyFamilies ? "/Family/Index" : User.FindFirst("UserId").Value)">
+        </div>
+
+        <div class="col col-auto">
             <a href="/Family/Create/" class="btn btn-light">@Localizer["Create"]</a>
-        }
-    </div>
+        </div>
+    }
 </div>
 
 <div class="row p-3">
@@ -42,30 +50,13 @@
                     <div class="col-sm-7">
                         <a href="?user=@family.Family.UserId" class="text-reset text-decoration-none">@@@family.User</a>
                     </div>
-
-                    @foreach (var lawValue in new int[]
-                    {
-                        family.Family.Inheritance1,
-                        family.Family.Inheritance2,
-                        family.Family.Inheritance3,
-                        family.Family.Inheritance4
-                    })
-                    @foreach (var law in Model.InheritanceLaws)
-                    {
-                        if (lawValue == law.InheritanceId)
-                        {
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <p class="m-0">
-                                        @Model.MsgManager.Msg("inheritanceCategory_" + law.Category.ToString()):
-                                    </p>
-                                </div>
-                                <div class="col-sm-7">
-                                    <p class="m-0">@Model.MsgManager.Msg(law.Title)</p>
-                                </div>
-                            </div>
-                        }
-                    }
+                    
+                    <div class="col-sm-12 mt-3">
+                        <a href="?user=@family.Family.UserId" class="text-reset text-decoration-none">
+                            @Localizer["Generation"]: @family.Family.Generation
+                        </a>
+                    </div>
+                    
                     <div class="row justify-content-md-center mt-3">
                         <div class="col col-auto">
                             <a href="/Family/@family.Family.FamilyId" class="btn btn-light">
