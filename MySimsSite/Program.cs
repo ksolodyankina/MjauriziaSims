@@ -64,6 +64,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     {
         googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
         googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+        googleOptions.CallbackPath = "/signin-google";
     });
 
 // Add services to the container.

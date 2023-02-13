@@ -65,6 +65,39 @@ namespace MjauriziaSims.Controllers
             return result;
         }
 
+        public async Task GoogleLogin()
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            });
+        }
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var email = User.FindFirst(ClaimTypes.Email).Value;
+            var user = _userRepository.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                var name = User.FindFirst(ClaimTypes.Name).Value;
+                user = new User
+                {
+                    Login = name,
+                    Email = email,
+                    Role = Roles.User,
+                    IsActive = true
+                };
+                _userRepository.SaveUser(user);
+            }
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await Authenticate(user);
+
+            return Redirect("/");
+        }
+
         [HttpGet]
         public ViewResult Registration()
         {
@@ -250,9 +283,8 @@ namespace MjauriziaSims.Controllers
                 info.Text);
         }
 
-        private string EncryptPassword(string password, string login)
+        public static string EncryptPassword(string password, string login)
         {
-
             var md5 = MD5.Create();
             var result =  md5.ComputeHash(Encoding.UTF8.GetBytes(password + login));
             return Convert.ToBase64String(result);

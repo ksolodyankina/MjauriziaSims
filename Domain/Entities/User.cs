@@ -16,9 +16,7 @@ namespace Domain.Entities
 
         [Required]
         public string Email { get; set; }
-
-        [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
         public bool IsActive { get; set; } = false;
         public Guid ConfirmationToken { get; set; }
         public Roles Role { get; set; } = Roles.User;
