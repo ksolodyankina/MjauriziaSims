@@ -126,9 +126,6 @@
   <data name="emailHelp" xml:space="preserve">
     <value>Пожалуйста, введите корректный email</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Логин</value>
-  </data>
   <data name="loginHelp" xml:space="preserve">
     <value>Пожалуйста, заполните поле логин</value>
   </data>
@@ -152,5 +149,8 @@
   </data>
   <data name="successMsg" xml:space="preserve">
     <value>Регистрация прошла успешно. На ваш email отправлено письмо для подтверждения аккаунта.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Имя пользователя</value>
   </data>
 </root>

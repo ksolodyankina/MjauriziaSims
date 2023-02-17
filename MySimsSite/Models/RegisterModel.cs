@@ -5,8 +5,8 @@ namespace MjauriziaSims.Models
 {
     public class RegisterModel
     {
-        [Required(ErrorMessage = "err_loginRequired")]
-        public string Login { get; set; }
+        [Required(ErrorMessage = "err_usernameRequired")]
+        public string Username { get; set; }
         
         [Required(ErrorMessage = "err_emailRequired")]
         [DataType(DataType.EmailAddress)]

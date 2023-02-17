@@ -42,8 +42,8 @@ namespace MjauriziaSims.Controllers
             var result = new Result() {IsSuccess = true};
             if (ModelState.IsValid)
             {
-                var pass = EncryptPassword(model.Password, model.Login);
-                var user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login && u.Password == pass);
+                var pass = EncryptPassword(model.Password, model.Email);
+                var user = _userRepository.Users.FirstOrDefault(u => u.Email == model.Email && u.Password == pass);
                 if (user != null)
                 {
                     if (user.IsActive)
@@ -84,7 +84,7 @@ namespace MjauriziaSims.Controllers
                 var name = User.FindFirst(ClaimTypes.Name).Value;
                 user = new User
                 {
-                    Login = name,
+                    Username = name,
                     Email = email,
                     Role = Roles.User,
                     IsActive = true
@@ -120,27 +120,22 @@ namespace MjauriziaSims.Controllers
             var result = new Result() { IsSuccess = true };
             if (ModelState.IsValid)
             {
-                User user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login || u.Email == model.Email);
+                User user = _userRepository.Users.FirstOrDefault(u => u.Email == model.Email);
                 if (user == null)
                 {
                     var token = Guid.NewGuid();
                     _userRepository.SaveUser(new User
                     {
-                        Login = model.Login, 
+                        Username = model.Username, 
                         Email = model.Email, 
-                        Password = EncryptPassword(model.Password, model.Login), 
+                        Password = EncryptPassword(model.Password, model.Email), 
                         ConfirmationToken = token, 
                         Role=model.Role
                     });
 
                     var emailText = _msgManager.Msg("registrationText").
-                            Replace("<url>", $"https://localhost:7029/Account/Confirmation?ConfirmationToken={token}");
+                            Replace("<url>", $"https://mjauriziasims.ru/Account/Confirmation?ConfirmationToken={token}");
                     SendEmail(new EmailInformation(model.Email, _msgManager.Msg("registrationSubject"), emailText));
-                }
-                else if (user.Login == model.Login)
-                {
-                    result.IsSuccess = false;
-                    result.ErrorMsg = _msgManager.Msg("err_registration");
                 }
                 else if (user.Password != "")
                 {
@@ -209,7 +204,7 @@ namespace MjauriziaSims.Controllers
                     _userRepository.SaveUser(user);
 
                     var emailText = _msgManager.Msg("recoveryText").
-                            Replace("<url>", $"https://localhost:7029/Account/ResetPassword?ConfirmationToken={token}");
+                            Replace("<url>", $"https://mjauriziasims.ru/Account/ResetPassword?ConfirmationToken={token}");
                     SendEmail(new EmailInformation(user.Email, _msgManager.Msg("recoverySubject"), emailText));
                 }
 
@@ -271,7 +266,7 @@ namespace MjauriziaSims.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username),
                 new Claim("UserId", user.UserId.ToString()),
                 new Claim(ClaimTypes.Role, ((Roles)(user.Role)).ToString())
             };
@@ -308,10 +303,10 @@ namespace MjauriziaSims.Controllers
                 info.Text);
         }
 
-        public static string EncryptPassword(string password, string login)
+        public static string EncryptPassword(string password, string email)
         {
             var md5 = MD5.Create();
-            var result =  md5.ComputeHash(Encoding.UTF8.GetBytes(password + login));
+            var result =  md5.ComputeHash(Encoding.UTF8.GetBytes(password + email));
             return Convert.ToBase64String(result);
         }
     }

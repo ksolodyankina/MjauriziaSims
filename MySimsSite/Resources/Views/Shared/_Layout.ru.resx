@@ -132,6 +132,9 @@
   <data name="Design" xml:space="preserve">
     <value>Декор</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="Families" xml:space="preserve">
     <value>Семьи</value>
   </data>
@@ -143,9 +146,6 @@
   </data>
   <data name="Hobby" xml:space="preserve">
     <value>Хобби</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Логин</value>
   </data>
   <data name="LoginHelp" xml:space="preserve">
     <value>Пожалуйста, заполните поле логин</value>

@@ -126,9 +126,6 @@
   <data name="emailHelp" xml:space="preserve">
     <value>Please, set correct email</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
   <data name="loginHelp" xml:space="preserve">
     <value>Please, fill login field</value>
   </data>
@@ -152,5 +149,8 @@
   </data>
   <data name="successMsg" xml:space="preserve">
     <value>Registration is completed successfully. Please, check your email to confirm your account.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>

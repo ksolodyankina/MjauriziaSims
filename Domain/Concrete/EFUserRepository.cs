@@ -34,7 +34,7 @@ namespace Domain.Concrete
                 User dbEntry = context.Users.Find(user.UserId);
                 if (dbEntry != null)
                 {
-                    dbEntry.Login = user.Login;
+                    dbEntry.Username = user.Username;
                     dbEntry.Email = user.Email;
                     dbEntry.Password = user.Password;
                     dbEntry.ConfirmationToken = user.ConfirmationToken;

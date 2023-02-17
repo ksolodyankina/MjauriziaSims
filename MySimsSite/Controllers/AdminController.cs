@@ -60,7 +60,7 @@ namespace MjauriziaSims.Controllers
         [HttpPost]
         public ActionResult User(User user)
         {
-            user.Password = AccountController.EncryptPassword(user.Password, user.Login);
+            user.Password = AccountController.EncryptPassword(user.Password, user.Email);
             _userRepository.SaveUser(user);
 
             return Redirect("/Admin/Users/");

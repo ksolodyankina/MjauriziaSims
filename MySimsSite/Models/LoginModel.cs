@@ -4,7 +4,7 @@ namespace MjauriziaSims.Models
 {
     public class LoginModel
     {
-        public string Login { get; set; }
+        public string Email { get; set; }
 
         [DataType(DataType.Password)]
         public string Password { get; set; }

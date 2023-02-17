@@ -47,7 +47,7 @@ namespace MjauriziaSims.Controllers
                 .Join(_userRepository.Users.ToList(), 
                     f => f.UserId, 
                     u => u.UserId,
-                (f, u) => new FamiliesWithUser(){ Family = f, User = u.Login });
+                (f, u) => new FamiliesWithUser(){ Family = f, User = u.Username });
 
             var myFamilies = false; 
             if (user > 0)
@@ -90,7 +90,7 @@ namespace MjauriziaSims.Controllers
             var familyWithUser = _familyRepository.Families.Join(_userRepository.Users.ToList(),
                 f => f.UserId,
                 u => u.UserId,
-                (f, u) => new FamiliesWithUser() { Family = f, User = u.Login }).
+                (f, u) => new FamiliesWithUser() { Family = f, User = u.Username }).
                 FirstOrDefault(f => f.Family.FamilyId == familyId);
 
             var canEdit = false;
