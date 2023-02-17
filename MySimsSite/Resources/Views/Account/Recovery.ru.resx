@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Email" xml:space="preserve">
-    <value>Имейл</value>
+    <value>Email</value>
   </data>
   <data name="emailHelp" xml:space="preserve">
-    <value>Пожалуйста, введите корректный имейл</value>
+    <value>Пожалуйста, введите корректный email</value>
   </data>
   <data name="RecoveryHeader" xml:space="preserve">
     <value>Восстановление пароля</value>
@@ -130,6 +130,6 @@
     <value>Отправить</value>
   </data>
   <data name="successMsg" xml:space="preserve">
-    <value>Письмо для восстановления пароля отправлено. Пожалуйста, проверьте свой имейл.</value>
+    <value>Письмо для восстановления пароля отправлено. Пожалуйста, проверьте свой email.</value>
   </data>
 </root>

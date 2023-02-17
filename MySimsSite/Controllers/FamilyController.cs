@@ -44,7 +44,7 @@ namespace MjauriziaSims.Controllers
         public ViewResult Index(int user = 0)
         {
             var familiesWithUsersQuery = _familyRepository.Families
-                .Join(_userRepository.Users, 
+                .Join(_userRepository.Users.ToList(), 
                     f => f.UserId, 
                     u => u.UserId,
                 (f, u) => new FamiliesWithUser(){ Family = f, User = u.Login });
@@ -87,7 +87,7 @@ namespace MjauriziaSims.Controllers
 
         public ViewResult List(int familyId)
         {
-            var familyWithUser = _familyRepository.Families.Join(_userRepository.Users,
+            var familyWithUser = _familyRepository.Families.Join(_userRepository.Users.ToList(),
                 f => f.UserId,
                 u => u.UserId,
                 (f, u) => new FamiliesWithUser() { Family = f, User = u.Login }).

@@ -124,6 +124,6 @@
     <value>Неверная ссылка. Пожалуйста, попробуйте пройти регистрацию еще раз.</value>
   </data>
   <data name="Success" xml:space="preserve">
-    <value>Имейл успешно подтвержден.</value>
+    <value>Email успешно подтвержден.</value>
   </data>
 </root>

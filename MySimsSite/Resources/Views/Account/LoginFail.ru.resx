@@ -117,40 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmPassword" xml:space="preserve">
-    <value>Подтвердите пароль</value>
+  <data name="errMsg" xml:space="preserve">
+    <value>Пользователь с таким email уже существует. Пожалуйста, войдите на сайт, используя свои логин и пароль, или воспользуйтесь кнопкой "Забыли пароль"</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="emailHelp" xml:space="preserve">
-    <value>Пожалуйста, введите корректный email</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Логин</value>
-  </data>
-  <data name="loginHelp" xml:space="preserve">
-    <value>Пожалуйста, заполните поле логин</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
-  </data>
-  <data name="passwordConformationHelp" xml:space="preserve">
-    <value>Пароли не совпадают</value>
-  </data>
-  <data name="passwordHelp" xml:space="preserve">
-    <value>Пожалуйста, заполните поле пароль</value>
-  </data>
-  <data name="Registration" xml:space="preserve">
-    <value>Регистрация</value>
-  </data>
-  <data name="RegistrationHeader" xml:space="preserve">
-    <value>Регистрация</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Сохранить</value>
-  </data>
-  <data name="successMsg" xml:space="preserve">
-    <value>Регистрация прошла успешно. На ваш email отправлено письмо для подтверждения аккаунта.</value>
+  <data name="header" xml:space="preserve">
+    <value>Ошибка аутентификации</value>
   </data>
 </root>

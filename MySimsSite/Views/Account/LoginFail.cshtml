@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@model MjauriziaSims.Models.ResetPassModel
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewBag.Title = Localizer["header"];
+}
+
+<div class="m-3">
+    <div id="errMsg" class="form-text text-danger">@Localizer["errMsg"]</div>
+</div>

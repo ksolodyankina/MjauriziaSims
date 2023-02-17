@@ -1,25 +1,11 @@
-using System.Security.Claims;
 using Domain.Abstract;
 using Domain.Concrete;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Azure.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using MjauriziaSims.MessageManager;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -160,6 +146,6 @@ app.MapControllerRoute(
 );
 
 var migrator = app.Services.GetRequiredService<Domain.Migrator.Migrator>();
-migrator.Migrate();
+//migrator.Migrate();
 
 app.Run();

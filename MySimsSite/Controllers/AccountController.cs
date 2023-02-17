@@ -75,7 +75,7 @@ namespace MjauriziaSims.Controllers
 
         public async Task<IActionResult> GoogleResponse()
         {
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             var email = User.FindFirst(ClaimTypes.Email).Value;
             var user = _userRepository.Users.FirstOrDefault(u => u.Email == email);
@@ -90,6 +90,11 @@ namespace MjauriziaSims.Controllers
                     IsActive = true
                 };
                 _userRepository.SaveUser(user);
+            }
+            else if (user.Password != "")
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return Redirect("/Account/LoginFail");
             }
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -115,7 +120,7 @@ namespace MjauriziaSims.Controllers
             var result = new Result() { IsSuccess = true };
             if (ModelState.IsValid)
             {
-                User user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login && u.Password == model.Password);
+                User user = _userRepository.Users.FirstOrDefault(u => u.Login == model.Login || u.Email == model.Email);
                 if (user == null)
                 {
                     var token = Guid.NewGuid();
@@ -132,10 +137,20 @@ namespace MjauriziaSims.Controllers
                             Replace("<url>", $"https://localhost:7029/Account/Confirmation?ConfirmationToken={token}");
                     SendEmail(new EmailInformation(model.Email, _msgManager.Msg("registrationSubject"), emailText));
                 }
-                else
+                else if (user.Login == model.Login)
                 {
                     result.IsSuccess = false;
                     result.ErrorMsg = _msgManager.Msg("err_registration");
+                }
+                else if (user.Password != "")
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMsg = _msgManager.Msg("err_registrationEmail");
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMsg = _msgManager.Msg("err_registrationGoogle");
                 }
             }
             else
@@ -180,6 +195,11 @@ namespace MjauriziaSims.Controllers
                 {
                     result.IsSuccess = false;
                     result.ErrorMsg = _msgManager.Msg("err_recovery");
+                }
+                else if (user.Password == "")
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMsg = _msgManager.Msg("err_recoveryGoogle");
                 }
                 else
                 {
@@ -267,17 +287,22 @@ namespace MjauriziaSims.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
+        public ViewResult LoginFail()
+        {
+            return View();
+        }
+
         private void SendEmail(EmailInformation info)
         {
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("ks.solodyankina@gmail.com", "xnzbtoydlqtocnov"),
+                Credentials = new NetworkCredential("mjaurizia@gmail.com", "yfybujjmrdudaibe"),
                 EnableSsl = true,
             };
 
             smtpClient.Send(
-                "ks.solodyankina@gmail.com", 
+                "mjaurizia@gmail.com", 
                 info.Email, 
                 info.Subject, 
                 info.Text);

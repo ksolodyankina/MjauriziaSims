@@ -20,7 +20,7 @@ namespace Domain.Concrete
 
         public EFDbContext()
         {
-            _connectionString = "Server=DESKTOP-1CRIPTI;Database=MjauriziaSims;User Id=sa;Password=sa;TrustServerCertificate=True";
+            _connectionString = "User ID=sims;Password=gogorengers;Host=5.53.125.205;Port=5433;Database=sims;";
         }
         public EFDbContext(string connectionString)
         {
@@ -29,7 +29,7 @@ namespace Domain.Concrete
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseNpgsql(_connectionString);
         }
     }
 }
