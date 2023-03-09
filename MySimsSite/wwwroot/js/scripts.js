@@ -112,6 +112,32 @@ function setActiveTab(tabId) {
     $activeTab.addClass("active");
 }
 
+function setGoalsSelectOptions() {
+    var $goalSelect = $("#goalSelect");
+    var goalInfo = JSON.parse($goalSelect.attr("data"));
+    for (var i = 0; i < goalInfo["child"].length; i++) {
+        $("#goalSelect option[value=" + goalInfo["child"][i] + "]").addClass("child-goal-option");
+    }
+    for (var i = 0; i < goalInfo["adult"].length; i++) {
+        $("#goalSelect option[value=" + goalInfo["adult"][i] + "]").addClass("adult-goal-option");
+    }
+}
+
+function setRemovedCharactersVisibility() {
+    event.preventDefault();
+    var $removedCharacters = $(".removed-character");
+    var $toggle = $("#RemovedCharactersToggle");
+    if ($toggle.hasClass("bi-toggle-off")) {
+        $removedCharacters.removeClass("hidden");
+        $toggle.removeClass("bi-toggle-off");
+        $toggle.addClass("bi-toggle-on");
+    } else {
+        $removedCharacters.addClass("hidden");
+        $toggle.removeClass("bi-toggle-on");
+        $toggle.addClass("bi-toggle-off");
+    }
+}
+
 $(document).ready(function () {
     $(".removed-character").addClass("hidden");
 
@@ -283,19 +309,45 @@ $(document).ready(function () {
         function() {
             location.href = $(this).attr("link");
         });
-});
 
-function setRemovedCharactersVisibility() {
-    event.preventDefault();
-    var $removedCharacters = $(".removed-character");
-    var $toggle = $("#RemovedCharactersToggle");
-    if ($toggle.hasClass("bi-toggle-off")) {
-        $removedCharacters.removeClass("hidden");
-        $toggle.removeClass("bi-toggle-off");
-        $toggle.addClass("bi-toggle-on");
-    } else {
-        $removedCharacters.addClass("hidden");
-        $toggle.removeClass("bi-toggle-on");
-        $toggle.addClass("bi-toggle-off");
-    }
-}
+    setGoalsSelectOptions();
+
+    var ages = ["baby", "toddler", "child", "teen", "young", "adult", "old"];
+
+    $("#ageSelect").on("change",
+        function () {
+            var age = this.value;
+            for (var i = 0; i <= ages.length; i++) {
+                if (i <= age) {
+                    $(".min-age-" + ages[i]).removeClass("hidden");
+                } else {
+                    $(".min-age-" + ages[i]).addClass("hidden");
+                }
+            };
+
+            if (ages[age] == "child") {
+                $(".child-goal-option").removeClass("hidden");
+                $(".adult-goal-option").addClass("hidden");
+            } else {
+                $(".child-goal-option").addClass("hidden");
+                $(".adult-goal-option").removeClass("hidden");
+            }
+        });
+
+    $("#ageSelect").trigger("change");
+
+    $("#parent1Select, #parent2Select, #partnerSelect").on("change",
+        function () {
+            var parent1 = $("#parent1Select")[0].value;
+            var parent2 = $("#parent2Select")[0].value;
+            var partner = $("#partnerSelect")[0].value;
+
+            if (parent1 > 0 || parent2 > 0 || partner > 0) {
+                $(".generation-select").addClass("hidden");
+            } else {
+                $(".generation-select").removeClass("hidden");
+            }
+        });
+
+    $("#parent1Select").trigger("change");
+});

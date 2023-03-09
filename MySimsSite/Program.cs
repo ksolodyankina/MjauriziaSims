@@ -100,12 +100,12 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "GetMarried",
-    "Character/GetMarried/{familyId}",
-    new { controller = "Character", action = "Create", familyId = @"\d+", type = 2 }
+    "Character/GetMarried/{partnerId}",
+    new { controller = "Character", action = "Create", partnerId = @"\d+", type = 2 }
 );
 
 app.MapControllerRoute(
-    "GIveBirth",
+    "GiveBirth",
     "Character/GiveBirth/{familyId}",
     new { controller = "Character", action = "Create", familyId = @"\d+", type = 1 }
 );

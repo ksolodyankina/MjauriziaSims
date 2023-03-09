@@ -26,8 +26,8 @@ namespace MjauriziaSims.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserRepository _userRepository;
-        private MessageManager.MessageManager _msgManager;
+        private readonly IUserRepository _userRepository;
+        private readonly MessageManager.MessageManager _msgManager;
         public AccountController(
             IUserRepository userRepository, 
             MessageManager.MessageManager msgManager)

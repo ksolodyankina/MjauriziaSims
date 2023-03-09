@@ -22,22 +22,12 @@ namespace WebUI.Models
 
         public bool CanGetMarried(Character character)
         {
-            return character.IsHeir
-                && !Characters.Any(c => c.Family == character.Family && c.Generation == character.Generation && c.InLow);
+            return character.Partner == 0 && character.Age >= Ages.Young;
         }
         
-        public bool CanBecomeHeir(Character character)
-        {
-            if (character.Age >= Ages.Young && !character.InLow)
-            {
-                return Characters.Any(c => c.IsHeir && c.Generation < character.Generation);
-            }
-            return false;
-        }
-
         public string getCardColor(Character character)
         {
-            return character.InFamily ? character.InLow ? "warning" : character.IsHeir ? "success" : "dark" : "secondary";
+            return character.InFamily ? "dark" : "secondary";
         }
     }
 }

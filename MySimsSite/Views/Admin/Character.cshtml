@@ -33,20 +33,24 @@
                     @Html.DropDownList("Character.Age", Model.GetAgeSelectItems(true))
                 </div>
                 <div>
+                    <label>Parent1 :</label>
+                    @Html.DropDownList("Character.Parent1", Model.GetParentSelectItems())
+                </div>
+                <div>
+                    <label>Parent2 :</label>
+                    @Html.DropDownList("Character.Parent2", Model.GetParentSelectItems())
+                </div>
+                <div>
+                    <label>Partner :</label>
+                    @Html.DropDownList("Character.Age", Model.GetPartnerSelectItems(Model.Character))
+                </div>
+                <div>
                     <label>Goal :</label>
-                    @Html.DropDownList("Character.Goal", Model.GetSelectCategory(true))
+                    @Html.DropDownList("Character.Goal", Model.GetSelectGoals())
                 </div>
                 <div>
                     <label>Has glasses :</label>
                     @Html.CheckBox("Character.Glasses")
-                </div>
-                <div>
-                    <label>Is heir :</label>
-                    @Html.CheckBox("Character.IsHeir")
-                </div>
-                <div>
-                    <label>In low :</label>
-                    @Html.CheckBox("Character.InLow")
                 </div>
                 <div>
                     <label>In family :</label>

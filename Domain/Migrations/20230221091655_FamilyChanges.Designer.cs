@@ -3,6 +3,7 @@ using System;
 using Domain.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Domain.Migrations
 {
     [DbContext(typeof(EFDbContext))]
-    partial class EFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230221091655_FamilyChanges")]
+    partial class FamilyChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +75,9 @@ namespace Domain.Migrations
                     b.Property<int>("Family")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Generation")
                         .HasColumnType("integer");
 
@@ -85,6 +91,18 @@ namespace Domain.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("InFamily")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("InLow")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsAdopted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsAlien")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsHeir")
                         .HasColumnType("boolean");
 
                     b.Property<int?>("Music")

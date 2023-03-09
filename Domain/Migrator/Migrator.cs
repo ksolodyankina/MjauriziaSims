@@ -658,6 +658,7 @@ namespace Domain.Migrator
             new Msg {Code = "err_recoveryGoogle", 
                     MsgRu = "Пожалуйста, авторизируйтесь через Google, чтобы войти в свой аккаунт.", 
                     MsgEn = "Please, use Google Authentication to enter your account."},
+            new Msg {Code = "notSet", MsgRu = "Не выбрано", MsgEn = "Not set"}
         };
 
         public Migrator(

@@ -6,11 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Domain.Entities
 {
-    public enum Genders
-    {
-        Male,
-        Female
-    }
     public enum Ages
     {
         Baby,
@@ -37,8 +32,6 @@ namespace Domain.Entities
         public bool Glasses { get; set; } = false;
         public int Goal { get; set; } = 0;
         public Ages Age { get; set; } = Ages.Baby;
-        public bool IsHeir { get; set; } = false;
-        public bool InLow { get; set; } = false;
         public bool InFamily { get; set; } = true;
         public int? Color { get; set; }
         public int? Music { get; set; }
@@ -46,9 +39,9 @@ namespace Domain.Entities
         public int? Decor { get; set; }
         public int? Clothes { get; set; }
         public Chronotypes? Chronotype { get; set; }
-        public Genders Gender { get; set; }
         public int? Career { get; set; }
-        public bool IsAdopted { get; set; } = false;
-        public bool IsAlien { get; set; } = false;
+        public int Parent1 { get; set; } = 0;
+        public int Parent2 { get; set; } = 0;
+        public int Partner { get; set; } = 0;
     }
 }

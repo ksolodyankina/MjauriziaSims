@@ -15,40 +15,51 @@ namespace WebUI.Models
         public IEnumerable<Career> Careers { get; set; }
         public MessageManager MsgManager { get; set; }
         public bool CanEdit { get; set; }
+        public IEnumerable<Character> Characters { get; set; }
 
-        public CharacterViewModel(
-                    Family family, 
-                    Character character, 
-                    IEnumerable<Goal> goals, 
-                    IEnumerable<Preference> preferences, 
-                    IEnumerable<Career> careers,
-                    MessageManager msgManager
-                )
-        {
-            Family = family;
-            Character = character;
-            Goals = goals;
-            Preferences = preferences;
-            Careers = careers;
-            MsgManager = msgManager;
-        }
-        
-        public List<SelectListItem> GetSelectCategory(bool includeChildGoals = false)
+        public List<SelectListItem> GetSelectGoals()
         {
             var items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Not set", Value = "0" });
+            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
 
-            foreach (var goal in Goals.Where(g => !g.IsChild || includeChildGoals ? true : false))
+            foreach (var goal in Goals)
             {
-                items.Add(new SelectListItem { Text = MsgManager.Msg(goal.Title), Value = goal.GoalId.ToString() });
+                items.Add(new SelectListItem {
+                    Text = MsgManager.Msg(goal.Title), 
+                    Value = goal.GoalId.ToString()
+                });
             }
             return items;
+        }
+
+        public string GetGoalsJSON()
+        {
+            var goals = new Dictionary<string, int[]> {
+                { "child", new int[Goals.Where(g => g.IsChild).Count()]},
+                { "adult", new int[Goals.Where(g => !g.IsChild).Count()]}
+            };
+            var i = 0;
+            var j = 0;
+            foreach (var goal in Goals)
+            {
+                if (goal.IsChild)
+                {
+                    goals["child"][i] = goal.GoalId;
+                    i++;
+                }
+                else
+                {
+                    goals["adult"][j] = goal.GoalId;
+                    j++;
+                }
+            }
+            return Newtonsoft.Json.JsonConvert.SerializeObject(goals);
         }
 
         public List<SelectListItem> GetSelectPreferences(int category)
         {
             var items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Not set", Value = "0" });
+            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
 
             foreach (var preference in Preferences.Where(p => p.Category == (Preference.Categories)category))
             {
@@ -60,7 +71,7 @@ namespace WebUI.Models
         public List<SelectListItem> GetSelectCareer()
         {
             var items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Not set", Value = "0" });
+            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
 
             foreach (var career in Careers)
             {
@@ -83,7 +94,7 @@ namespace WebUI.Models
         public List<SelectListItem> GetChronotypeSelectItems()
         {
             var items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Not set", Value = "-1" });
+            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "-1" });
 
             for (var i = 0; i <= 1; i++)
             {
@@ -93,13 +104,93 @@ namespace WebUI.Models
             return items;
         }
 
-        public List<SelectListItem> GetGenderSelectItems()
+        public List<SelectListItem> GetParentSelectItems()
+        {
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
+
+            foreach (var character in Characters)
+            {
+                items.Add(new SelectListItem { Text = character.Name, Value = character.CharacterId.ToString() });
+            }
+            return items;
+        }
+
+        public List<SelectListItem> GetPartnerSelectItems(Character character)
+        {
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
+
+            var relatives = new List<Character>();
+            relatives.Add(character);
+
+            var parents = Characters.Where(c => c.CharacterId == character.Parent1 || c.CharacterId == character.Parent2).ToList();
+            foreach (var parent in parents)
+            {
+                relatives.Add(parent);
+                var grandParents = Characters.Where(c => c.CharacterId == parent.Parent1 || c.CharacterId == parent.Parent2).ToList();
+                foreach (var grandParent in grandParents)
+                {
+                    relatives.Add(grandParent);
+                }
+            }
+
+            var rels = new List<Character>();
+            foreach (var relative in relatives)
+            {
+                var siblings = Characters.Where(c =>
+                            relative.CharacterId > 0
+                            && (c.Parent1 == relative.CharacterId || c.Parent2 == relative.CharacterId))
+                        .ToList();
+                foreach (var sibling in siblings)
+                {
+                    if (!relatives.Contains(sibling))
+                    {
+                        rels.Add(sibling);
+                    }
+                }
+            }
+            foreach (var rel in rels)
+            {
+                relatives.Add(rel);
+            }
+
+            rels = new List<Character>();
+            foreach (var relative in relatives)
+            {
+                var children = Characters.Where(c => 
+                        relative.CharacterId > 0 && 
+                        (c.Parent1 == relative.CharacterId || c.Parent2 == relative.CharacterId)).ToList();
+                foreach (var child in children)
+                {
+                    if (!relatives.Contains(child))
+                    {
+                        rels.Add(child);
+                    }
+                }
+            }
+            foreach (var rel in rels)
+            {
+                relatives.Add(rel);
+            }
+
+            var possiblePartners = Characters.Except(relatives);
+
+            foreach (var ch in possiblePartners)
+            {
+                items.Add(new SelectListItem { Text = ch.Name, Value = ch.CharacterId.ToString() });
+            }
+
+            return items;
+        }
+
+        public List<SelectListItem> GetGenerationSelectItems()
         {
             var items = new List<SelectListItem>();
 
-            for (var i = 0; i <= 1; i++)
+            for (var i = Family.Generation; i >= 1; i--)
             {
-                items.Add(new SelectListItem { Text = MsgManager.Msg("gender_" + ((Genders)(i)).ToString()), Value = $"{i}" });
+                items.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
             }
             return items;
         }

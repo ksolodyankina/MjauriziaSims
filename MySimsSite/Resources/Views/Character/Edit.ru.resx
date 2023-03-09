@@ -138,6 +138,9 @@
   <data name="Gender" xml:space="preserve">
     <value>Пол</value>
   </data>
+  <data name="Generation" xml:space="preserve">
+    <value>Поколение</value>
+  </data>
   <data name="glasses" xml:space="preserve">
     <value>Носит очки</value>
   </data>
@@ -161,6 +164,15 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="Parent1" xml:space="preserve">
+    <value>Родитель 1</value>
+  </data>
+  <data name="Parent2" xml:space="preserve">
+    <value>Родитель 2</value>
+  </data>
+  <data name="Partner" xml:space="preserve">
+    <value>Партнер</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>

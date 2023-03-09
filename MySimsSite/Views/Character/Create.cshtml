@@ -6,7 +6,7 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = Model.Character.IsHeir || Model.Character.InLow ? Localizer["newMember"] : Localizer["NewBaby"];
+    ViewBag.Title = Localizer["newMember"];
     ViewBag.TabId = "nav-families";
 }
 
@@ -19,172 +19,231 @@
     {
         <div class="row">
             @Html.HiddenFor(m => m.Character.Family)
-            @Html.HiddenFor(m => m.Character.Generation)
-            @Html.HiddenFor(m => m.Character.IsHeir)
-            @Html.HiddenFor(m => m.Character.InLow)
             
             <div class="col-sm-6">
                 <div class="p-1">@Localizer["Name"] :</div>
                 @Html.TextBox("Character.Name", null, new { @class = "form-control" })
             </div>
+
             <div class="col-sm-6">
-                <div class="p-1">@Localizer["Gender"] :</div>
+                <div class="p-1">@Localizer["Age"] :</div>
                 <div class="row">
                     <div class="col-sm-11">
-                        <select asp-for="Character.Gender" asp-items="Model.GetGenderSelectItems()" class="form-select"></select>
+                        <select asp-for="Character.Age" 
+                            asp-items="Model.GetAgeSelectItems(Model.Character.Partner == 0)" 
+                            class="form-select"
+                            id="ageSelect">
+                        </select>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+            
+            <div class="col-sm-6">
+                <div class="p-1">@Localizer["Parent1"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Parent1" 
+                            asp-items="Model.GetParentSelectItems()" 
+                            class="form-select" 
+                            id="parent1Select">
+                        </select>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+            
+            <div class="col-sm-6">
+                <div class="p-1">@Localizer["Parent2"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Parent2" 
+                            asp-items="Model.GetParentSelectItems()" 
+                            class="form-select"
+                            id="parent2Select">
+                        </select>
                     </div>
                     <div class="col-sm-1"></div>
                 </div>
             </div>
 
-            @if (Model.Character.IsHeir || Model.Character.InLow)
-            {
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Age"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Age" asp-items="Model.GetAgeSelectItems()" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1"></div>
+            <div class="col-sm-6 min-age-child">
+                <div class="p-1">@Localizer["Partner"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Partner" 
+                            asp-items="Model.GetPartnerSelectItems(Model.Character)" 
+                            class="form-select"
+                            id="partnerSelect">
+                        </select>
                     </div>
+                    <div class="col-sm-1"></div>
                 </div>
-                
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Chronotype"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Chronotype" asp-items="Model.GetChronotypeSelectItems()" 
-                                id="chronotypeSelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomChronotype()" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Goal"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Goal" asp-items="Model.GetSelectCategory()" id="goalSelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomSelection('goalSelect')" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
+            <div class="col-sm-6 generation-select">
+                <div class="p-1">@Localizer["Generation"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Generation" 
+                            asp-items="Model.GetGenerationSelectItems()" 
+                            class="form-select"
+                            id="generationSelect">
+                        </select>
                     </div>
+                    <div class="col-sm-1"></div>
                 </div>
-                
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Career"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Career" asp-items="Model.GetSelectCareer()" id="careerSelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomSelection('careerSelect')" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Color"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Color" asp-items="Model.GetSelectPreferences(0)" id="colorSelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomSelection('colorSelect')" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
+            <div class="col-sm-6 min-age-child">
+                <div class="p-1">@Localizer["Chronotype"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Chronotype" 
+                            asp-items="Model.GetChronotypeSelectItems()"
+                            class="form-select "
+                            id="chronotypeSelect" >
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomChronotype()" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Music"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Music" asp-items="Model.GetSelectPreferences(1)" id="musicSelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomSelection('musicSelect')" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
+            <div class="col-sm-6 min-age-child">
+                <div class="p-1">@Localizer["Goal"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Goal" 
+                            asp-items="Model.GetSelectGoals()"
+                            class="form-select"
+                            id="goalSelect"
+                            data="@Model.GetGoalsJSON()">
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomSelection('goalSelect')" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Hobby"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Hobby" asp-items="Model.GetSelectPreferences(2)" id="hobbySelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomSelection('hobbySelect')" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
+            <div class="col-sm-6 min-age-young">
+                <div class="p-1">@Localizer["Career"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Career" 
+                            asp-items="Model.GetSelectCareer()" 
+                            class="form-select" 
+                            id="careerSelect">
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomSelection('careerSelect')" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Design"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Decor" asp-items="Model.GetSelectPreferences(3)" id="decorSelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomSelection('decorSelect')" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
+            <div class="col-sm-6 min-age-child">
+                <div class="p-1">@Localizer["Color"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Color" 
+                            asp-items="Model.GetSelectPreferences(0)"
+                            class="form-select"
+                            id="colorSelect">
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomSelection('colorSelect')" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
                     </div>
                 </div>
-                
-                <div class="col-sm-6">
-                    <div class="p-1">@Localizer["Clothes"] :</div>
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <select asp-for="Character.Clothes" asp-items="Model.GetSelectPreferences(4)" id="clothesSelect" class="form-select"></select>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="#" onclick="setRandomSelection('clothesSelect')" title="Randomize">
-                                <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-sm-6 mt-2">
-                    <div class="p-1">
-                        @Localizer["glasses"] :
-                        @Html.CheckBox("Character.Glasses")
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="col-sm-6">
-                </div>
+            </div>
 
-                <div class="col-sm-6">
-                    <div class="p-1">
-                        @Localizer["IsAdopted"] :
-                        @Html.CheckBox("Character.IsAdopted")
+            <div class="col-sm-6 min-age-child">
+                <div class="p-1">@Localizer["Music"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Music" 
+                            asp-items="Model.GetSelectPreferences(1)" 
+                            class="form-select" 
+                            id="musicSelect">
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomSelection('musicSelect')" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
                     </div>
                 </div>
-            }
-            <div class="col-sm-6">
+            </div>
+
+            <div class="col-sm-6 min-age-child">
+                <div class="p-1">@Localizer["Hobby"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Hobby" 
+                            asp-items="Model.GetSelectPreferences(2)" 
+                            class="form-select" 
+                            id="hobbySelect">
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomSelection('hobbySelect')" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 min-age-teen">
+                <div class="p-1">@Localizer["Design"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Decor" 
+                            asp-items="Model.GetSelectPreferences(3)" 
+                            class="form-select" 
+                            id="decorSelect">
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomSelection('decorSelect')" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 min-age-teen">
+                <div class="p-1">@Localizer["Clothes"] :</div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select asp-for="Character.Clothes" 
+                            asp-items="Model.GetSelectPreferences(4)"
+                            class="form-select"
+                            id="clothesSelect" >
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="setRandomSelection('clothesSelect')" title="Randomize">
+                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 mt-2 min-age-toddler">
                 <div class="p-1">
-                    @Localizer["IsAlien"] :
-                    @Html.CheckBox("Character.IsAlien")
+                    @Localizer["glasses"] :
+                    @Html.CheckBox("Character.Glasses")
                 </div>
             </div>
         </div>

@@ -19,8 +19,8 @@ namespace MjauriziaSims.Controllers
 
         private enum CreationType
         {
-            NewHeir,
-            GiveBirth,
+            FirstCharacter,
+            NewCharacter,
             GetMarried
         }
         private enum PreferenceCategory
@@ -73,11 +73,6 @@ namespace MjauriziaSims.Controllers
                 }
                 else if (character.Age == Ages.Young)
                 {
-                    var nextHeir = GetNextHeir(character.Family);
-                    if (nextHeir != null && nextHeir.CharacterId == character.CharacterId)
-                    {
-                        SetNewHeir(character);
-                    }
                     character.Decor = RandomizePreferences(PreferenceCategory.Decor);
                     character.Career = RandomizeCareer(character);
                 }
@@ -94,54 +89,37 @@ namespace MjauriziaSims.Controllers
             return Redirect($"/Family/{character.Family}");
         }
         
-        public ActionResult MakeHeir(int id = 1)
+        public ViewResult Create(int type, int familyId = 0, int partnerId = 0)
         {
-            var character = _characterRepository.Characters.First(c => c.CharacterId == id);
-            if (GetNextHeir(character.Family) == null)
+            var family = _familyRepository.Families.FirstOrDefault(f => f.FamilyId == familyId);
+            if (partnerId != 0)
             {
-                SetNewHeir(character);
+                var partner = _characterRepository.Characters.FirstOrDefault(c => c.CharacterId == partnerId);
+                family = _familyRepository.Families.FirstOrDefault(f => f.FamilyId == partner.Family);
             }
-            return Redirect($"/Family/{character.Family}");
-        }
-
-        public ViewResult Create(int familyId, int type)
-        {
-            var family = _familyRepository.Families.First(f => f.FamilyId == familyId);
             var canEdit = User.FindFirst("UserId").Value == family.UserId.ToString();
 
             if (canEdit)
             {
                 var character = new Character()
                 {
-                    Family = familyId
+                    Family = family.FamilyId,
+                    Partner = partnerId
                 };
 
-                switch (type)
+                var characterVewModel = new CharacterViewModel()
                 {
-                    case (int)CreationType.NewHeir:
-                        character.Generation = 1;
-                        character.IsHeir = true;
-                        break;
-                    case (int)CreationType.GiveBirth:
-                        character.Generation = _characterRepository.Characters
-                            .OrderBy(c => -c.CharacterId)
-                            .First(c => c.Family == familyId && c.InLow)
-                            .Generation + 1;
-                        break;
-                    case (int)CreationType.GetMarried:
-                        character.Generation = _familyRepository.Families.First(f => f.FamilyId == familyId).Generation;
-                        character.InLow = true;
-                        break;
-                }
-
-                var characterVewModel = new CharacterViewModel(
-                    _familyRepository.Families.First(f => f.FamilyId == familyId),
-                    character,
-                    _goalRepository.Goals,
-                    _preferenceRepository.Preferences,
-                    _careerRepository.Careers,
-                    _messageManager
-                );
+                    Family = family,
+                    Character = character,
+                    Goals = _goalRepository.Goals.ToList(),
+                    Preferences = _preferenceRepository.Preferences.ToList(),
+                    Careers = _careerRepository.Careers.ToList(),
+                    MsgManager = _messageManager,
+                    Characters = _characterRepository.Characters
+                        .Where(c => c.Family == family.FamilyId && c.InFamily 
+                                && c.Age >= Ages.Young && c.CharacterId != character.CharacterId)
+                        .ToList()
+                };
 
                 return View(characterVewModel);
             }
@@ -154,17 +132,55 @@ namespace MjauriziaSims.Controllers
         [HttpPost]
         public ActionResult Create(Character character)
         {
+            var family = _familyRepository.Families.FirstOrDefault(f => f.FamilyId == character.Family);
+
+            if (character.Parent1 == 0 && character.Parent2 != 0)
+            {
+                character.Parent1 = character.Parent2;
+                character.Parent2 = 0;
+            }
+            if (character.Partner != 0)
+            {
+                var partner = _characterRepository.Characters.FirstOrDefault(c => c.CharacterId == character.Partner);
+                if (partner != null)
+                {
+                    character.Generation = partner.Generation;
+                }
+            }
+            else if (character.Parent1 != 0)
+            {
+                var parent = _characterRepository.Characters.FirstOrDefault(c => c.CharacterId == character.Parent1);
+                if (parent != null)
+                {
+                    character.Generation = parent.Generation + 1;
+                }
+                if (character.Parent2 != 0)
+                {
+                    var parent2 =
+                        _characterRepository.Characters.FirstOrDefault(c => c.CharacterId == character.Parent2);
+                    if (parent.Generation > parent2.Generation)
+                    {
+                        character.Generation = parent2.Generation + 1;
+                    }
+                }
+            }
             _characterRepository.SaveCharacter(character);
-            var family = _familyRepository.Families.First(c => c.FamilyId == character.Family);
+
+            if (character.Partner != 0)
+            {
+                var characterId = _characterRepository.Characters.First(c => c.Partner == character.Partner).CharacterId;
+                var partner = _characterRepository.Characters.FirstOrDefault(c => c.CharacterId == character.Partner);
+                if (partner != null)
+                {
+                    partner.Partner = characterId;
+                    _characterRepository.SaveCharacter(partner);
+                }
+            }
+
             if (family.Generation < character.Generation)
             {
                 family.Generation++;
                 _familyRepository.SaveFamily(family);
-            }
-            else if (character.InLow)
-            {
-                var partner = _characterRepository.Characters
-                    .First(c => c.Family == character.Family && c.Generation == character.Generation && c.IsHeir);
             }
             return Redirect($"/Family/{family.FamilyId}");
         }
@@ -179,14 +195,19 @@ namespace MjauriziaSims.Controllers
 
             if (canEdit)
             {
-                var characterVewModel = new CharacterViewModel(
-                    _familyRepository.Families.First(f => f.FamilyId == character.Family),
-                    character,
-                    _goalRepository.Goals,
-                    _preferenceRepository.Preferences,
-                    _careerRepository.Careers,
-                    _messageManager
-                );
+                var characterVewModel = new CharacterViewModel() 
+                {
+                    Family = _familyRepository.Families.First(f => f.FamilyId == character.Family),
+                    Character = character,
+                    Goals = _goalRepository.Goals.ToList(),
+                    Preferences = _preferenceRepository.Preferences.ToList(),
+                    Careers = _careerRepository.Careers.ToList(),
+                    MsgManager = _messageManager,
+                    Characters = _characterRepository.Characters
+                        .Where(c => c.Family == family.FamilyId && c.InFamily 
+                                && c.Age >= Ages.Young && c.CharacterId != character.CharacterId)
+                        .ToList()
+                };
 
                 return View(characterVewModel);
             }
@@ -202,14 +223,7 @@ namespace MjauriziaSims.Controllers
 
             return Redirect($"/Family/{character.Family}");
         }
-
-
-        public Character GetNextHeir(int familyId)
-        {
-            return null;
-        }
-
-
+        
         private bool RandomizeGlasses(Character character)
         {
             if (character.Glasses)
@@ -221,21 +235,16 @@ namespace MjauriziaSims.Controllers
                 var parent1HasGlasses = true;
                 var parent2HasGlasses = false;
 
-                if (!character.InLow)
+                var parent1 = _characterRepository.Characters.FirstOrDefault(c => c.CharacterId == character.Parent1);
+                if (parent1 != null)
                 {
-                    var parent1 = _characterRepository.Characters
-                        .Where(c => c.Generation == character.Generation - 1);
-                    if (parent1.Any())
-                    {
-                        parent1HasGlasses = parent1.First().Glasses;
-                    }
+                    parent1HasGlasses = parent1.Glasses;
+                }
 
-                    var parent2 = _characterRepository.Characters
-                        .Where(c => c.Generation == character.Generation - 1 && c.InLow == true);
-                    if (parent2.Any())
-                    {
-                        parent2HasGlasses = parent2.First().Glasses;
-                    }
+                var parent2 = _characterRepository.Characters.FirstOrDefault(c => c.CharacterId == character.Parent2);
+                if (parent2 != null)
+                {
+                    parent2HasGlasses = parent2.Glasses;
                 }
 
                 var random = new Random();
@@ -316,16 +325,6 @@ namespace MjauriziaSims.Controllers
                 }
             }
             return result;
-        }
-
-        public void SetNewHeir(Character character)
-        {
-            var lastHeir = _characterRepository.Characters
-                .First(c => c.Family == character.Family && c.IsHeir && c.Generation < character.Generation);
-            lastHeir.IsHeir = false;
-            _characterRepository.SaveCharacter(lastHeir);
-            character.IsHeir = true;
-            _characterRepository.SaveCharacter(lastHeir);
         }
     }
 }

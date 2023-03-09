@@ -126,14 +126,17 @@ namespace MjauriziaSims.Controllers
                 character.Family = familyId;
             }
 
-            var characterVewModel = new CharacterViewModel(
-                _familyRepository.Families.First(f => f.FamilyId == character.Family),
-                character,
-                _goalRepository.Goals,
-                _preferenceRepository.Preferences,
-                _careerRepository.Careers,
-                _messageManager
-            );
+            var characterVewModel = new CharacterViewModel()
+            {
+                Family = _familyRepository.Families.First(f => f.FamilyId == character.Family),
+                Character = character,
+                Goals = _goalRepository.Goals.ToList(),
+                Preferences = _preferenceRepository.Preferences.ToList(),
+                Careers = _careerRepository.Careers.ToList(),
+                MsgManager = _messageManager,
+                Characters = _characterRepository.Characters.Where(c => c.Family == character.Family && c.InFamily
+                                && c.Age >= Ages.Young && c.CharacterId != character.CharacterId).ToList()
+            };
 
             return View(characterVewModel);
         }

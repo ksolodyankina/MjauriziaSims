@@ -33,8 +33,6 @@ namespace Domain.Concrete
                     dbEntry.Family = character.Family;
                     dbEntry.Generation = character.Generation;
                     dbEntry.Glasses = character.Glasses;
-                    dbEntry.IsHeir = character.IsHeir;
-                    dbEntry.InLow = character.InLow;
                     dbEntry.InFamily = character.InFamily;
                     dbEntry.Goal = character.Goal;
                     dbEntry.Age = character.Age;
@@ -44,10 +42,10 @@ namespace Domain.Concrete
                     dbEntry.Decor = character.Decor;
                     dbEntry.Clothes = character.Clothes;
                     dbEntry.Chronotype = character.Chronotype;
-                    dbEntry.Gender = character.Gender;
                     dbEntry.Career = character.Career;
-                    dbEntry.IsAdopted = character.IsAdopted;
-                    dbEntry.IsAlien = character.IsAlien;
+                    dbEntry.Parent1 = character.Parent1;
+                    dbEntry.Parent2 = character.Parent2;
+                    dbEntry.Partner = character.Partner;
                 }
             }
             context.SaveChanges();

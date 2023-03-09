@@ -24,7 +24,6 @@ namespace Domain.Entities
         public List<SelectListItem> GetSelectRoles()
         {
             var items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Not set", Value = "0" });
 
             foreach (var role in (Roles[])Enum.GetValues(typeof(Roles)))
             {

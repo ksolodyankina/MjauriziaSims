@@ -15,9 +15,9 @@
     <div class="col-sm-10 mb-4">
         <h1>
             @ViewBag.Title
-            @if (Model.CanEdit && Model.Characters.Any(c => c.Family == Model.Family.Family.FamilyId && c.InLow))
+            @if (Model.CanEdit)
             {
-                <a href="/Character/GiveBirth/@Model.Family.Family.FamilyId" 
+                <a href="/Character/Create/@Model.Family.Family.FamilyId" 
                    title="@Localizer["Create"]" class="text-decoration-none text-reset">
                     <i class="bi-plus-circle-fill" style="font-size:1.7rem;"></i>
                 </a>
@@ -36,10 +36,7 @@
 @for (int i = Model.Family.Family.Generation; i > 0; i--)
 {
     <div class="row">
-        @foreach (var character in Model.Characters
-                                    .OrderBy(c => !c.InFamily)
-                                    .ThenBy(c => !c.IsHeir)
-                                    .ThenBy(c => !c.InLow))
+        @foreach (var character in Model.Characters.OrderBy(c => !c.InFamily))
         {
             if (i == character.Generation)
             {
@@ -66,16 +63,9 @@
                                 <div class="col-sm-2">
                                     @if (Model.CanGetMarried(character))
                                     {
-                                        <a href="/Character/GetMarried/@character.Family" class="text-reset" 
+                                        <a href="/Character/GetMarried/@character.CharacterId" class="text-reset" 
                                            title="@Localizer["GetMarried"]">
                                             <i class="bi-balloon-heart" style="font-size: 1rem; color: black;"></i>
-                                        </a>
-                                    }
-                                    @if (Model.CanBecomeHeir(character))
-                                    {
-                                        <a href="/Character/MakeHeir/@character.CharacterId" class="text-reset" 
-                                           title="@Localizer["MakeHeir"]">
-                                            <i class="bi-check2" style="font-size: 1rem; color: black;"></i>
                                         </a>
                                     }
                                 </div>
