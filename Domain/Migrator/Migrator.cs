@@ -598,7 +598,7 @@ namespace Domain.Migrator
             new Msg {Code = "career_chief", MsgRu = "Кулинар", MsgEn = "Culinary"},
             new Msg {Code = "career_criminal", MsgRu = "Преступник", MsgEn = "Criminal"},
             new Msg {Code = "career_critic", MsgRu = "Критик", MsgEn = "Critic"},
-            new Msg {Code = "career_designer", MsgRu = "", MsgEn = "Interior Designer"},
+            new Msg {Code = "career_designer", MsgRu = "Дизайнер интерьеров", MsgEn = "Interior Designer"},
             new Msg {Code = "career_detective", MsgRu = "Детектив", MsgEn = "Detective"},
             new Msg {Code = "career_doctor", MsgRu = "Доктор", MsgEn = "Doctor"},
             new Msg {Code = "career_ecologist", MsgRu = "Эколог", MsgEn = "Conservationist"},
@@ -775,9 +775,16 @@ namespace Domain.Migrator
             }
             foreach (var msg in Messages)
             {
-                if (_msgRepository.Messages.FirstOrDefault(g => g.Code == msg.Code) == null)
+                var msgDB = _msgRepository.Messages.FirstOrDefault(m => m.Code == msg.Code);
+                if (msgDB == null)
                 {
                     _msgRepository.SaveMsg(msg);
+                }
+                else if (msgDB.MsgEn != msg.MsgEn || msgDB.MsgRu != msg.MsgRu)
+                {
+                    msgDB.MsgEn = msg.MsgEn;
+                    msgDB.MsgRu = msg.MsgRu;
+                    _msgRepository.SaveMsg(msgDB); ;
                 }
             }
         }

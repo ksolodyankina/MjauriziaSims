@@ -33,7 +33,7 @@
             <p class="m-0 choice-option-switch__text--disabled hidden">@Localizer["EnableAll"]</p>
         </div>
 
-        @foreach (var preference in Model.Preferences)
+        @foreach (var preference in Model.Preferences.OrderBy(p => Model.MsgManager.Msg(p.Title)))
         {
             <div class="col-sm-1 center-block text-center">
                 <a href="#" class="text-reset text-decoration-none choice-option choice-option--enabled">

@@ -23,7 +23,6 @@
     </div>
 
     <div class="row mt-2">
-
         <div class="col-sm-1 center-block text-center">
             <a href="#" class="text-reset text-decoration-none choice-option-switch choice-option-switch--enabled">
                 <i class="bi-x-square-fill text-dark choice-option-switch__i--enabled" style="font-size:3.8rem;"></i>
@@ -33,7 +32,7 @@
             <p class="m-0 choice-option-switch__text--disabled hidden">@Localizer["EnableAll"]</p>
         </div>
 
-        @foreach (var career in Model.Careers)
+        @foreach (var career in Model.Careers.OrderBy(c => Model.MsgManager.Msg(c.Title)))
         {
             <div class="col-sm-1 center-block text-center">
                 <a href="#" class="text-reset text-decoration-none choice-option choice-option--enabled">
