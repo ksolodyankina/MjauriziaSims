@@ -132,7 +132,7 @@
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
-  <data name="Design" xml:space="preserve">
+  <data name="Decor" xml:space="preserve">
     <value>Decor</value>
   </data>
   <data name="Gender" xml:space="preserve">
@@ -149,6 +149,9 @@
   </data>
   <data name="header" xml:space="preserve">
     <value>Edit character</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Hide</value>
   </data>
   <data name="Hobby" xml:space="preserve">
     <value>Activity</value>
@@ -174,7 +177,13 @@
   <data name="Partner" xml:space="preserve">
     <value>Partner</value>
   </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
   </data>
 </root>

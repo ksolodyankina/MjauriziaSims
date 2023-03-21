@@ -1,19 +1,16 @@
 ﻿using Domain.Entities;
-using Domain.Concrete;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Domain.Abstract;
-using MjauriziaSims.MessageManager;
 
-namespace WebUI.Models
+namespace MjauriziaSims.Models
 {
     public class CharacterViewModel
     {
         public Family Family { get; set; }
-        public Character Character { get; set; }
+        public CharacterFormModel Character { get; set; }
         public IEnumerable<Goal> Goals { get; set; }
         public IEnumerable<Preference> Preferences { get; set; }
         public IEnumerable<Career> Careers { get; set; }
-        public MessageManager MsgManager { get; set; }
+        public MessageManager.MessageManager MsgManager { get; set; }
         public bool CanEdit { get; set; }
         public IEnumerable<Character> Characters { get; set; }
 
@@ -56,12 +53,12 @@ namespace WebUI.Models
             return Newtonsoft.Json.JsonConvert.SerializeObject(goals);
         }
 
-        public List<SelectListItem> GetSelectPreferences(int category)
+        public List<SelectListItem> GetSelectPreferences()
         {
             var items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
 
-            foreach (var preference in Preferences.Where(p => p.Category == (Preference.Categories)category))
+            foreach (var preference in Preferences)
             {
                 items.Add(new SelectListItem { Text = MsgManager.Msg(preference.Title), Value = preference.PreferenceId.ToString() });
             }
@@ -116,18 +113,13 @@ namespace WebUI.Models
             return items;
         }
 
-        public List<SelectListItem> GetPartnerSelectItems(Character character)
+        public List<SelectListItem> GetPartnerSelectItems()
         {
-            var items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
-
             var relatives = new List<Character>();
-            relatives.Add(character);
 
-            var parents = Characters.Where(c => c.CharacterId == character.Parent1 || c.CharacterId == character.Parent2).ToList();
+            var parents = Characters.Where(c => c.CharacterId == Character.Parent1 || c.CharacterId == Character.Parent2).ToList();                                     
             foreach (var parent in parents)
             {
-                relatives.Add(parent);
                 var grandParents = Characters.Where(c => c.CharacterId == parent.Parent1 || c.CharacterId == parent.Parent2).ToList();
                 foreach (var grandParent in grandParents)
                 {
@@ -135,47 +127,59 @@ namespace WebUI.Models
                 }
             }
 
-            var rels = new List<Character>();
-            foreach (var relative in relatives)
+            for (var i = 0; i < 4; i++)
             {
-                var siblings = Characters.Where(c =>
-                            relative.CharacterId > 0
-                            && (c.Parent1 == relative.CharacterId || c.Parent2 == relative.CharacterId))
-                        .ToList();
-                foreach (var sibling in siblings)
+                var rels = new List<Character>();
+                foreach (var relative in relatives)
                 {
-                    if (!relatives.Contains(sibling))
+                    var children = Characters.
+                            Where(c => c.Parent1 == relative.CharacterId || c.Parent2 == relative.CharacterId)
+                            .ToList();
+                    foreach (var child in children)
                     {
-                        rels.Add(sibling);
+                        if (!relatives.Contains(child))
+                        {
+                            rels.Add(child);
+                        }
                     }
                 }
-            }
-            foreach (var rel in rels)
-            {
-                relatives.Add(rel);
-            }
-
-            rels = new List<Character>();
-            foreach (var relative in relatives)
-            {
-                var children = Characters.Where(c => 
-                        relative.CharacterId > 0 && 
-                        (c.Parent1 == relative.CharacterId || c.Parent2 == relative.CharacterId)).ToList();
-                foreach (var child in children)
+                foreach (var rel in rels)
                 {
-                    if (!relatives.Contains(child))
-                    {
-                        rels.Add(child);
-                    }
+                    relatives.Add(rel);
                 }
-            }
-            foreach (var rel in rels)
-            {
-                relatives.Add(rel);
+                switch (i) 
+                {
+                    case 0:
+                        {
+                            foreach (var parent in parents)
+                            {
+                                if (!relatives.Contains(parent))
+                                {
+                                    relatives.Add(parent);
+                                }
+                            }
+                        }
+                    break;
+                    case 2:
+                        {
+                            var children = Characters.
+                                    Where(c => c.Parent1 == Character.CharacterId || c.Parent2 == Character.CharacterId).
+                                    ToList();
+                            foreach (var child in children)
+                            {
+                                if (!relatives.Contains(child))
+                                {
+                                    relatives.Add(child);
+                                }
+                            }
+                        }
+                    break;
+                }
             }
 
             var possiblePartners = Characters.Except(relatives);
-
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });
             foreach (var ch in possiblePartners)
             {
                 items.Add(new SelectListItem { Text = ch.Name, Value = ch.CharacterId.ToString() });
@@ -193,6 +197,13 @@ namespace WebUI.Models
                 items.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
             }
             return items;
+        }
+
+        public string GetMinAgeForPreferenceCategory(PreferenceCategories category)
+        {
+            var age = Preferences.Where(p => p.Category == category).Min(p => p.MinAge);
+
+            return age.ToString().ToLower();
         }
     }
 }

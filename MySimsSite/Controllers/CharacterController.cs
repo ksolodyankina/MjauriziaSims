@@ -1,9 +1,11 @@
 ﻿using Domain.Abstract;
 using Domain.Entities;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WebUI.Models;
+using MjauriziaSims.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Security.Permissions;
+using System.Drawing.Text;
 
 namespace MjauriziaSims.Controllers
 {
@@ -16,20 +18,13 @@ namespace MjauriziaSims.Controllers
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
         private readonly MessageManager.MessageManager _messageManager;
+        private readonly ICharacterPreferenceRepository _characterPreferenceRepository;
 
         private enum CreationType
         {
             FirstCharacter,
             NewCharacter,
             GetMarried
-        }
-        private enum PreferenceCategory
-        {
-            Color,
-            Music,
-            Hobby,
-            Decor,
-            Clothes
         }
 
         public CharacterController(
@@ -38,7 +33,8 @@ namespace MjauriziaSims.Controllers
             IGoalRepository goalRepository, 
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
-            MessageManager.MessageManager messageManager)
+            MessageManager.MessageManager messageManager,
+            ICharacterPreferenceRepository characterPreferenceRepository)
         {
             _familyRepository = familyRepository;
             _characterRepository = characterRepository;
@@ -46,14 +42,19 @@ namespace MjauriziaSims.Controllers
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
             _messageManager = messageManager;
+            _characterPreferenceRepository = characterPreferenceRepository;
         }
 
-        public ActionResult MakeOlder(int id = 1)
+        public ActionResult MakeOlder(int id)
         {
             var character = _characterRepository.Characters.First(c => c.CharacterId == id);
             if (character.Age <= Ages.Old)
             {
                 character.Age++;
+
+                AddPreferencesForNewLifestage(character);
+                SetRandomPreferences(character);
+
                 if (character.Age == Ages.Toddler || character.Age == Ages.Adult || character.Age == Ages.Old)
                 {
                     character.Glasses = RandomizeGlasses(character);
@@ -61,19 +62,14 @@ namespace MjauriziaSims.Controllers
                 else if (character.Age == Ages.Child)
                 {
                     character.Goal = RandomizeGoal(character);
-                    character.Color = RandomizePreferences(PreferenceCategory.Color);
                     character.Chronotype = RandomizeChronotype();
                 }
                 else if (character.Age == Ages.Teen)
                 {
                     character.Goal = RandomizeGoal(character);
-                    character.Music = RandomizePreferences(PreferenceCategory.Music);
-                    character.Hobby = RandomizePreferences(PreferenceCategory.Hobby);
-                    character.Clothes = RandomizePreferences(PreferenceCategory.Clothes);
                 }
                 else if (character.Age == Ages.Young)
                 {
-                    character.Decor = RandomizePreferences(PreferenceCategory.Decor);
                     character.Career = RandomizeCareer(character);
                 }
             }
@@ -101,9 +97,10 @@ namespace MjauriziaSims.Controllers
 
             if (canEdit)
             {
-                var character = new Character()
+                var character = new CharacterFormModel()
                 {
                     Family = family.FamilyId,
+                    InFamily = true,
                     Partner = partnerId
                 };
 
@@ -130,7 +127,7 @@ namespace MjauriziaSims.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Character character)
+        public ActionResult Create(CharacterFormModel character)
         {
             var family = _familyRepository.Families.FirstOrDefault(f => f.FamilyId == character.Family);
 
@@ -164,7 +161,7 @@ namespace MjauriziaSims.Controllers
                     }
                 }
             }
-            _characterRepository.SaveCharacter(character);
+            character.SaveCharacter(_characterRepository, _characterPreferenceRepository);
 
             if (character.Partner != 0)
             {
@@ -198,7 +195,8 @@ namespace MjauriziaSims.Controllers
                 var characterVewModel = new CharacterViewModel() 
                 {
                     Family = _familyRepository.Families.First(f => f.FamilyId == character.Family),
-                    Character = character,
+                    Character = CharacterFormModel.
+                        ModelForCharacter(character, _characterPreferenceRepository.CharacterPreferences.ToList()),
                     Goals = _goalRepository.Goals.ToList(),
                     Preferences = _preferenceRepository.Preferences.ToList(),
                     Careers = _careerRepository.Careers.ToList(),
@@ -217,9 +215,9 @@ namespace MjauriziaSims.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Edit(Character character)
+        public ActionResult Edit(CharacterFormModel character)
         {
-            _characterRepository.SaveCharacter(character);
+            character.SaveCharacter(_characterRepository, _characterPreferenceRepository);
 
             return Redirect($"/Family/{character.Family}");
         }
@@ -252,7 +250,6 @@ namespace MjauriziaSims.Controllers
             }
         }
 
-
         private int RandomizeGoal(Character character)
         {
             var random = new Random();
@@ -272,10 +269,10 @@ namespace MjauriziaSims.Controllers
             return goalId;
         }
 
-        private int RandomizePreferences(PreferenceCategory category)
+        private int RandomizePreferences(PreferenceCategories category)
         {
             var random = new Random();
-            var preferences = _preferenceRepository.Preferences.Where(p => p.Category == (Preference.Categories)category);
+            var preferences = _preferenceRepository.Preferences.Where(p => p.Category == (PreferenceCategories)category);
             var preferenceNumber = random.Next(1, preferences.Count());
             var preferenceId = -1;
             var i = 1;
@@ -325,6 +322,64 @@ namespace MjauriziaSims.Controllers
                 }
             }
             return result;
+        }
+
+        private void AddPreferencesForNewLifestage(Character character)
+        {
+            var existingPreferenceCategories = _characterPreferenceRepository.CharacterPreferences.
+                Where(c => c.CharacterId == character.CharacterId).
+                Join(_preferenceRepository.Preferences,
+                    cp => cp.PreferenceId,
+                    p => p.PreferenceId,
+                    (cp, p) => p.Category);
+            var newPreferenceCategories = _preferenceRepository.Preferences.
+                Where(p => p.MinAge == character.Age).
+                GroupBy(p => p.Category).
+                Select(grp => grp.First()).
+                Select(p => p.Category).
+                ToList();
+            foreach (var category in newPreferenceCategories)
+            {
+                if (!existingPreferenceCategories.Any(c => c == category))
+                {
+                    var newCharacterPreference = new CharacterPreference
+                    {
+                        CharacterId = character.CharacterId,
+                        PreferenceId = RandomizePreferences(category),
+                        IsLike = true
+                    };
+                    _characterPreferenceRepository.SaveCharacterPreference(newCharacterPreference);
+                }
+            }
+        }
+        private void SetRandomPreferences(Character character)
+        {
+            var random = new Random();
+            var availableCategories = _preferenceRepository.Preferences.
+                Where(p => p.MinAge <= character.Age).
+                GroupBy(p => p.Category).
+                Select(grp => grp.First()).
+                Select(p => p.Category).
+                ToList();
+            foreach (var category in availableCategories)
+            {
+                var addInCategory = random.Next(1, availableCategories.Count());
+                if (addInCategory <= 2)
+                {
+                    var newCharacterPreference = new CharacterPreference
+                    {
+                        CharacterId = character.CharacterId,
+                        PreferenceId = RandomizePreferences(category),
+                        IsLike = random.Next(0, 1) == 1
+                    };
+                    if (!_characterPreferenceRepository.CharacterPreferences.
+                            Any(cp => cp.CharacterId == newCharacterPreference.CharacterId
+                                && cp.PreferenceId == newCharacterPreference.PreferenceId))
+                    {
+                        _characterPreferenceRepository.SaveCharacterPreference(newCharacterPreference);
+                    }
+                }
+            }
         }
     }
 }

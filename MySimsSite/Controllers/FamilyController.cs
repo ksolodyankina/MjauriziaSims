@@ -1,11 +1,8 @@
 ﻿using Domain.Abstract;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using WebUI.Models;
+using MjauriziaSims.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace MjauriziaSims.Controllers
 {
@@ -17,7 +14,6 @@ namespace MjauriziaSims.Controllers
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
-        private readonly IInheritanceLawRepository _inheritanceRepository;
         private readonly MessageManager.MessageManager _msgManager;
 
         public FamilyController(
@@ -27,7 +23,6 @@ namespace MjauriziaSims.Controllers
             IGoalRepository goalRepository,
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
-            IInheritanceLawRepository inheritanceRepository,
             MessageManager.MessageManager msgManager)
         {
             _familyRepository = familyRepository;
@@ -36,7 +31,6 @@ namespace MjauriziaSims.Controllers
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
-            _inheritanceRepository = inheritanceRepository;
             _msgManager = msgManager;
         }
 
@@ -77,7 +71,6 @@ namespace MjauriziaSims.Controllers
             var familiesViewModel = new FamiliesViewModel
             {
                 FamiliesWithUsers = familiesWithUsers,
-                InheritanceLaws = _inheritanceRepository.InheritanceLaws.ToList(),
                 EditRules = editRules,
                 MsgManager = _msgManager,
                 MyFamilies = myFamilies
@@ -103,11 +96,10 @@ namespace MjauriziaSims.Controllers
             var familyViewModel = new FamilyViewModel
             {
                 Family = familyWithUser,
-                Characters = _characterRepository.Characters.Where(c => c.Family == familyId),
+                Characters = _characterRepository.Characters.Where(c => c.Family == familyId).ToList(),
                 Goals = _goalRepository.Goals,
                 Preferences = _preferenceRepository.Preferences,
                 Careers = _careerRepository.Careers,
-                InheritanceLaws = _inheritanceRepository.InheritanceLaws,
                 CanEdit = canEdit,
                 MsgManager = _msgManager
             };
@@ -122,7 +114,6 @@ namespace MjauriziaSims.Controllers
             var familyCreationModel = new FamilyCreationModel
             {
                 Family = new Family() {UserId = Int32.Parse(userId)},
-                InheritanceLaws = _inheritanceRepository.InheritanceLaws,
                 MsgManager = _msgManager
             };
             return View(familyCreationModel);
@@ -149,7 +140,6 @@ namespace MjauriziaSims.Controllers
                 var familyCreationModel = new FamilyCreationModel
                 {
                     Family = family,
-                    InheritanceLaws = _inheritanceRepository.InheritanceLaws,
                     MsgManager = _msgManager
                 };
                 return View(familyCreationModel);

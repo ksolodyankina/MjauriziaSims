@@ -120,6 +120,9 @@
   <data name="Career" xml:space="preserve">
     <value>Career</value>
   </data>
+  <data name="Characteristics" xml:space="preserve">
+    <value>Characteristics</value>
+  </data>
   <data name="Children_Goal" xml:space="preserve">
     <value>Children Aspiration</value>
   </data>
@@ -173,5 +176,8 @@
   </data>
   <data name="Registration" xml:space="preserve">
     <value>Registration</value>
+  </data>
+  <data name="Topics" xml:space="preserve">
+    <value>Conversation topics</value>
   </data>
 </root>

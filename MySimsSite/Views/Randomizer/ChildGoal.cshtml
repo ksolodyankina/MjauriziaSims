@@ -1,5 +1,5 @@
 ﻿@using Domain.Entities
-@using WebUI.Models;
+@using MjauriziaSims.Models;
 @model RandomizerViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 
@@ -29,8 +29,8 @@
                 <i class="bi-x-square-fill text-dark choice-option-switch__i--enabled" style="font-size:3.8rem;"></i>
                 <i class="bi-check-square-fill text-dark choice-option-switch__i--disabled hidden" style="font-size:3.8rem;"></i>
             </a>
-            <p class="m-0 choice-option-switch__text--enabled">Disable all</p>
-            <p class="m-0 choice-option-switch__text--disabled hidden">Enable all</p>
+            <p class="m-0 choice-option-switch__text--enabled">@Localizer["DisableAll"]</p>
+            <p class="m-0 choice-option-switch__text--disabled hidden">@Localizer["EnableAll"]</p>
         </div>
 
         @foreach (var goal in Model.Goals)

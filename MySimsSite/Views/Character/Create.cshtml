@@ -1,6 +1,6 @@
 ﻿@using Domain.Entities
-@using WebUI.Models
-@model WebUI.Models.CharacterViewModel
+@using MjauriziaSims.Models
+@model MjauriziaSims.Models.CharacterViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 
 @inject IViewLocalizer Localizer
@@ -72,7 +72,7 @@
                 <div class="row">
                     <div class="col-sm-11">
                         <select asp-for="Character.Partner" 
-                            asp-items="Model.GetPartnerSelectItems(Model.Character)" 
+                            asp-items="Model.GetPartnerSelectItems()" 
                             class="form-select"
                             id="partnerSelect">
                         </select>
@@ -144,96 +144,6 @@
                     </div>
                     <div class="col-sm-1">
                         <a href="#" onclick="setRandomSelection('careerSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-child">
-                <div class="p-1">@Localizer["Color"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Color" 
-                            asp-items="Model.GetSelectPreferences(0)"
-                            class="form-select"
-                            id="colorSelect">
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('colorSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-child">
-                <div class="p-1">@Localizer["Music"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Music" 
-                            asp-items="Model.GetSelectPreferences(1)" 
-                            class="form-select" 
-                            id="musicSelect">
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('musicSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-child">
-                <div class="p-1">@Localizer["Hobby"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Hobby" 
-                            asp-items="Model.GetSelectPreferences(2)" 
-                            class="form-select" 
-                            id="hobbySelect">
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('hobbySelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-teen">
-                <div class="p-1">@Localizer["Design"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Decor" 
-                            asp-items="Model.GetSelectPreferences(3)" 
-                            class="form-select" 
-                            id="decorSelect">
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('decorSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-teen">
-                <div class="p-1">@Localizer["Clothes"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Clothes" 
-                            asp-items="Model.GetSelectPreferences(4)"
-                            class="form-select"
-                            id="clothesSelect" >
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('clothesSelect')" title="Randomize">
                             <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
                         </a>
                     </div>

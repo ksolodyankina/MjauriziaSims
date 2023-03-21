@@ -1,8 +1,7 @@
 ﻿using Domain.Abstract;
-using System.Linq;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using WebUI.Models;
+using MjauriziaSims.Models;
 
 namespace MjauriziaSims.Controllers
 {
@@ -57,7 +56,7 @@ namespace MjauriziaSims.Controllers
             var model = new RandomizerViewModel()
             {
                 Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (Preference.Categories)0).ToList(),
+                    .Where(p => p.Category == (PreferenceCategories)0).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -67,7 +66,7 @@ namespace MjauriziaSims.Controllers
             var model = new RandomizerViewModel()
             {
                 Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (Preference.Categories)1).ToList(),
+                    .Where(p => p.Category == (PreferenceCategories)1).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -77,7 +76,7 @@ namespace MjauriziaSims.Controllers
             var model = new RandomizerViewModel()
             {
                 Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (Preference.Categories)2).ToList(),
+                    .Where(p => p.Category == (PreferenceCategories)2).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -87,7 +86,7 @@ namespace MjauriziaSims.Controllers
             var model = new RandomizerViewModel()
             {
                 Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (Preference.Categories)3).ToList(),
+                    .Where(p => p.Category == (PreferenceCategories)3).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -97,7 +96,27 @@ namespace MjauriziaSims.Controllers
             var model = new RandomizerViewModel()
             {
                 Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (Preference.Categories)4).ToList(),
+                    .Where(p => p.Category == (PreferenceCategories)4).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
+        }
+        public ViewResult PreferenceTopics()
+        {
+            var model = new RandomizerViewModel()
+            {
+                Preferences = _preferenceRepository.Preferences
+                    .Where(p => p.Category == (PreferenceCategories)5).ToList(),
+                MsgManager = _msgManager
+            };
+            return View(model);
+        }
+        public ViewResult PreferenceCharacteristic()
+        {
+            var model = new RandomizerViewModel()
+            {
+                Preferences = _preferenceRepository.Preferences
+                    .Where(p => p.Category == (PreferenceCategories)6).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);

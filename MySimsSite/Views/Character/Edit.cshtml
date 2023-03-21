@@ -1,6 +1,6 @@
 ﻿@using Domain.Entities
-@using WebUI.Models
-@model WebUI.Models.CharacterViewModel
+@using MjauriziaSims.Models
+@model MjauriziaSims.Models.CharacterViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 
 @inject IViewLocalizer Localizer
@@ -20,6 +20,7 @@
         <div class="row">
             @Html.HiddenFor(m => m.Character.CharacterId)
             @Html.HiddenFor(m => m.Character.Family)
+            @Html.HiddenFor(m => m.Character.InFamily)
             @Html.HiddenFor(m => m.Character.Generation)
             
             <div class="col-sm-6">
@@ -46,7 +47,7 @@
                 <div class="row">
                     <div class="col-sm-11">
                         <select asp-for="Character.Partner" 
-                            asp-items="Model.GetPartnerSelectItems(Model.Character)" 
+                            asp-items="Model.GetPartnerSelectItems()" 
                             class="form-select">
                         </select>
                     </div>
@@ -108,96 +109,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-sm-6 min-age-child">
-                <div class="p-1">@Localizer["Color"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Color" 
-                            asp-items="Model.GetSelectPreferences(0)"
-                            class="form-select"
-                            id="colorSelect" >
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('colorSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-child">
-                <div class="p-1">@Localizer["Music"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Music" 
-                            asp-items="Model.GetSelectPreferences(1)"
-                            class="form-select"
-                            id="musicSelect" >
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('musicSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-child">
-                <div class="p-1">@Localizer["Hobby"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Hobby" 
-                            asp-items="Model.GetSelectPreferences(2)"
-                            class="form-select"
-                            id="hobbySelect" >
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('hobbySelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-teen">
-                <div class="p-1">@Localizer["Design"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Decor" 
-                            asp-items="Model.GetSelectPreferences(3)"
-                            class="form-select"
-                            id="decorSelect" >
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('decorSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 min-age-teen">
-                <div class="p-1">@Localizer["Clothes"] :</div>
-                <div class="row">
-                    <div class="col-sm-11">
-                        <select asp-for="Character.Clothes" 
-                            asp-items="Model.GetSelectPreferences(4)"
-                            class="form-select"
-                            id="clothesSelect" >
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <a href="#" onclick="setRandomSelection('clothesSelect')" title="Randomize">
-                            <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
             
             <div class="col-sm-6 min-age-toddler">
                 <div class="pt-2">
@@ -206,6 +117,74 @@
                 </div>
             </div>
         </div>
+
+        <div class="hidden">
+            <select asp-for="Character.Likes"
+                asp-items="Model.GetSelectPreferences()"
+                name="Character.Likes"
+                id="likesSelect">
+            </select>
+            <select asp-for="Character.Dislikes"
+                asp-items="Model.GetSelectPreferences()"
+                name="Character.Dislikes"
+                id="dislikesSelect">
+            </select>
+        </div>
+
+        <p class="fs-3 pt-3">@Localizer["Preferences"]</p>
+        @foreach (var category in (PreferenceCategories[])Enum.GetValues(typeof(PreferenceCategories)))
+        {
+            <div class="row min-age-@Model.GetMinAgeForPreferenceCategory(category)">
+                <hr class="block-divider">
+                <div class="col-sm-3 fs-5">
+                    <a href="#" onclick="setBlockVisibility('@category')" title="@Localizer["Show"]"
+                            class="text-decoration-none" id="blockShow-@category">
+                        <i class="bi-caret-down-fill" style="font-size: 1.5rem; color: black;"></i>
+                    </a>
+                    <a href="#" onclick="setBlockVisibility('@category')" title="@Localizer["Hide"]"
+                            class="text-decoration-none hidden" id="blockHide-@category">
+                        <i class="bi-caret-up-fill" style="font-size: 1.5rem; color: black;"></i>
+                    </a>
+                    @Localizer[category.ToString()]
+                    <a href="#" onclick="setRandomBlockValue('@category')" title="Randomize">
+                        <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                    </a>
+                </div>
+                <div class="col-sm-9 mt-1 mb-1">
+                    <div class="d-flex flex-row-reverse">
+                        <div id="blockLikes-@category" class="ms-1"></div>
+                        <div id="blockDislikes-@category"></div>
+                    </div>
+                </div>
+                <hr class="block-divider">
+                <div class="row preference-block hidden" id="@category">
+                    @foreach (var preference in Model.Preferences.Where(p => p.Category == category).ToList())
+                    {
+                        <div class="col-sm-1 center-block text-center">
+                            <div>
+                                <i class="bi-x-square-fill hidden" style="font-size:3.8rem; color:darkgray"></i>
+                                <img src="/Images/Preferences/@(preference.Code).png"
+                                     width="60px" height="60px" style="margin-top:22px; margin-bottom:9px"
+                                     class="rounded border border-dark" 
+                                     id="preference-@preference.PreferenceId"
+                                     title="@Model.MsgManager.Msg(preference.Title)" />
+                            </div>
+                            <div>
+                                <a href="#" onclick="setLike('@preference.PreferenceId')" title="@Localizer["Like"]"
+                                        class="text-decoration-none preference-like-icon" id="like-@preference.PreferenceId">
+                                    <i class="bi-hand-thumbs-up-fill"></i>
+                                </a>
+                                <a href="#" onclick="setDislike('@preference.PreferenceId')" title="@Localizer["Dislike"]"
+                                        class="text-decoration-none preference-dislike-icon" id="dislike-@preference.PreferenceId">
+                                    <i class="bi-hand-thumbs-down-fill"></i>
+                                </a>
+                            </div>
+                            <p class="m-0">@Model.MsgManager.Msg(preference.Title)</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
 
         <div class="row justify-content-md-center mt-3">
             <div class="col col-auto">

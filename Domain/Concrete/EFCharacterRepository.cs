@@ -36,11 +36,6 @@ namespace Domain.Concrete
                     dbEntry.InFamily = character.InFamily;
                     dbEntry.Goal = character.Goal;
                     dbEntry.Age = character.Age;
-                    dbEntry.Color = character.Color;
-                    dbEntry.Music = character.Music;
-                    dbEntry.Hobby = character.Hobby;
-                    dbEntry.Decor = character.Decor;
-                    dbEntry.Clothes = character.Clothes;
                     dbEntry.Chronotype = character.Chronotype;
                     dbEntry.Career = character.Career;
                     dbEntry.Parent1 = character.Parent1;

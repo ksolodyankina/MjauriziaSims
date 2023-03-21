@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace WebUI.Models;
+namespace MjauriziaSims.Models;
 
 public class FamiliesWithUser
 {

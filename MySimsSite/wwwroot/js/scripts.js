@@ -138,6 +138,135 @@ function setRemovedCharactersVisibility() {
     }
 }
 
+function setBlockVisibility(block) {
+    event.preventDefault();
+    var $block = $("#" + block);
+    var $showButton = $("#blockShow-" + block);
+    var $hideButton = $("#blockHide-" + block);
+    if ($block.hasClass("hidden")) {
+        $block.removeClass("hidden");
+        $showButton.addClass("hidden");
+        $hideButton.removeClass("hidden");
+    } else {
+        $block.addClass("hidden");
+        $hideButton.addClass("hidden");
+        $showButton.removeClass("hidden");
+    };
+}
+
+function setPreference(preference, isLike) {
+    event.preventDefault();
+    var $likeBtn = $("#like-" + preference);
+    var $dislikeBtn = $("#dislike-" + preference);
+    var $likesOption = $("#likesSelect option[value = " + preference + "]");
+    var $dislikesOption = $("#dislikesSelect option[value = " + preference + "]");
+    if (isLike) {
+        var $targetBtn = $likeBtn;
+        var $secondaryBtn = $dislikeBtn;
+        var $targetOption = $likesOption;
+        var $secondaryOption = $dislikesOption;
+    } else {
+        var $targetBtn = $dislikeBtn;
+        var $secondaryBtn = $likeBtn;
+        var $targetOption = $dislikesOption;
+        var $secondaryOption = $likesOption;
+    }
+    if ($targetBtn.hasClass("active")) {
+        $targetOption.removeAttr("selected");
+        $targetBtn.removeClass("active");
+        removePreferenceValue(preference);
+    } else {
+        $targetOption.attr("selected", true);
+        $targetBtn.addClass("active");
+        $secondaryOption.removeAttr("selected");
+        $secondaryBtn.removeClass("active");
+        removePreferenceValue(preference);
+        showPreferenceValue(preference, isLike);
+    }
+}
+
+function setLike(preference) {
+    setPreference(preference, true);
+}
+
+function setDislike(preference) {
+    setPreference(preference, false);
+}
+
+function setActivePreferences() {
+    var $likesOptions = $("#likesSelect option[selected]");
+    for (var i = 0; i < $likesOptions.length; i++) {
+        var preference = $likesOptions[i].value;
+        var $likeBtn = $("#like-" + preference);
+        $likeBtn.addClass("active");
+        showPreferenceValue(preference, true);
+    }
+    var $dislikesOptions = $("#dislikesSelect option[selected]");
+    for (var i = 0; i < $dislikesOptions.length; i++) {
+        var preference = $dislikesOptions[i].value;
+        var $dislikeBtn = $("#dislike-" + preference);
+        $dislikeBtn.addClass("active");
+        showPreferenceValue(preference, false);
+    }
+}
+
+function showPreferenceValue(preference, isLike) {
+    var template = '<img width = "30px" height = "30px" id="blockValue-' + preference +
+        '" class="rounded border border-3 border-' + (isLike ? 'success' : 'danger') + '"/>';
+    var $preference = $("#preference-" + preference);
+    var category = $preference.parents(".preference-block").prop("id");
+    var $blockValues = $("#block" + (isLike ? "Likes" : "Dislikes") + "-" + category);
+    $blockValues.append(template);
+    var $blockValue = $("#blockValue-" + preference);
+    $blockValue.prop("src", $preference.prop("src"));
+    $blockValue.prop("title", $preference.prop("title"));
+}
+
+function removePreferenceValue(preference) {
+    $("#blockValue-" + preference).remove();
+}
+
+function setRandomBlockValue(category) {
+    event.preventDefault();
+    var $selectedLikesOptions = $("#likesSelect option[selected]");
+    for (var i = 0; i < $selectedLikesOptions.length; i++) {
+        var preference = $selectedLikesOptions[i].value;
+        var $blockValue = $("#blockValue-" + preference);
+        if ($blockValue.parents("#blockLikes-" + category).length > 0) {
+            $blockValue.remove();
+            var $likeBtn = $("#like-" + preference);
+            $likeBtn.removeClass("active");
+            $($selectedLikesOptions[i]).removeAttr("selected");
+        }
+    }
+    var $selectedDislikesOptions = $("#dislikesSelect option[selected]");
+    for (var i = 0; i < $selectedDislikesOptions.length; i++) {
+        var preference = $selectedDislikesOptions[i].value;
+        var $blockValue = $("#blockValue-" + preference);
+        if ($blockValue.parents("#blockDislikes-" + category).length > 0) {
+            $blockValue.remove();
+            var $dislikeBtn = $("#dislike-" + preference);
+            $dislikeBtn.removeClass("active");
+            $($selectedDislikesOptions[i]).removeAttr("selected");
+        }
+    }
+    var $likes = $("#" + category + " .preference-like-icon");
+    var $dislikes = $("#" + category + " .preference-dislike-icon");
+    var count = $likes.size();
+    var dislikesCount = getRandomArbitrary(0, 2);
+    for (var i = 1; i <= dislikesCount; i++) {
+        var random = getRandomArbitrary(0, $dislikes.length - 1);
+        $($dislikes[random]).trigger("click");
+    };
+    var likesCount = getRandomArbitrary(1, 2);
+    for (var i = 1; i <= likesCount; i++) {
+        var random = getRandomArbitrary(0, $likes.length - 1);
+        if (!$($likes[random]).hasClass("active")) {
+            $($likes[random]).trigger("click");
+        }
+    };
+}
+
 $(document).ready(function () {
     $(".removed-character").addClass("hidden");
 
@@ -350,4 +479,6 @@ $(document).ready(function () {
         });
 
     $("#parent1Select").trigger("change");
+
+    setActivePreferences();
 });

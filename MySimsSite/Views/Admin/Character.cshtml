@@ -1,4 +1,4 @@
-﻿@using WebUI.Models
+﻿@using MjauriziaSims.Models
 @using Domain.Entities
 @model CharacterViewModel
 
@@ -42,7 +42,7 @@
                 </div>
                 <div>
                     <label>Partner :</label>
-                    @Html.DropDownList("Character.Age", Model.GetPartnerSelectItems(Model.Character))
+                    @Html.DropDownList("Character.Age", Model.GetPartnerSelectItems())
                 </div>
                 <div>
                     <label>Goal :</label>
@@ -59,26 +59,6 @@
                 <div>
                     <label>Career :</label>
                     @Html.DropDownList("Character.Career", Model.GetSelectCareer())
-                </div>
-                <div>
-                    <label>Color :</label>
-                    @Html.DropDownList("Character.Color", Model.GetSelectPreferences(0))
-                </div>
-                <div>
-                    <label>Music :</label>
-                    @Html.DropDownList("Character.Music", Model.GetSelectPreferences(1))
-                </div>
-                <div>
-                    <label>Hobby :</label>
-                    @Html.DropDownList("Character.Hobby", Model.GetSelectPreferences(2))
-                </div>
-                <div>
-                    <label>Decor :</label>
-                    @Html.DropDownList("Character.Decor", Model.GetSelectPreferences(3))
-                </div>
-                <div>
-                    <label>Decor :</label>
-                    @Html.DropDownList("Character.Clothes", Model.GetSelectPreferences(4))
                 </div>
                 <div>
                     <label>Chronotype :</label>

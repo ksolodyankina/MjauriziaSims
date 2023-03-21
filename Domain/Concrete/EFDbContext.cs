@@ -12,9 +12,9 @@ namespace Domain.Concrete
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Preference> Preferences { get; set; }
         public DbSet<Career> Careers { get; set; }
-        public DbSet<InheritanceLaw> InheritanceLaws { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Msg> Messages { get; set; }
+        public DbSet<CharacterPreference> CharacterPreferences { get; set; }
 
         private readonly string _connectionString;
 

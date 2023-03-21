@@ -1,13 +1,6 @@
 ﻿using Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Channels;
-using System.Web;
-using MjauriziaSims.MessageManager;
 
-namespace WebUI.Models
+namespace MjauriziaSims.Models
 {
     public class FamilyViewModel
     {
@@ -16,9 +9,8 @@ namespace WebUI.Models
         public IEnumerable<Goal> Goals { get; set; }
         public IEnumerable<Preference> Preferences { get; set; }
         public IEnumerable<Career> Careers { get; set; }
-        public IEnumerable<InheritanceLaw> InheritanceLaws { get; set; }
         public bool CanEdit { get; set; }
-        public MessageManager MsgManager { get; set; }
+        public MessageManager.MessageManager MsgManager { get; set; }
 
         public bool CanGetMarried(Character character)
         {

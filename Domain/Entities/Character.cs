@@ -33,11 +33,6 @@ namespace Domain.Entities
         public int Goal { get; set; } = 0;
         public Ages Age { get; set; } = Ages.Baby;
         public bool InFamily { get; set; } = true;
-        public int? Color { get; set; }
-        public int? Music { get; set; }
-        public int? Hobby { get; set; }
-        public int? Decor { get; set; }
-        public int? Clothes { get; set; }
         public Chronotypes? Chronotype { get; set; }
         public int? Career { get; set; }
         public int Parent1 { get; set; } = 0;

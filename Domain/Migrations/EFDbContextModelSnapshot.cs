@@ -60,15 +60,6 @@ namespace Domain.Migrations
                     b.Property<int?>("Chronotype")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Clothes")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Color")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Decor")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Family")
                         .HasColumnType("integer");
 
@@ -81,14 +72,8 @@ namespace Domain.Migrations
                     b.Property<int>("Goal")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Hobby")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("InFamily")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("Music")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -106,6 +91,22 @@ namespace Domain.Migrations
                     b.HasKey("CharacterId");
 
                     b.ToTable("Characters");
+                });
+
+            modelBuilder.Entity("Domain.Entities.CharacterPreference", b =>
+                {
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PreferenceId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsLike")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("CharacterId", "PreferenceId");
+
+                    b.ToTable("CharacterPreferences");
                 });
 
             modelBuilder.Entity("Domain.Entities.Family", b =>
@@ -167,39 +168,6 @@ namespace Domain.Migrations
                     b.ToTable("Goals");
                 });
 
-            modelBuilder.Entity("Domain.Entities.InheritanceLaw", b =>
-                {
-                    b.Property<int>("InheritanceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InheritanceId"));
-
-                    b.Property<bool>("AllowsManualChoice")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsStrict")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
-
-                    b.HasKey("InheritanceId");
-
-                    b.ToTable("InheritanceLaws");
-                });
-
             modelBuilder.Entity("Domain.Entities.Msg", b =>
                 {
                     b.Property<int>("MsgId")
@@ -239,6 +207,9 @@ namespace Domain.Migrations
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("MinAge")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()

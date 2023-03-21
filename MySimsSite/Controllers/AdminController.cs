@@ -2,8 +2,7 @@
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.AccessControl;
-using WebUI.Models;
+using MjauriziaSims.Models;
 
 namespace MjauriziaSims.Controllers
 {
@@ -16,7 +15,7 @@ namespace MjauriziaSims.Controllers
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
-        private readonly IInheritanceLawRepository _inheritanceLawRepository;
+        private readonly ICharacterPreferenceRepository _characterPreferenceRepository;
         private readonly MessageManager.MessageManager _messageManager;
 
         public AdminController(
@@ -26,7 +25,7 @@ namespace MjauriziaSims.Controllers
             IGoalRepository goalRepository, 
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
-            IInheritanceLawRepository inheritanceLawRepository,
+            ICharacterPreferenceRepository characterPreferenceRepository,
             MessageManager.MessageManager messageManager
         )
         {
@@ -36,7 +35,7 @@ namespace MjauriziaSims.Controllers
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
-            _inheritanceLawRepository = inheritanceLawRepository;
+            _characterPreferenceRepository = characterPreferenceRepository;
             _messageManager = messageManager;
         }
 
@@ -115,27 +114,29 @@ namespace MjauriziaSims.Controllers
         
         public ViewResult Character(int id, int familyId = 0)
         {
-            var character = new Character();
+            var model = new CharacterFormModel
+            {
+                Family = familyId,
+                InFamily = true
+            };
 
             if (id > 0)
             {
-                character = _characterRepository.Characters.First(c => c.CharacterId == id);
-            }
-            else
-            {
-                character.Family = familyId;
+                var character = _characterRepository.Characters.First(c => c.CharacterId == id);
+                model = CharacterFormModel.
+                        ModelForCharacter(character, _characterPreferenceRepository.CharacterPreferences.ToList());
             }
 
             var characterVewModel = new CharacterViewModel()
             {
-                Family = _familyRepository.Families.First(f => f.FamilyId == character.Family),
-                Character = character,
+                Family = _familyRepository.Families.First(f => f.FamilyId == model.Family),
+                Character = model,
                 Goals = _goalRepository.Goals.ToList(),
                 Preferences = _preferenceRepository.Preferences.ToList(),
                 Careers = _careerRepository.Careers.ToList(),
                 MsgManager = _messageManager,
-                Characters = _characterRepository.Characters.Where(c => c.Family == character.Family && c.InFamily
-                                && c.Age >= Ages.Young && c.CharacterId != character.CharacterId).ToList()
+                Characters = _characterRepository.Characters.Where(c => c.Family == model.Family && c.InFamily
+                                && c.Age >= Ages.Young && c.CharacterId != model.CharacterId).ToList()
             };
 
             return View(characterVewModel);
@@ -210,34 +211,6 @@ namespace MjauriziaSims.Controllers
 
             return Redirect("/Admin/Preferences/");
         }
-
-
-        [HttpGet]
-        public ViewResult InheritanceLaws()
-        {
-            return View(_inheritanceLawRepository.InheritanceLaws);
-        }
-
-        [HttpGet]
-        public ViewResult InheritanceLaw(int id)
-        {
-            var law = new InheritanceLaw();
-            if (id > 0)
-            {
-                law = _inheritanceLawRepository.InheritanceLaws.First(c => c.InheritanceId == id);
-            }
-
-            return View(law);
-        }
-        
-        [HttpPost]
-        public ActionResult InheritanceLaw(InheritanceLaw law)
-        {
-            _inheritanceLawRepository.SaveInheritanceLaw(law);
-
-            return Redirect("/Admin/InheritanceLaws/");
-        }
-
 
         [HttpGet]
         public ViewResult Careers()

@@ -32,6 +32,7 @@ namespace Domain.Concrete
                     dbEntry.Code = preference.Code;
                     dbEntry.Title = preference.Title;
                     dbEntry.Category = preference.Category;
+                    dbEntry.MinAge = preference.MinAge;
                 }
             }
             context.SaveChanges();

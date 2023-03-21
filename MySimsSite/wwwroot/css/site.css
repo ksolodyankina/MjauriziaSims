@@ -49,3 +49,25 @@ body {
 .loginBtn {
     margin-left: 10px;
 }
+
+.preference-like-icon i {
+    color: gray;
+    font-size: 1.5rem;
+}
+
+.preference-like-icon.active i {
+    color: green;
+}
+
+.preference-dislike-icon i {
+    color: gray;
+    font-size: 1.5rem;
+}
+
+.preference-dislike-icon.active i {
+    color: red;
+}
+
+.block-divider {
+    margin: 0;
+}

@@ -120,6 +120,12 @@
   <data name="ChildGoalHeader" xml:space="preserve">
     <value>Выбор детской цели</value>
   </data>
+  <data name="DisableAll" xml:space="preserve">
+    <value>Запретить все</value>
+  </data>
+  <data name="EnableAll" xml:space="preserve">
+    <value>Разрешить все</value>
+  </data>
   <data name="Randomize" xml:space="preserve">
     <value>Сгенерировать</value>
   </data>

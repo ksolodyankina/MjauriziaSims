@@ -1,6 +1,6 @@
-﻿@using WebUI.Models
+﻿@using MjauriziaSims.Models
 @using Domain.Entities
-@model FamilyViewModel
+@model MjauriziaSims.Models.FamilyViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 
 @inject IViewLocalizer Localizer
@@ -36,7 +36,7 @@
 @for (int i = Model.Family.Family.Generation; i > 0; i--)
 {
     <div class="row">
-        @foreach (var character in Model.Characters.OrderBy(c => !c.InFamily))
+            @foreach (var character in Model.Characters.OrderBy(c => !c.InFamily).ThenBy(c => c.CharacterId))
         {
             if (i == character.Generation)
             {
@@ -143,22 +143,6 @@
                             </div>
 
                         <div class="row">
-
-                            @foreach (var preference in Model.Preferences.OrderBy(p => p.Category))
-                            {
-                                if (preference.PreferenceId == character.Color
-                                    || preference.PreferenceId == character.Music
-                                    || preference.PreferenceId == character.Hobby
-                                    || preference.PreferenceId == character.Decor
-                                    || preference.PreferenceId == character.Clothes)
-                                {
-                                    <div class="col-sm-2">
-                                        <img src="/Images/Preferences/@(preference.Code).png" 
-                                            width="40px" height="40px" class="rounded"
-                                            title="@Model.MsgManager.Msg(preference.Title)" />
-                                    </div>
-                                }
-                            }
 
                         </div>
 

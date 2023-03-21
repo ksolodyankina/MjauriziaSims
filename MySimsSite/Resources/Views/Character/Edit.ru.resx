@@ -132,7 +132,7 @@
   <data name="Color" xml:space="preserve">
     <value>Цвет</value>
   </data>
-  <data name="Design" xml:space="preserve">
+  <data name="Decor" xml:space="preserve">
     <value>Декор</value>
   </data>
   <data name="Gender" xml:space="preserve">
@@ -149,6 +149,9 @@
   </data>
   <data name="header" xml:space="preserve">
     <value>Редактирование персонажа</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Скрыть</value>
   </data>
   <data name="Hobby" xml:space="preserve">
     <value>Хобби</value>
@@ -174,7 +177,13 @@
   <data name="Partner" xml:space="preserve">
     <value>Партнер</value>
   </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Предпочтения</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Показать</value>
   </data>
 </root>

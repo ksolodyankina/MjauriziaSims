@@ -1,9 +1,4 @@
 ﻿using Domain.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Migrator
@@ -13,7 +8,6 @@ namespace Domain.Migrator
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
-        private readonly IInheritanceLawRepository _inheritanceRepository;
         private readonly IMsgRepository _msgRepository;
 
         private static readonly Goal[] Goals = new [] {
@@ -85,107 +79,294 @@ namespace Domain.Migrator
 
         private static readonly Preference[] Preferences = new[]
         {
-            new Preference { Category = (Preference.Categories)2, Code = "actor", Title = "preference_actor" },
-            new Preference { Category = (Preference.Categories)1, Code = "alternative", Title = "preference_alternative" },
-            new Preference { Category = (Preference.Categories)1, Code = "americana", Title = "preference_americana" },
-            new Preference { Category = (Preference.Categories)1, Code = "artSong", Title = "preference_artSong" },
-            new Preference { Category = (Preference.Categories)2, Code = "baking", Title = "preference_baking" },
-            new Preference { Category = (Preference.Categories)1, Code = "baroque", Title = "preference_baroque" },
-            new Preference { Category = (Preference.Categories)3, Code = "basics", Title = "preference_basics" },
-            new Preference { Category = (Preference.Categories)0, Code = "black", Title = "preference_black" },
-            new Preference { Category = (Preference.Categories)0, Code = "blue", Title = "preference_blue" },
-            new Preference { Category = (Preference.Categories)1, Code = "blues", Title = "preference_blues" },
-            new Preference { Category = (Preference.Categories)3, Code = "boho", Title = "preference_boho" },
-            new Preference { Category = (Preference.Categories)2, Code = "bowling", Title = "preference_bowling" },
-            new Preference { Category = (Preference.Categories)0, Code = "brown", Title = "preference_brown" },
-            new Preference { Category = (Preference.Categories)1, Code = "classical", Title = "preference_classical" },
-            new Preference { Category = (Preference.Categories)2, Code = "comedy", Title = "preference_comedy" },
-            new Preference { Category = (Preference.Categories)1, Code = "concentration", Title = "preference_concentration" },
-            new Preference { Category = (Preference.Categories)3, Code = "conceptual", Title = "preference_conceptual" },
-            new Preference { Category = (Preference.Categories)3, Code = "contemporary", Title = "preference_contemporary" },
-            new Preference { Category = (Preference.Categories)2, Code = "cooking", Title = "preference_cooking" },
-            new Preference { Category = (Preference.Categories)3, Code = "cosmolux", Title = "preference_cosmolux" },
-            new Preference { Category = (Preference.Categories)2, Code = "crossStitch", Title = "preference_cross-stitch" },
-            new Preference { Category = (Preference.Categories)2, Code = "dancing", Title = "preference_dancing" },
-            new Preference { Category = (Preference.Categories)1, Code = "djMusic", Title = "preference_djMusic" },
-            new Preference { Category = (Preference.Categories)2, Code = "dj", Title = "preference_dj" },
-            new Preference { Category = (Preference.Categories)1, Code = "electronica", Title = "preference_electronica" },
-            new Preference { Category = (Preference.Categories)3, Code = "fairyTale", Title = "preference_fairyTale" },
-            new Preference { Category = (Preference.Categories)2, Code = "fishing", Title = "preference_fishing" },
-            new Preference { Category = (Preference.Categories)2, Code = "fitness", Title = "preference_fitness" },
-            new Preference { Category = (Preference.Categories)3, Code = "french", Title = "preference_french" },
-            new Preference { Category = (Preference.Categories)2, Code = "gaming", Title = "preference_gaming" },
-            new Preference { Category = (Preference.Categories)3, Code = "garden", Title = "preference_garden" },
-            new Preference { Category = (Preference.Categories)2, Code = "gardening", Title = "preference_gardening" },
-            new Preference { Category = (Preference.Categories)3, Code = "gothic", Title = "preference_gothic" },
-            new Preference { Category = (Preference.Categories)0, Code = "gray", Title = "preference_gray" },
-            new Preference { Category = (Preference.Categories)0, Code = "green", Title = "preference_green" },
-            new Preference { Category = (Preference.Categories)2, Code = "guitar", Title = "preference_guitar" },
-            new Preference { Category = (Preference.Categories)2, Code = "handiness", Title = "preference_handiness" },
-            new Preference { Category = (Preference.Categories)1, Code = "hipHop", Title = "preference_hip-hop" },
-            new Preference { Category = (Preference.Categories)1, Code = "islandMusic", Title = "preference_islandMusic" },
-            new Preference { Category = (Preference.Categories)3, Code = "island", Title = "preference_island" },
-            new Preference { Category = (Preference.Categories)1, Code = "japanese", Title = "preference_japanese" },
-            new Preference { Category = (Preference.Categories)1, Code = "jazz", Title = "preference_jazz" },
-            new Preference { Category = (Preference.Categories)1, Code = "kidsPop", Title = "preference_kidsPop" },
-            new Preference { Category = (Preference.Categories)1, Code = "kids", Title = "preference_kids" },
-            new Preference { Category = (Preference.Categories)2, Code = "knitting", Title = "preference_knitting" },
-            new Preference { Category = (Preference.Categories)1, Code = "latinDance", Title = "preference_latinDance" },
-            new Preference { Category = (Preference.Categories)1, Code = "latino", Title = "preference_latino" },
-            new Preference { Category = (Preference.Categories)1, Code = "light", Title = "preference_light" },
-            new Preference { Category = (Preference.Categories)1, Code = "lullabies", Title = "preference_lullabies" },
-            new Preference { Category = (Preference.Categories)2, Code = "mediaProduction", Title = "preference_mediaProduction" },
-            new Preference { Category = (Preference.Categories)1, Code = "metal", Title = "preference_metal" },
-            new Preference { Category = (Preference.Categories)3, Code = "midCentury", Title = "preference_midCentury" },
-            new Preference { Category = (Preference.Categories)2, Code = "mischief", Title = "preference_mischief" },
-            new Preference { Category = (Preference.Categories)3, Code = "mission", Title = "preference_mission" },
-            new Preference { Category = (Preference.Categories)2, Code = "mixology", Title = "preference_mixology" },
-            new Preference { Category = (Preference.Categories)3, Code = "modern", Title = "preference_modern" },
-            new Preference { Category = (Preference.Categories)1, Code = "newAge", Title = "preference_newAge" },
-            new Preference { Category = (Preference.Categories)1, Code = "nuDisco", Title = "preference_nuDisco" },
-            new Preference { Category = (Preference.Categories)0, Code = "orange", Title = "preference_orange" },
-            new Preference { Category = (Preference.Categories)2, Code = "painting", Title = "preference_painting" },
-            new Preference { Category = (Preference.Categories)3, Code = "patio", Title = "preference_patio" },
-            new Preference { Category = (Preference.Categories)2, Code = "photography", Title = "preference_photography" },
-            new Preference { Category = (Preference.Categories)2, Code = "piano", Title = "preference_piano" },
-            new Preference { Category = (Preference.Categories)0, Code = "pink", Title = "preference_pink" },
-            new Preference { Category = (Preference.Categories)2, Code = "pipeOrgan", Title = "preference_pipeOrgan" },
-            new Preference { Category = (Preference.Categories)1, Code = "pop", Title = "preference_pop" },
-            new Preference { Category = (Preference.Categories)2, Code = "programming", Title = "preference_programming" },
-            new Preference { Category = (Preference.Categories)3, Code = "queen", Title = "preference_queen" },
-            new Preference { Category = (Preference.Categories)0, Code = "red", Title = "preference_red" },
-            new Preference { Category = (Preference.Categories)2, Code = "researchDebate", Title = "preference_research-debate" },
-            new Preference { Category = (Preference.Categories)1, Code = "retro", Title = "preference_retro" },
-            new Preference { Category = (Preference.Categories)2, Code = "robotics", Title = "preference_robotics" },
-            new Preference { Category = (Preference.Categories)2, Code = "rockClimbing", Title = "preference_rockClimbing" },
-            new Preference { Category = (Preference.Categories)2, Code = "rocket", Title = "preference_rocket" },
-            new Preference { Category = (Preference.Categories)1, Code = "romance", Title = "preference_romance" },
-            new Preference { Category = (Preference.Categories)1, Code = "rustic", Title = "preference_rustic" },
-            new Preference { Category = (Preference.Categories)2, Code = "singing", Title = "preference_singing" },
-            new Preference { Category = (Preference.Categories)2, Code = "skiing", Title = "preference_skiing" },
-            new Preference { Category = (Preference.Categories)2, Code = "snowboarding", Title = "preference_snowboarding" },
-            new Preference { Category = (Preference.Categories)1, Code = "spooky", Title = "preference_spooky" },
-            new Preference { Category = (Preference.Categories)1, Code = "s-pop", Title = "preference_s-pop" },
-            new Preference { Category = (Preference.Categories)1, Code = "strangeTunes", Title = "preference_strangeTunes" },
-            new Preference { Category = (Preference.Categories)1, Code = "summer", Title = "preference_summer" },
-            new Preference { Category = (Preference.Categories)0, Code = "violet", Title = "preference_violet" },
-            new Preference { Category = (Preference.Categories)2, Code = "violin", Title = "preference_violin" },
-            new Preference { Category = (Preference.Categories)2, Code = "wellness", Title = "preference_wellness" },
-            new Preference { Category = (Preference.Categories)0, Code = "white", Title = "preference_white" },
-            new Preference { Category = (Preference.Categories)1, Code = "winter", Title = "preference_winter" },
-            new Preference { Category = (Preference.Categories)1, Code = "world", Title = "preference_world" },
-            new Preference { Category = (Preference.Categories)2, Code = "writing", Title = "preference_writing" },
-            new Preference { Category = (Preference.Categories)1, Code = "yard", Title = "preference_yard" },
-            new Preference { Category = (Preference.Categories)0, Code = "yellow", Title = "preference_yellow" },
-            new Preference { Category = (Preference.Categories)4, Code = "base", Title = "preference_base" },
-            new Preference { Category = (Preference.Categories)4, Code = "bohema", Title = "preference_bohema" },
-            new Preference { Category = (Preference.Categories)4, Code = "active", Title = "preference_active" },
-            new Preference { Category = (Preference.Categories)4, Code = "rock", Title = "preference_rock" },
-            new Preference { Category = (Preference.Categories)4, Code = "village", Title = "preference_village" },
-            new Preference { Category = (Preference.Categories)4, Code = "streetstyle", Title = "preference_streetstyle" },
-            new Preference { Category = (Preference.Categories)4, Code = "hipster", Title = "preference_hipster" },
-            new Preference { Category = (Preference.Categories)4, Code = "preppy", Title = "preference_preppy" },
-            new Preference { Category = (Preference.Categories)4, Code = "elegant", Title = "preference_elegant" }
+            new Preference {Category = (PreferenceCategories)2, Code = "actor", Title = "preference_actor", 
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "alternative", Title = "preference_alternative", 
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "americana", Title = "preference_americana",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "artSong", Title = "preference_artSong",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "baking", Title = "preference_baking",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "baroque", Title = "preference_baroque",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "basics", Title = "preference_basics",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)0, Code = "black", Title = "preference_black",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "blue", Title = "preference_blue",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "blues", Title = "preference_blues",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "boho", Title = "preference_boho",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "bowling", Title = "preference_bowling",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "brown", Title = "preference_brown",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "classical", Title = "preference_classical",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "comedy", Title = "preference_comedy",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "concentration", Title = "preference_concentration",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "conceptual", Title = "preference_conceptual",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "contemporary", Title = "preference_contemporary",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "cooking", Title = "preference_cooking",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "cosmolux", Title = "preference_cosmolux",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "crossStitch", Title = "preference_cross-stitch",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "dancing", Title = "preference_dancing",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "djMusic", Title = "preference_djMusic",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "dj", Title = "preference_dj",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "electronica", Title = "preference_electronica",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "fairyTale", Title = "preference_fairyTale",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "fishing", Title = "preference_fishing",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "fitness", Title = "preference_fitness",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "french", Title = "preference_french",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "gaming", Title = "preference_gaming",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "garden", Title = "preference_garden",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "gardening", Title = "preference_gardening",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "gothic", Title = "preference_gothic",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)0, Code = "gray", Title = "preference_gray",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "green", Title = "preference_green",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "guitar", Title = "preference_guitar",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "handiness", Title = "preference_handiness",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "hipHop", Title = "preference_hip-hop",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "islandMusic", Title = "preference_islandMusic",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "island", Title = "preference_island",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "japanese", Title = "preference_japanese",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "jazz", Title = "preference_jazz",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "kidsPop", Title = "preference_kidsPop",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "kids", Title = "preference_kids",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "knitting", Title = "preference_knitting",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "latinDance", Title = "preference_latinDance",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "latino", Title = "preference_latino",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "light", Title = "preference_light",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "lullabies", Title = "preference_lullabies",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "mediaProduction", Title = "preference_mediaProduction",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "metal", Title = "preference_metal",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "midCentury", Title = "preference_midCentury",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "mischief", Title = "preference_mischief",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)3, Code = "mission", Title = "preference_mission",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "mixology", Title = "preference_mixology",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "modern", Title = "preference_modern",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "newAge", Title = "preference_newAge",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "nuDisco", Title = "preference_nuDisco",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "orange", Title = "preference_orange",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "painting", Title = "preference_painting",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "patio", Title = "preference_patio",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "photography", Title = "preference_photography",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "piano", Title = "preference_piano",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "pink", Title = "preference_pink",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "pipeOrgan", Title = "preference_pipeOrgan",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "pop", Title = "preference_pop",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "programming", Title = "preference_programming",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "queen", Title = "preference_queen",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)0, Code = "red", Title = "preference_red",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "researchDebate", Title = "preference_research-debate",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "retro", Title = "preference_retro",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "robotics", Title = "preference_robotics",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "rockClimbing", Title = "preference_rockClimbing",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)2, Code = "rocket", Title = "preference_rocket",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "romance", Title = "preference_romance",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "rustic", Title = "preference_rustic",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "singing", Title = "preference_singing",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "skiing", Title = "preference_skiing",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "snowboarding", Title = "preference_snowboarding",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "spooky", Title = "preference_spooky",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "s-pop", Title = "preference_s-pop",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "strangeTunes", Title = "preference_strangeTunes",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "summer", Title = "preference_summer",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "violet", Title = "preference_violet",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "violin", Title = "preference_violin",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "wellness", Title = "preference_wellness",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "white", Title = "preference_white",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "winter", Title = "preference_winter",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "world", Title = "preference_world",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)2, Code = "writing", Title = "preference_writing",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)1, Code = "yard", Title = "preference_yard",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)0, Code = "yellow", Title = "preference_yellow",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)4, Code = "base", Title = "preference_base",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "bohema", Title = "preference_bohema",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "active", Title = "preference_active",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "rock", Title = "preference_rock",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "village", Title = "preference_village",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "streetstyle", Title = "preference_streetstyle",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "hipster", Title = "preference_hipster",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "preppy", Title = "preference_preppy",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)4, Code = "elegant", Title = "preference_elegant",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "art-deco", Title = "preference_art-deco",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "vintage", Title = "preference_vintage",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "industrial", Title = "preference_industrial",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "cute", Title = "preference_cute",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "shabby", Title = "preference_shabby",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)3, Code = "luxe", Title = "preference_luxe",
+                            MinAge = Ages.Teen},
+            new Preference {Category = (PreferenceCategories)5, Code = "affection", Title = "preference_affection",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "arguments", Title = "preference_arguments",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "complaints", Title = "preference_complaints",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "compliments", Title = "preference_compliments",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "deception", Title = "preference_deception",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "deepThoughts", Title = "preference_deepThoughts",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "discussingHobbies", Title = "preference_discussingHobbies",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "discussingInterests", Title = "preference_discussingInterests",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "flirtation", Title = "preference_flirtation",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "gossip", Title = "preference_gossip",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "jokes", Title = "preference_jokes",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "maliciousInteractions", Title = "preference_maliciousInteractions",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "physicalIntimacy", Title = "preference_physicalIntimacy",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "pottyHumor", Title = "preference_pottyHumor",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "pranks", Title = "preference_pranks",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "sillyBehavior", Title = "preference_sillyBehavior",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "smallTalk", Title = "preference_smallTalk",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)5, Code = "stories", Title = "preference_stories",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "ambitionless", Title = "preference_ambitionless",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "argumentative", Title = "preference_argumentative",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "cerebral", Title = "preference_cerebral",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "egotistical", Title = "preference_egotistical",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "emotional", Title = "preference_emotional",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "kidEnthusiast", Title = "preference_kidEnthusiast",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "funny", Title = "preference_funny",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "hardWorking", Title = "preference_hardWorking",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "highEnergy", Title = "preference_highEnergy",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "homebody", Title = "preference_homebody",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "idealist", Title = "preference_idealist",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "natureEnthusiast", Title = "preference_natureEnthusiast",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "optimistic", Title = "preference_optimistic",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "pessimistic", Title = "preference_pessimistic",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "petEnthusiast", Title = "preference_petEnthusiast",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "mischievous", Title = "preference_mischievous",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "romanceEnthusiast", Title = "preference_romanceEnthusiast",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)6, Code = "spirited", Title = "preference_spirited",
+                            MinAge = Ages.Child},
+            new Preference {Category = (PreferenceCategories)1, Code = "soul", Title = "preference_soul",
+                            MinAge = Ages.Child}
         };                              
 
         private static readonly Career[] Careers = new[]
@@ -233,135 +414,6 @@ namespace Domain.Migrator
             new Career { Code = "teacher", Title = "career_teacher" },
             new Career { Code = "waiter", Title = "career_waiter" },
             new Career { Code = "writer", Title = "career_writer" }
-        };
-
-        private static readonly InheritanceLaw[] InheritanceLaws = new[]
-        {
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)0, AllowsManualChoice = false, Code = "matriarchy", IsStrict = false, Title = "inheritance_matriarchy",
-                Value = 1
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)0, AllowsManualChoice = false, Code = "smatriarchy", IsStrict = true,
-                Title = "inheritance_smatriarchy", Value = 1
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)0, AllowsManualChoice = false, Code = "patriarchy", IsStrict = false, 
-                Title = "inheritance_patriarchy", Value = 0
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)0, AllowsManualChoice = false, Code = "spatriarchy", IsStrict = true,
-                Title = "inheritance_spatriarchy", Value = 0
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)0, AllowsManualChoice = true, Code = "equality", IsStrict = false, 
-                Title = "inheritance_equality", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)0, AllowsManualChoice = false, Code = "sequality", IsStrict = true,
-                Title = "inheritance_sequality", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)1, AllowsManualChoice = false, Code = "straditional", IsStrict = true,
-                Title = "inheritance_straditional", Value = 0
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)1, AllowsManualChoice = false, Code = "traditional", IsStrict = false, 
-                Title = "inheritance_traditional", Value = 0
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)1, AllowsManualChoice = true, Code = "modern", IsStrict = false,
-                Title = "inheritance_modern", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)1, AllowsManualChoice = false, Code = "foster", IsStrict = false,
-                Title = "inheritance_foster", Value = 1
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)1, AllowsManualChoice = false, Code = "sfoster", IsStrict = true,
-                Title = "inheritance_sfoster", Value = 1
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = false, Code = "firstborn", IsStrict = true,
-                Title = "inheritance_firstborn", Value = 0
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = false, Code = "lastborn", IsStrict = true,
-                Title = "inheritance_lastborn", Value = 1
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = true, Code = "livingwill", IsStrict = true,
-                Title = "inheritance_livingwill", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = true, Code = "merit", IsStrict = true,
-                Title = "inheritance_merit", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = true, Code = "strength", IsStrict = true,
-                Title = "inheritance_strength", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = false, Code = "random", IsStrict = true,
-                Title = "inheritance_random", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = true, Code = "exemplar", IsStrict = true,
-                Title = "inheritance_exemplar", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = true, Code = "democracy", IsStrict = true,
-                Title = "inheritance_democracy", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = true, Code = "magicalbloodline", IsStrict = true,
-                Title = "inheritance_magicalbloodline", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)2, AllowsManualChoice = true, Code = "magicalstrength", IsStrict = true,
-                Title = "inheritance_magicalstrength", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)3, AllowsManualChoice = true, Code = "xenoarchy", IsStrict = false,
-                Title = "inheritance_xenoarchy", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)3, AllowsManualChoice = true, Code = "xenophobic", IsStrict = false,
-                Title = "inheritance_xenophobic", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)3, AllowsManualChoice = true, Code = "brood", IsStrict = false,
-                Title = "inheritance_brood", Value = 2
-            },
-            new InheritanceLaw
-            {
-                Category = (InheritanceCategory)3, AllowsManualChoice = true, Code = "tolerant", IsStrict = false,
-                Title = "inheritance_tolerant", Value = 2
-            },
         };
 
         private static readonly Msg[] Messages = new[] {
@@ -580,35 +632,6 @@ namespace Domain.Migrator
             new Msg {Code = "career_teacher", MsgRu = "Преподаватель", MsgEn = "Education"},
             new Msg {Code = "career_waiter", MsgRu = "Официант", MsgEn = "Fast Food Employee"},
             new Msg {Code = "career_writer", MsgRu = "Писатель", MsgEn = "Writer"},
-            new Msg {Code = "inheritance_matriarchy", MsgRu = "Матриархат", MsgEn = "Matriarchy"},
-            new Msg {Code = "inheritance_smatriarchy", MsgRu = "Строгий матриархат", MsgEn = "Strict matriarchy"},
-            new Msg {Code = "inheritance_patriarchy", MsgRu = "Патриархат", MsgEn = "Patriarchy"},
-            new Msg {Code = "inheritance_spatriarchy", MsgRu = "Строгий патриархат", MsgEn = "Strict patriarchy"},
-            new Msg {Code = "inheritance_equality", MsgRu = "Равенство", MsgEn = "Equality"},
-            new Msg {Code = "inheritance_sequality", MsgRu = "Строгое равенство", MsgEn = "Strict equality"},
-            new Msg {Code = "inheritance_straditional", MsgRu = "Строгий традиционный", MsgEn = "Strict traditional"},
-            new Msg {Code = "inheritance_traditional", MsgRu = "Традиционный", MsgEn = "Traditional"},
-            new Msg {Code = "inheritance_modern", MsgRu = "Современный", MsgEn = "Modern"},
-            new Msg {Code = "inheritance_foster", MsgRu = "Опекунский", MsgEn = "Foster"},
-            new Msg {Code = "inheritance_sfoster", MsgRu = "Строгий опекунский", MsgEn = "Strict foster"},
-            new Msg {Code = "inheritance_firstborn", MsgRu = "Перворожденный", MsgEn = "First Born"},
-            new Msg {Code = "inheritance_lastborn", MsgRu = "Молодость", MsgEn = "Last Born"},
-            new Msg {Code = "inheritance_livingwill", MsgRu = "Последняя воля", MsgEn = "Living Will"},
-            new Msg {Code = "inheritance_merit", MsgRu = "По заслугам", MsgEn = "Merit"},
-            new Msg {Code = "inheritance_strength", MsgRu = "Сила", MsgEn = "Strength"},
-            new Msg {Code = "inheritance_random", MsgRu = "Случайность", MsgEn = "Random"},
-            new Msg {Code = "inheritance_exemplar", MsgRu = "Семейная черта", MsgEn = "Exemplar"},
-            new Msg {Code = "inheritance_democracy", MsgRu = "Демократический", MsgEn = "Democracy"},
-            new Msg {Code = "inheritance_magicalbloodline", MsgRu = "Магический род", MsgEn = "Magical Bloodline"},
-            new Msg {Code = "inheritance_magicalstrength", MsgRu = "Магическая сила", MsgEn = "Magical Strength"},
-            new Msg {Code = "inheritance_xenoarchy", MsgRu = "Ксеноархат", MsgEn = "Xenoarchy"},
-            new Msg {Code = "inheritance_xenophobic", MsgRu = "Ксенофобия", MsgEn = "Xenophobic"},
-            new Msg {Code = "inheritance_brood", MsgRu = "Выведение", MsgEn = "Brood"},
-            new Msg {Code = "inheritance_tolerant", MsgRu = "Толерантность", MsgEn = "Tolerant"},
-            new Msg {Code = "inheritanceCategory_Gender", MsgRu = "Гендерный принцип", MsgEn = "Gender law"},
-            new Msg {Code = "inheritanceCategory_Bloodline", MsgRu = "Принцип чистокровности", MsgEn = "Bloodline law"},
-            new Msg {Code = "inheritanceCategory_Heir", MsgRu = "Принцип выбора", MsgEn = "Heir law"},
-            new Msg {Code = "inheritanceCategory_Species", MsgRu = "Расовый принцип", MsgEn = "Species law"},
             new Msg {Code = "age_Baby", MsgRu = "Младенец", MsgEn = "Baby"},
             new Msg {Code = "age_Toddler", MsgRu = "Тоддлер", MsgEn = "Toddler"},
             new Msg {Code = "age_Child", MsgRu = "Ребенок", MsgEn = "Child"},
@@ -658,20 +681,61 @@ namespace Domain.Migrator
             new Msg {Code = "err_recoveryGoogle", 
                     MsgRu = "Пожалуйста, авторизируйтесь через Google, чтобы войти в свой аккаунт.", 
                     MsgEn = "Please, use Google Authentication to enter your account."},
-            new Msg {Code = "notSet", MsgRu = "Не выбрано", MsgEn = "Not set"}
+            new Msg {Code = "notSet", MsgRu = "Не выбрано", MsgEn = "Not set"},
+            new Msg {Code = "preference_art-deco", MsgRu = "Ар-деко", MsgEn = "Art Deco"},
+            new Msg {Code = "preference_vintage", MsgRu = "Винтажный стиль", MsgEn = "Vintage"},
+            new Msg {Code = "preference_industrial", MsgRu = "Индустриальный стиль", MsgEn = "Industrial"},
+            new Msg {Code = "preference_cute", MsgRu = "Милый стиль", MsgEn = "Cute"},
+            new Msg {Code = "preference_shabby", MsgRu = "Потрепанный стиль", MsgEn = "Shabby"},
+            new Msg {Code = "preference_luxe", MsgRu = "Стиль Люкс", MsgEn = "Luxe"},
+            new Msg {Code = "preference_affection", MsgRu = "Любовь", MsgEn = "Affection"},
+            new Msg {Code = "preference_arguments", MsgRu = "Ссоры", MsgEn = "Arguments"},
+            new Msg {Code = "preference_complaints", MsgRu = "Жалобы", MsgEn = "Complaints"},
+            new Msg {Code = "preference_compliments", MsgRu = "Комплименты", MsgEn = "Compliments"},
+            new Msg {Code = "preference_deception", MsgRu = "Обман", MsgEn = "Deception"},
+            new Msg {Code = "preference_deepThoughts", MsgRu = "Глубокие мысли", MsgEn = "Deep thoughts"},
+            new Msg {Code = "preference_discussingHobbies", MsgRu = "Обсуждение увлечений", MsgEn = "Discussing hobbies"},
+            new Msg {Code = "preference_discussingInterests", MsgRu = "Обсуждение интересов", MsgEn = "Discussing interests"},
+            new Msg {Code = "preference_flirtation", MsgRu = "Флирт", MsgEn = "Flirtation"},
+            new Msg {Code = "preference_gossip", MsgRu = "Сплетни", MsgEn = "Gossip"},
+            new Msg {Code = "preference_jokes", MsgRu = "Шутки", MsgEn = "Jokes"},
+            new Msg {Code = "preference_maliciousInteractions", MsgRu = "Плохие поступки", MsgEn = "Malicious interactions"},
+            new Msg {Code = "preference_physicalIntimacy", MsgRu = "Физическая близость", MsgEn = "Physical intimacy"},
+            new Msg {Code = "preference_pottyHumor", MsgRu = "Непотребные шутки", MsgEn = "Potty humor"},
+            new Msg {Code = "preference_pranks", MsgRu = "Шалости", MsgEn = "Pranks"},
+            new Msg {Code = "preference_sillyBehavior", MsgRu = "Нелепое поведение", MsgEn = "Silly behavior"},
+            new Msg {Code = "preference_smallTalk", MsgRu = "Светские беседы", MsgEn = "Small talk"},
+            new Msg {Code = "preference_stories", MsgRu = "Истории", MsgEn = "Stories"},
+            new Msg {Code = "preference_ambitionless", MsgRu = "Неамбициозные персонажи", MsgEn = "Ambitionless Sims"},
+            new Msg {Code = "preference_argumentative", MsgRu = "Любители спорить", MsgEn = "Argumentative Sims"},
+            new Msg {Code = "preference_cerebral", MsgRu = "Интеллектуалы", MsgEn = "Cerebral Sims"},
+            new Msg {Code = "preference_egotistical", MsgRu = "Эгоисты", MsgEn = "Egotistical Sims"},
+            new Msg {Code = "preference_emotional", MsgRu = "Идущие на поводу у эмоций", MsgEn = "Emotional Decision-Makers"},
+            new Msg {Code = "preference_kidEnthusiast", MsgRu = "Преданные семье персонажи", MsgEn = "Family-Motivated Sims"},
+            new Msg {Code = "preference_funny", MsgRu = "Юмористы", MsgEn = "Funny Sims"},
+            new Msg {Code = "preference_hardWorking", MsgRu = "Трудолюбивые персонажи", MsgEn = "Hard-Working Sims"},
+            new Msg {Code = "preference_highEnergy", MsgRu = "Энергичные персонажи", MsgEn = "High Energy Sims"},
+            new Msg {Code = "preference_homebody", MsgRu = "Домоседы", MsgEn = "Homebody Sims"},
+            new Msg {Code = "preference_idealist", MsgRu = "Идеалисты", MsgEn = "Idealist Sims"},
+            new Msg {Code = "preference_natureEnthusiast", MsgRu = "Ценители природы", MsgEn = "Nature Enthusiasts"},
+            new Msg {Code = "preference_optimistic", MsgRu = "Оптимисты", MsgEn = "Optimistic Sims"},
+            new Msg {Code = "preference_pessimistic", MsgRu = "Пессимисты", MsgEn = "Pessimistic Sims"},
+            new Msg {Code = "preference_petEnthusiast", MsgRu = "Любители питомцев", MsgEn = "Pet Enthusiasts"},
+            new Msg {Code = "preference_mischievous", MsgRu = "Проказники", MsgEn = "Rascals"},
+            new Msg {Code = "preference_romanceEnthusiast", MsgRu = "Ценители романтики", MsgEn = "Romance Enthusiasts"},
+            new Msg {Code = "preference_spirited", MsgRu = "Одухотворённые персонажи", MsgEn = "Spirited Sims"},
+            new Msg {Code = "preference_soul", MsgRu = "Соул", MsgEn = "Soul"}
         };
 
         public Migrator(
             IGoalRepository goalRepository,
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
-            IInheritanceLawRepository inheritanceRepository,
             IMsgRepository msgRepository)
         {
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
-            _inheritanceRepository = inheritanceRepository;
             _msgRepository = msgRepository;
         }
 
@@ -679,7 +743,8 @@ namespace Domain.Migrator
         {
             foreach (var goal in Goals)
             {
-                if (_goalRepository.Goals.FirstOrDefault(g => g.Code == goal.Code) == null)
+                var goalDB = _goalRepository.Goals.FirstOrDefault(g => g.Code == goal.Code);
+                if (goalDB == null)
                 {
                     _goalRepository.SaveGoal(goal);
                 }
@@ -687,11 +752,17 @@ namespace Domain.Migrator
 
             foreach (var preference in Preferences)
             {
-                if (_preferenceRepository.Preferences.FirstOrDefault(p =>
-                        p.Code == preference.Code && p.Category == preference.Category)
-                    == null)
+                var preferenceDB = _preferenceRepository.Preferences.FirstOrDefault(
+                        p => p.Code == preference.Code && p.Category == preference.Category);
+                if (preferenceDB == null)
                 {
                     _preferenceRepository.SavePreference(preference);
+                }
+                else if (preferenceDB.Title != preference.Title || preferenceDB.MinAge != preference.MinAge)
+                {
+                    preferenceDB.Title = preference.Title;
+                    preferenceDB.MinAge = preference.MinAge;
+                    _preferenceRepository.SavePreference(preferenceDB);
                 }
             }
 
@@ -702,17 +773,6 @@ namespace Domain.Migrator
                     _careerRepository.SaveCareer(career);
                 }
             }
-
-            foreach (var law in InheritanceLaws)
-            {
-                if (_inheritanceRepository.InheritanceLaws.
-                        FirstOrDefault(l => l.Category == law.Category && l.Code == law.Code)
-                    == null)
-                {
-                    _inheritanceRepository.SaveInheritanceLaw(law);
-                }
-            }
-
             foreach (var msg in Messages)
             {
                 if (_msgRepository.Messages.FirstOrDefault(g => g.Code == msg.Code) == null)

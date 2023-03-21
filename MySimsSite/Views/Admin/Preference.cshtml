@@ -1,4 +1,5 @@
-﻿@model Domain.Entities.Preference
+﻿@using MjauriziaSims.Models
+@model Domain.Entities.Preference
 
 @{
     ViewBag.Title = "Admin : Edit preference";
@@ -26,6 +27,8 @@
                 <label>Category :</label>
                 @Html.TextBox("Category", Model.Category, new { @class = "form-control" })
 
+                <label>Age :</label>
+                @Html.DropDownList("MinAge", AdminViewModel.GetAgeSelectItems())
             </div>
         </div>
 

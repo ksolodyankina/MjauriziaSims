@@ -1,24 +1,13 @@
 ﻿using Domain.Abstract;
 using Domain.Entities;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WebUI.Models;
+using MjauriziaSims.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using Domain.Concrete;
-using Microsoft.EntityFrameworkCore;
-using MjauriziaSims.Models;
-using System.Security.Policy;
-using Microsoft.AspNetCore.Components.RenderTree;
 using System.Net.Mail;
 using System.Net;
-using System.Net.WebSockets;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Google;
-using Azure;
-using Azure.Core;
 using System.Security.Cryptography;
 using System.Text;
 
