@@ -100,7 +100,6 @@ namespace MjauriziaSims.Controllers
                 var character = new CharacterFormModel()
                 {
                     Family = family.FamilyId,
-                    InFamily = true,
                     Partner = partnerId
                 };
 

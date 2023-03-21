@@ -123,6 +123,9 @@
   <data name="Career" xml:space="preserve">
     <value>Career</value>
   </data>
+  <data name="Characteristic" xml:space="preserve">
+    <value>Characteristic</value>
+  </data>
   <data name="Chronotype" xml:space="preserve">
     <value>Chronotype</value>
   </data>
@@ -132,7 +135,10 @@
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
-  <data name="Design" xml:space="preserve">
+  <data name="ConversationTopics" xml:space="preserve">
+    <value>Conversation topics</value>
+  </data>
+  <data name="Decor" xml:space="preserve">
     <value>Decor</value>
   </data>
   <data name="Gender" xml:space="preserve">
@@ -179,5 +185,8 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
   </data>
 </root>

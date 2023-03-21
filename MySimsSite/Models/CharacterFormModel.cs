@@ -13,7 +13,7 @@ namespace MjauriziaSims.Models
         public bool Glasses { get; set; }
         public int Goal { get; set; }
         public Ages Age { get; set; }
-        public bool InFamily { get; set; }
+        public bool InFamily { get; set; } = true;
         public Chronotypes? Chronotype { get; set; }
         public int? Career { get; set; }
         public int Parent1 { get; set; }
@@ -69,35 +69,44 @@ namespace MjauriziaSims.Models
             if (CharacterId == 0)
             {
                 CharacterId = characterRepository.Characters.
-                    First(c => c.Name == Name && c.Family == Family && c.Generation == Generation).CharacterId;
+                    Last(c => c.Name == Name && c.Family == Family && c.Generation == Generation).CharacterId;
             }
 
             var count = (Likes == null ? 0 : Likes.Count()) + (Dislikes == null ? 0 : Dislikes.Count());
-            var characterPreferences = new CharacterPreference[count];
-            var i = 0;
-            foreach (var preference in Likes)
+            if (count > 0)
             {
-                var characterPreference = new CharacterPreference
+                var characterPreferences = new CharacterPreference[count];
+                var i = 0;
+                if (Likes != null)
                 {
-                    CharacterId = CharacterId,
-                    PreferenceId = preference,
-                    IsLike = true
-                };
-                characterPreferences[i] = characterPreference;
-                i++;
-            }
-            foreach (var preference in Dislikes)
-            {
-                var characterPreference = new CharacterPreference
+                    foreach (var preference in Likes)
+                    {
+                        var characterPreference = new CharacterPreference
+                        {
+                            CharacterId = CharacterId,
+                            PreferenceId = preference,
+                            IsLike = true
+                        };
+                        characterPreferences[i] = characterPreference;
+                        i++;
+                    }
+                }
+                if (Dislikes != null)
                 {
-                    CharacterId = CharacterId,
-                    PreferenceId = preference,
-                    IsLike = false
-                };
-                characterPreferences[i] = characterPreference;
-                i++;
+                    foreach (var preference in Dislikes)
+                    {
+                        var characterPreference = new CharacterPreference
+                        {
+                            CharacterId = CharacterId,
+                            PreferenceId = preference,
+                            IsLike = false
+                        };
+                        characterPreferences[i] = characterPreference;
+                        i++;
+                    }
+                }
+                characterPreferenceRepository.SaveCharacterPreferences(characterPreferences);
             }
-            characterPreferenceRepository.SaveCharacterPreferences(characterPreferences);
         }
     }
 }

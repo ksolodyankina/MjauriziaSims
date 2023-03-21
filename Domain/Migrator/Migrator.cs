@@ -75,6 +75,10 @@ namespace Domain.Migrator
             new Goal { Code = "goal", IsChild = false, Title = "goal_goal"},
             new Goal { Code = "batuu", IsChild = false, Title = "goal_batuu"},
             new Goal { Code = "batuuPrivateer", IsChild = false, Title = "goal_batuuPrivateer"},
+            new Goal { Code = "childCaptain", IsChild = true, Title = "goal_childCaptain"},
+            new Goal { Code = "childGenius", IsChild = true, Title = "goal_childGenius"},
+            new Goal { Code = "childMindAndBody", IsChild = true, Title = "goal_childMindAndBody"},
+            new Goal { Code = "childParty", IsChild = true, Title = "goal_childParty"}
         };
 
         private static readonly Preference[] Preferences = new[]
@@ -724,7 +728,11 @@ namespace Domain.Migrator
             new Msg {Code = "preference_mischievous", MsgRu = "Проказники", MsgEn = "Rascals"},
             new Msg {Code = "preference_romanceEnthusiast", MsgRu = "Ценители романтики", MsgEn = "Romance Enthusiasts"},
             new Msg {Code = "preference_spirited", MsgRu = "Одухотворённые персонажи", MsgEn = "Spirited Sims"},
-            new Msg {Code = "preference_soul", MsgRu = "Соул", MsgEn = "Soul"}
+            new Msg {Code = "preference_soul", MsgRu = "Соул", MsgEn = "Soul"},
+            new Msg {Code = "goal_childCaptain", MsgRu = "Жизнь как игра", MsgEn = "Playtime Captain"},
+            new Msg {Code = "goal_childGenius", MsgRu = "Творческий взгляд", MsgEn = "Creative Genius"},
+            new Msg {Code = "goal_childMindAndBody", MsgRu = "Душа и тело", MsgEn = "Mind and Body"},
+            new Msg {Code = "goal_childParty", MsgRu = "Душа пижамной вечеринки", MsgEn = "Slumber Party Animal"},
         };
 
         public Migrator(

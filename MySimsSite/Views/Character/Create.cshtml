@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 min-age-child">
+            <div class="col-sm-6 min-age-young">
                 <div class="p-1">@Localizer["Partner"] :</div>
                 <div class="row">
                     <div class="col-sm-11">
@@ -157,6 +157,74 @@
                 </div>
             </div>
         </div>
+
+        <div class="hidden">
+            <select asp-for="Character.Likes"
+                asp-items="Model.GetSelectPreferences()"
+                name="Character.Likes"
+                id="likesSelect">
+            </select>
+            <select asp-for="Character.Dislikes"
+                asp-items="Model.GetSelectPreferences()"
+                name="Character.Dislikes"
+                id="dislikesSelect">
+            </select>
+        </div>
+
+        <p class="fs-3 pt-3 min-age-child">@Localizer["Preferences"]</p>
+        @foreach (var category in (PreferenceCategories[])Enum.GetValues(typeof(PreferenceCategories)))
+        {
+            <div class="row min-age-@Model.GetMinAgeForPreferenceCategory(category)">
+                <hr class="block-divider">
+                <div class="col-sm-3 fs-5">
+                    <a href="#" onclick="setBlockVisibility('@category')" title="@Localizer["Show"]"
+                                class="text-decoration-none" id="blockShow-@category">
+                        <i class="bi-caret-down-fill" style="font-size: 1.5rem; color: black;"></i>
+                    </a>
+                    <a href="#" onclick="setBlockVisibility('@category')" title="@Localizer["Hide"]"
+                                class="text-decoration-none hidden" id="blockHide-@category">
+                        <i class="bi-caret-up-fill" style="font-size: 1.5rem; color: black;"></i>
+                    </a>
+                    @Localizer[category.ToString()]
+                    <a href="#" onclick="setRandomBlockValue('@category')" title="Randomize">
+                        <i class="bi-dice-6" style="font-size: 1.5rem; color: black;"></i>
+                    </a>
+                </div>
+                <div class="col-sm-9 mt-1 mb-1">
+                    <div class="d-flex flex-row-reverse">
+                        <div id="blockLikes-@category" class="ms-1"></div>
+                        <div id="blockDislikes-@category"></div>
+                    </div>
+                </div>
+                <hr class="block-divider">
+                <div class="row preference-block hidden" id="@category">
+                    @foreach (var preference in Model.Preferences.Where(p => p.Category == category).ToList())
+                    {
+                        <div class="col-sm-1 center-block text-center">
+                            <div>
+                                <i class="bi-x-square-fill hidden" style="font-size:3.8rem; color:darkgray"></i>
+                                <img src="/Images/Preferences/@(preference.Code).png"
+                                     width="60px" height="60px" style="margin-top:22px; margin-bottom:9px"
+                                     class="rounded border border-dark"
+                                     id="preference-@preference.PreferenceId"
+                                     title="@Model.MsgManager.Msg(preference.Title)" />
+                            </div>
+                            <div>
+                                <a href="#" onclick="setLike('@preference.PreferenceId')" title="@Localizer["Like"]"
+                       class="text-decoration-none preference-like-icon" id="like-@preference.PreferenceId">
+                                    <i class="bi-hand-thumbs-up-fill"></i>
+                                </a>
+                                <a href="#" onclick="setDislike('@preference.PreferenceId')" title="@Localizer["Dislike"]"
+                                        class="text-decoration-none preference-dislike-icon" id="dislike-@preference.PreferenceId">
+                                    <i class="bi-hand-thumbs-down-fill"></i>
+                                </a>
+                            </div>
+                            <p class="m-0">@Model.MsgManager.Msg(preference.Title)</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
 
         <div class="row justify-content-md-center mt-3">
             <div class="col col-auto">

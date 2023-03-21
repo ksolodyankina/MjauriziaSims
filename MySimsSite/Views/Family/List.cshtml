@@ -45,21 +45,16 @@
                                 border-@Model.getCardColor(character) 
                                 text-@(character.InFamily ? "dark" : "secondary")">
                         <div class="row">
-                            <div class="col-sm-6">
-                                @if (Model.CanEdit)
-                                {
-                                    <h5><a class="text-decoration-none text-@Model.getCardColor(character)"
-                                           href="/Character/Edit/@character.CharacterId">
-                                        @character.Name
-                                    </a></h5>
-                                }
-                                else
-                                {
-                                    <h5 class ="text-@Model.getCardColor(character)">@character.Name</h5>
-                                }
-                            </div>
                             @if (character.InFamily && Model.CanEdit)
                             {
+                                <div class="col-sm-6">
+                                    <h5>
+                                        <a class="text-decoration-none text-@Model.getCardColor(character)"
+                                            href="/Character/Edit/@character.CharacterId">
+                                            @character.Name
+                                        </a>
+                                    </h5>
+                                </div>
                                 <div class="col-sm-2">
                                     @if (Model.CanGetMarried(character))
                                     {
@@ -85,6 +80,12 @@
                                     </a>
                                 </div>
                             }
+                            else
+                            {
+                                <div class="col-sm-12">
+                                    <h5 class ="text-@Model.getCardColor(character)">@character.Name</h5>
+                                </div>
+                            }
                         </div>
                         
                         <p>@Localizer["Generation"] @character.Generation</p>
@@ -104,14 +105,13 @@
                                         <img    src="/Images/Goals/@(goal.Code).png" 
                                                 width="50px" height="50px" class="rounded" 
                                                 title="@Model.MsgManager.Msg(goal.Title)" />
-                                            <p>@Model.MsgManager.Msg(goal.Title)</p>
+                                        <p>@Model.MsgManager.Msg(goal.Title)</p>
                                     }
                                 }
 
                             </div>
                         
                             <div class="col-sm-6">
-                                
                                 @foreach (var career in Model.Careers)
                                 {
                                     if (career.CareerId == character.Career)
@@ -119,7 +119,7 @@
                                         <img src="/Images/Careers/@(career.Code).png"
                                              width="50px" height="50px" class="rounded"
                                              title="@Model.MsgManager.Msg(career.Title)" />
-                                            <p>@Model.MsgManager.Msg(career.Title)</p>
+                                        <p>@Model.MsgManager.Msg(career.Title)</p>
                                     }
                                 }
                             </div>
@@ -143,7 +143,6 @@
                             </div>
 
                         <div class="row">
-
                         </div>
 
                     </div>
