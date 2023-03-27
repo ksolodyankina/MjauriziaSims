@@ -733,6 +733,13 @@ namespace Domain.Migrator
             new Msg {Code = "goal_childGenius", MsgRu = "Творческий взгляд", MsgEn = "Creative Genius"},
             new Msg {Code = "goal_childMindAndBody", MsgRu = "Душа и тело", MsgEn = "Mind and Body"},
             new Msg {Code = "goal_childParty", MsgRu = "Душа пижамной вечеринки", MsgEn = "Slumber Party Animal"},
+            new Msg {Code = "category_Color", MsgRu = "Цвет", MsgEn = "Color"},
+            new Msg {Code = "category_Music", MsgRu = "Жанр музыки", MsgEn = "Music"},
+            new Msg {Code = "category_Hobby", MsgRu = "Хобби", MsgEn = "Hobby"},
+            new Msg {Code = "category_Decor", MsgRu = "Декор", MsgEn = "Decor"},
+            new Msg {Code = "category_Clothes", MsgRu = "Стиль одежды", MsgEn = "Clothes"},
+            new Msg {Code = "category_ConversationTopics", MsgRu = "Темы разговора", MsgEn = "Conversation topics"},
+            new Msg {Code = "category_Characteristic", MsgRu = "Характеристики персонажа", MsgEn = "Sim characteristic"},
         };
 
         public Migrator(

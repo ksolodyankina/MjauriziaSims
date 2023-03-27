@@ -36,21 +36,21 @@
 @for (int i = Model.Family.Family.Generation; i > 0; i--)
 {
     <div class="row">
-            @foreach (var character in Model.Characters.OrderBy(c => !c.InFamily).ThenBy(c => c.CharacterId))
+        @foreach (var character in Model.Characters.OrderBy(c => !c.InFamily).ThenBy(c => c.CharacterId))
         {
             if (i == character.Generation)
             {
                 <div class="col-sm-3 p-2 @(character.InFamily ? "in-family" : "removed-character hidden" ) ">
                     <div class="p-3 bg-white border rounded 
-                                border-@Model.getCardColor(character) 
+                                border-@Model.GetCardColor(character)
                                 text-@(character.InFamily ? "dark" : "secondary")">
                         <div class="row">
                             @if (character.InFamily && Model.CanEdit)
                             {
                                 <div class="col-sm-6">
                                     <h5>
-                                        <a class="text-decoration-none text-@Model.getCardColor(character)"
-                                            href="/Character/Edit/@character.CharacterId">
+                                            <a class="text-decoration-none text-@Model.GetCardColor(character)"
+                                                href="/Character/Edit/@character.CharacterId">
                                             @character.Name
                                         </a>
                                     </h5>
@@ -83,7 +83,7 @@
                             else
                             {
                                 <div class="col-sm-12">
-                                    <h5 class ="text-@Model.getCardColor(character)">@character.Name</h5>
+                                    <h5 class="text-@Model.GetCardColor(character)">@character.Name</h5>
                                 </div>
                             }
                         </div>
@@ -98,53 +98,97 @@
                         
                         <div class="row">
                             <div class="col-sm-6">
-                                @foreach (var goal in Model.Goals)
+                                @if (character.Goal > 0)
                                 {
-                                    if (goal.GoalId == character.Goal)
-                                    {
-                                        <img    src="/Images/Goals/@(goal.Code).png" 
-                                                width="50px" height="50px" class="rounded" 
-                                                title="@Model.MsgManager.Msg(goal.Title)" />
-                                        <p>@Model.MsgManager.Msg(goal.Title)</p>
-                                    }
+                                    var goal = Model.Goals.First(g => g.GoalId == character.Goal);
+                                    <img    src="/Images/Goals/@(goal.Code).png" 
+                                            width="50px" height="50px" class="rounded" 
+                                            title="@Model.MsgManager.Msg(goal.Title)" />
+                                    <p>@Model.MsgManager.Msg(goal.Title)</p>
                                 }
 
                             </div>
                         
                             <div class="col-sm-6">
-                                @foreach (var career in Model.Careers)
+                                @if (character.Career > 0)
                                 {
-                                    if (career.CareerId == character.Career)
-                                    {
-                                        <img src="/Images/Careers/@(career.Code).png"
-                                             width="50px" height="50px" class="rounded"
-                                             title="@Model.MsgManager.Msg(career.Title)" />
-                                        <p>@Model.MsgManager.Msg(career.Title)</p>
-                                    }
+                                    var career = Model.Careers.First(c => c.CareerId == character.Career);
+                                    <img src="/Images/Careers/@(career.Code).png"
+                                            width="50px" height="50px" class="rounded"
+                                            title="@Model.MsgManager.Msg(career.Title)" />
+                                    <p>@Model.MsgManager.Msg(career.Title)</p>
                                 }
                             </div>
 
                         </div>
 
-                            <div class="row mb-2">
-                                <div class="col-sm-6">
-                                    @if (character.Chronotype != null && character.Chronotype >= 0)
-                                    {
-                                        <p class="m-0">@Model.MsgManager.Msg("chronotype_" + character.Chronotype.ToString())</p>
-                                    }
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    @if (@character.Glasses)
-                                    {
-                                        <p class="m-0">@Localizer["glasses"]</p>
-                                    }
-                                </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                @if (character.Chronotype != null && character.Chronotype >= 0)
+                                {
+                                    <p class="m-0">@Model.MsgManager.Msg("chronotype_" + character.Chronotype.ToString())</p>
+                                }
                             </div>
-
-                        <div class="row">
+                                
+                            <div class="col-sm-6">
+                                @if (@character.Glasses)
+                                {
+                                    <p class="m-0">@Localizer["glasses"]</p>
+                                }
+                            </div>
                         </div>
 
+                        @if ((character.Likes != null && character.Likes.Count() > 0)
+                            || (character.Dislikes != null && character.Dislikes.Count() > 0))
+                        {
+                            <a href="#" onclick="preferencesPanelCollapse(@character.CharacterId)"
+                                    title="@Localizer["Show"]" 
+                                    class="text-decoration-none text-black"
+                                    id="panelShow-@character.CharacterId">
+                                <i class="bi-caret-down-fill" style="font-size: 1.5rem; color: black;"></i>
+                                @Localizer["Preferences"]
+                            </a>
+                            <a href="#" onclick="preferencesPanelCollapse(@character.CharacterId)"
+                                    title="@Localizer["Hide"]" 
+                                    class="text-decoration-none hidden text-black"
+                                    id="panelHide-@character.CharacterId">
+                                <i class="bi-caret-up-fill" style="font-size: 1.5rem; color: black;"></i>
+                                @Localizer["Preferences"]
+                            </a>
+                            <div class="hidden" id="preferencesPanel-@character.CharacterId">
+                                @foreach (var category in Model.GetCharacterPreferences2(character))
+                                {
+                                    <p class="m-0">@Model.MsgManager.Msg("category_" + category.Key.ToString()):</p>
+                                    <div class="d-flex flex-wrap">
+                                        @if (category.Value.ContainsKey("likes"))
+                                        {
+                                            <div class="me-2 d-flex">
+                                                @foreach (var preference in category.Value["likes"])
+                                                {
+                                                    <img src="/Images/Preferences/@(preference.Code).png"
+                                                        width="40px" height="40px"
+                                                        class="rounded border border-success border-3"
+                                                        title="@Model.MsgManager.Msg(preference.Title)" />
+                                                }
+                                            </div>
+                                        }
+                                        @if (category.Value.ContainsKey("dislikes"))
+                                        {
+                                            <div class="d-flex">
+                                                @foreach (var preference in category.Value["dislikes"])
+                                                {
+                                                    <img src="/Images/Preferences/@(preference.Code).png"
+                                                        width="40px" height="40px"
+                                                        class="rounded border border-danger border-3"
+                                                        title="@Model.MsgManager.Msg(preference.Title)" />
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                            
                     </div>
                 </div>
             }

@@ -14,6 +14,7 @@ namespace MjauriziaSims.Controllers
         private readonly IGoalRepository _goalRepository;
         private readonly IPreferenceRepository _preferenceRepository;
         private readonly ICareerRepository _careerRepository;
+        private readonly ICharacterPreferenceRepository _characterPreferenceRepository;
         private readonly MessageManager.MessageManager _msgManager;
 
         public FamilyController(
@@ -23,6 +24,7 @@ namespace MjauriziaSims.Controllers
             IGoalRepository goalRepository,
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
+            ICharacterPreferenceRepository characterPreferenceRepository,
             MessageManager.MessageManager msgManager)
         {
             _familyRepository = familyRepository;
@@ -31,6 +33,7 @@ namespace MjauriziaSims.Controllers
             _goalRepository = goalRepository;
             _preferenceRepository = preferenceRepository;
             _careerRepository = careerRepository;
+            _characterPreferenceRepository = characterPreferenceRepository; 
             _msgManager = msgManager;
         }
 
@@ -93,13 +96,22 @@ namespace MjauriziaSims.Controllers
                 canEdit = familyWithUser.Family.UserId == Int32.Parse(userId);
             }
 
+            var characters = _characterRepository.Characters.Where(c => c.Family == familyId).ToList();
+            var characterModels = new List<CharacterFormModel>();
+            foreach (var character in characters)
+            {
+                characterModels.Add(CharacterFormModel.
+                    ModelForCharacter(character, _characterPreferenceRepository.CharacterPreferences.ToList()));
+            }
+
+
             var familyViewModel = new FamilyViewModel
             {
                 Family = familyWithUser,
-                Characters = _characterRepository.Characters.Where(c => c.Family == familyId).ToList(),
-                Goals = _goalRepository.Goals,
-                Preferences = _preferenceRepository.Preferences,
-                Careers = _careerRepository.Careers,
+                Characters = characterModels,
+                Goals = _goalRepository.Goals.ToList(),
+                Preferences = _preferenceRepository.Preferences.ToList(),
+                Careers = _careerRepository.Careers.ToList(),
                 CanEdit = canEdit,
                 MsgManager = _msgManager
             };

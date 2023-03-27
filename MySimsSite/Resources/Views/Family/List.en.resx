@@ -135,11 +135,20 @@
   <data name="GrownUp" xml:space="preserve">
     <value>Grown up</value>
   </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
   <data name="MakeHeir" xml:space="preserve">
     <value>Make heir</value>
   </data>
   <data name="Out" xml:space="preserve">
     <value>Out of family</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Likes &amp; Dislikes</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
   </data>
   <data name="ToggleText" xml:space="preserve">
     <value>Show/Hide Removed Characters</value>

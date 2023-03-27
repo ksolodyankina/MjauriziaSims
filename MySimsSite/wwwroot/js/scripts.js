@@ -267,6 +267,21 @@ function setRandomBlockValue(category) {
     };
 }
 
+function preferencesPanelCollapse(id) {
+    event.preventDefault();
+    var $preferencesPanel = $("#preferencesPanel-" + id);
+    var isHidden = $preferencesPanel.hasClass("hidden");
+    if (isHidden) {
+        $preferencesPanel.removeClass("hidden");
+        $("#panelShow-" + id).addClass("hidden");
+        $("#panelHide-" + id).removeClass("hidden");
+    } else {
+        $preferencesPanel.addClass("hidden");
+        $("#panelShow-" + id).removeClass("hidden");
+        $("#panelHide-" + id).addClass("hidden");
+    }
+}
+
 $(document).ready(function () {
     $(".removed-character").addClass("hidden");
 
