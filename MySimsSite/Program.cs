@@ -22,6 +22,7 @@ builder.Services.AddSingleton<IGoalRepository, EFGoalRepository>();
 builder.Services.AddSingleton<IPreferenceRepository, EFPreferenceRepository>();
 builder.Services.AddSingleton<ICareerRepository, EFCareerRepository>();
 builder.Services.AddSingleton<ICharacterPreferenceRepository, EFCharacterPreferenceRepository>();
+builder.Services.AddSingleton<IPackRepository, EFPackRepository>();
 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<Domain.Migrator.Migrator>();
 builder.Services.AddSingleton<MessageManager>();

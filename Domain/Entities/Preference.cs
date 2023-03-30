@@ -17,5 +17,6 @@
         public string Title { get; set; }
         public PreferenceCategories Category { get; set; }
         public Ages MinAge { get; set; }
+        public int Pack { get; set; }
     }
 }

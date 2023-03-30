@@ -71,3 +71,42 @@ body {
 .block-divider {
     margin: 0;
 }
+
+a.filter-option {
+    position: relative;
+}
+
+a.filter-option i {
+    font-size: 2.15rem;
+    color: darkgray;
+    opacity: 0.7;
+    position: absolute;
+}
+
+a.filter-option img {
+    margin-top: 9px;
+    margin-bottom: 12px;
+}
+
+div.selected-option-box i {
+    font-size: 5rem;
+}
+
+div.selected-option-box img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+a.choice-option i {
+    font-size: 3.8rem;
+    color: darkgray;
+}
+
+a.choice-option img {
+    margin-top: 22px;
+    margin-bottom: 9px;
+}
+
+a.choice-option-switch i {
+    font-size: 3.8rem;
+}

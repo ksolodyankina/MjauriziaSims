@@ -7,20 +7,23 @@ namespace MjauriziaSims.Controllers
 {
     public class RandomizerController : Controller
     {
-        private readonly IGoalRepository _goalRepository;
-        private readonly IPreferenceRepository _preferenceRepository;
-        private readonly ICareerRepository _careerRepository;
+        private readonly IEnumerable<Goal> _goals;
+        private readonly IEnumerable<Preference> _preferences;
+        private readonly IEnumerable<Career> _careers;
+        private readonly IEnumerable<Pack> _packs;
         private readonly MessageManager.MessageManager _msgManager;
 
         public RandomizerController(
             IGoalRepository goalRepository,
             IPreferenceRepository preferenceRepository,
             ICareerRepository careerRepository,
+            IPackRepository packRepository,
             MessageManager.MessageManager msgManager)
         {
-            _goalRepository = goalRepository;
-            _preferenceRepository = preferenceRepository;
-            _careerRepository = careerRepository;
+            _goals = goalRepository.Goals.ToList();
+            _preferences = preferenceRepository.Preferences.ToList();
+            _careers = careerRepository.Careers.ToList();
+            _packs = packRepository.Packs.ToList();
             _msgManager = msgManager;
         }
 
@@ -28,7 +31,8 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Goals = _goalRepository.Goals.Where(g => !g.IsChild).OrderBy(g => g.Title).ToList(),
+                Goals = _goals.Where(g => !g.IsChild).OrderBy(g => g.Title).ToList(),
+                Packs = _packs.Where(p => _goals.Where(g => !g.IsChild).Select(g => g.Pack).Contains(p.PackId)),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -37,7 +41,8 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Goals = _goalRepository.Goals.Where(g => g.IsChild).ToList(),
+                Goals = _goals.Where(g => g.IsChild).ToList(),
+                Packs = _packs.Where(p => _goals.Where(g => g.IsChild).Select(g => g.Pack).Contains(p.PackId)),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -46,7 +51,8 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Careers = _careerRepository.Careers.ToList(),
+                Careers = _careers,
+                Packs = _packs.Where(p => _careers.Select(c => c.Pack).Contains(p.PackId)),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -55,28 +61,29 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (PreferenceCategories)0).ToList(),
+                Preferences = _preferences.Where(p => p.Category == (PreferenceCategories)0).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
         }
         public ViewResult PreferenceMusic()
         {
+            var preferences = _preferences.Where(p => p.Category == (PreferenceCategories)1).ToList();
             var model = new RandomizerViewModel()
             {
-                Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (PreferenceCategories)1).ToList(),
+                Preferences = preferences,
+                Packs = _packs.Where(p => preferences.Select(v => v.Pack).Contains(p.PackId)),
                 MsgManager = _msgManager
             };
             return View(model);
         }
         public ViewResult PreferenceHobby()
         {
+            var preferences = _preferences.Where(p => p.Category == (PreferenceCategories)2).ToList();
             var model = new RandomizerViewModel()
             {
-                Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (PreferenceCategories)2).ToList(),
+                Preferences = preferences,
+                Packs = _packs.Where(p => preferences.Select(p => p.Pack).Contains(p.PackId)),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -85,8 +92,7 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (PreferenceCategories)3).ToList(),
+                Preferences = _preferences.Where(p => p.Category == (PreferenceCategories)3).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -95,8 +101,7 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (PreferenceCategories)4).ToList(),
+                Preferences = _preferences.Where(p => p.Category == (PreferenceCategories)4).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -105,8 +110,7 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (PreferenceCategories)5).ToList(),
+                Preferences = _preferences.Where(p => p.Category == (PreferenceCategories)5).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);
@@ -115,8 +119,7 @@ namespace MjauriziaSims.Controllers
         {
             var model = new RandomizerViewModel()
             {
-                Preferences = _preferenceRepository.Preferences
-                    .Where(p => p.Category == (PreferenceCategories)6).ToList(),
+                Preferences = _preferences.Where(p => p.Category == (PreferenceCategories)6).ToList(),
                 MsgManager = _msgManager
             };
             return View(model);

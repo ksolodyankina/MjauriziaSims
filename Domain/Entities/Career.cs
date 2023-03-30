@@ -7,5 +7,6 @@ namespace Domain.Entities
 
         public string Code { get; set; }
         public string Title { get; set; }
+        public int Pack { get; set; }
     }
 }

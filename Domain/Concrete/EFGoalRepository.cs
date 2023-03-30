@@ -37,6 +37,7 @@ namespace Domain.Concrete
                     dbEntry.Code = goal.Code;
                     dbEntry.Title = goal.Title;
                     dbEntry.IsChild = goal.IsChild;
+                    dbEntry.Pack = goal.Pack;
                 }
             }
             context.SaveChanges();

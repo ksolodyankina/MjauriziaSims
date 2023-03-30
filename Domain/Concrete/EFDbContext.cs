@@ -15,6 +15,7 @@ namespace Domain.Concrete
         public DbSet<User> Users { get; set; }
         public DbSet<Msg> Messages { get; set; }
         public DbSet<CharacterPreference> CharacterPreferences { get; set; }
+        public DbSet<Pack> Packs { get; set; }
 
         private readonly string _connectionString;
 

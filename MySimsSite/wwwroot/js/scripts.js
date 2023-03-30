@@ -38,6 +38,9 @@ function showRandomizedValue() {
     $img.removeClass("hidden");
     $img[0].src = img;
     $img[0].title = title;
+    var $selectedOptionText = $(".selected-option-text");
+    $selectedOptionText.empty();
+    $selectedOptionText.append(title);
 }
 
 function enableChoiceOption($option) {
@@ -52,6 +55,27 @@ function disableChoiceOption($option) {
     $option.addClass("choice-option--disabled");
     $option.find("i").removeClass("hidden");
     $option.find("img").addClass("hidden");
+}
+
+function filterByPack(pack) {
+    event.preventDefault();
+    $option = $(".filter-" + pack);
+    $choiceOptions = $(".pack-" + pack);
+    if ($option.hasClass("filter-option--enabled")) {
+        $option.removeClass("filter-option--enabled");
+        $option.addClass("filter-option--disabled");
+        $option.find("i").removeClass("hidden");
+        for (var i = 0; i < $choiceOptions.length; i++) {
+            disableChoiceOption($($choiceOptions[i]));
+        }
+    } else {
+        $option.removeClass("filter-option--disabled");
+        $option.addClass("filter-option--enabled");
+        $option.find("i").addClass("hidden");
+        for (var i = 0; i < $choiceOptions.length; i++) {
+            enableChoiceOption($($choiceOptions[i]));
+        }
+    }
 }
 
 function checkFieldIsNotEmpty(formId, fieldId) {
@@ -114,12 +138,14 @@ function setActiveTab(tabId) {
 
 function setGoalsSelectOptions() {
     var $goalSelect = $("#goalSelect");
-    var goalInfo = JSON.parse($goalSelect.attr("data"));
-    for (var i = 0; i < goalInfo["child"].length; i++) {
-        $("#goalSelect option[value=" + goalInfo["child"][i] + "]").addClass("child-goal-option");
-    }
-    for (var i = 0; i < goalInfo["adult"].length; i++) {
-        $("#goalSelect option[value=" + goalInfo["adult"][i] + "]").addClass("adult-goal-option");
+    if ($goalSelect.length > 0) {
+        var goalInfo = JSON.parse($goalSelect.attr("data"));
+        for (var i = 0; i < goalInfo["child"].length; i++) {
+            $("#goalSelect option[value=" + goalInfo["child"][i] + "]").addClass("child-goal-option");
+        }
+        for (var i = 0; i < goalInfo["adult"].length; i++) {
+            $("#goalSelect option[value=" + goalInfo["adult"][i] + "]").addClass("adult-goal-option");
+        }
     }
 }
 

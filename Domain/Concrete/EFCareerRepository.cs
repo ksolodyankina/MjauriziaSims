@@ -36,6 +36,7 @@ namespace Domain.Concrete
                 {
                     dbEntry.Code = career.Code;
                     dbEntry.Title = career.Title;
+                    dbEntry.Pack = career.Pack;
                 }
             }
             context.SaveChanges();

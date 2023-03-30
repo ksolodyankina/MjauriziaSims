@@ -34,6 +34,9 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Pack")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -159,6 +162,9 @@ namespace Domain.Migrations
                     b.Property<bool>("IsChild")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("Pack")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -193,6 +199,27 @@ namespace Domain.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Pack", b =>
+                {
+                    b.Property<int>("PackId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PackId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("PackId");
+
+                    b.ToTable("Packs");
+                });
+
             modelBuilder.Entity("Domain.Entities.Preference", b =>
                 {
                     b.Property<int>("PreferenceId")
@@ -209,6 +236,9 @@ namespace Domain.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("MinAge")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Pack")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
