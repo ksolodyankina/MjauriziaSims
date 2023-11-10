@@ -11,23 +11,25 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
+
 var connectionString = configuration["ConnectionString:DefaultConnection"];
 
-builder.Services.AddSingleton<EFDbContext>(s => new EFDbContext(connectionString));
-builder.Services.AddTransient<IUserRepository, EFUserRepository>();
-builder.Services.AddTransient<IMsgRepository, EFMsgRepository>();
-builder.Services.AddTransient<IFamilyRepository, EFFamilyRepository>();
-builder.Services.AddSingleton<ICharacterRepository, EFCharacterRepository>();
-builder.Services.AddSingleton<IGoalRepository, EFGoalRepository>();
-builder.Services.AddSingleton<IPreferenceRepository, EFPreferenceRepository>();
-builder.Services.AddSingleton<ICareerRepository, EFCareerRepository>();
-builder.Services.AddSingleton<ICharacterPreferenceRepository, EFCharacterPreferenceRepository>();
-builder.Services.AddSingleton<IPackRepository, EFPackRepository>();
+services.AddTransient<EFDbContext>(s => new EFDbContext(connectionString));
+services.AddTransient<IUserRepository, EFUserRepository>();
+services.AddTransient<IMsgRepository, EFMsgRepository>();
+services.AddTransient<IFamilyRepository, EFFamilyRepository>();
+services.AddSingleton<ICharacterRepository, EFCharacterRepository>();
+services.AddSingleton<IGoalRepository, EFGoalRepository>();
+services.AddSingleton<IPreferenceRepository, EFPreferenceRepository>();
+services.AddSingleton<ICareerRepository, EFCareerRepository>();
+services.AddSingleton<ICharacterPreferenceRepository, EFCharacterPreferenceRepository>();
+services.AddSingleton<IPackRepository, EFPackRepository>();
+services.AddSingleton<IUserPackRepository, EFUserPackRepository>();
 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddSingleton<Domain.Migrator.Migrator>();
-builder.Services.AddSingleton<MessageManager>();
-builder.Services.AddSingleton<IHtmlLocalizerFactory, HtmlLocalizerFactory>();
-builder.Services.AddSingleton<IViewLocalizer, ViewLocalizer>();
+services.AddSingleton<Domain.Migrator.Migrator>();
+services.AddSingleton<MessageManager>();
+services.AddSingleton<IHtmlLocalizerFactory, HtmlLocalizerFactory>();
+services.AddSingleton<IViewLocalizer, ViewLocalizer>();
 
 services.Configure<RequestLocalizationOptions>(options =>
 {

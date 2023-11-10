@@ -34,17 +34,20 @@ namespace Domain.Concrete
 
         public void SaveCharacterPreferences(CharacterPreference[] characterPreferences)
         {
-            var character = characterPreferences.First().CharacterId;
-            var dbEntries = context.CharacterPreferences.Where(c => c.CharacterId == character);
-            foreach (var dbEntry in dbEntries)
+            if (characterPreferences.Length > 0)
             {
-                context.Remove(dbEntry);
+                var character = characterPreferences.First().CharacterId;
+                var dbEntries = context.CharacterPreferences.Where(c => c.CharacterId == character);
+                foreach (var dbEntry in dbEntries)
+                {
+                    context.Remove(dbEntry);
+                }
+                foreach (var characterPreference in characterPreferences)
+                {
+                    context.Add(characterPreference);
+                }
+                context.SaveChanges();
             }
-            foreach (var characterPreference in characterPreferences)
-            {
-                context.Add(characterPreference);
-            }
-            context.SaveChanges();
         }
     }
 }

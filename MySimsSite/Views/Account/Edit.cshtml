@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@model MjauriziaSims.Models.UserEditModel
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewBag.Title = Localizer["header"];
+}
+
+<div class="m-3">
+    <h3>@Localizer["header"]</h3>
+
+    <div class="row mt-3">
+        <div class="col col-auto">
+            <a href="/Account/ChangePassword/" class="btn btn-light">@Localizer["ChangePassword"]</a>
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <div class="col-sm-6 mt-3">
+            <div class="p-1">@Localizer["Username"]:</div>
+            @Html.TextBox("Username", null, new { @class = "form-control" })
+        </div>
+        <p class="pt-3">@Localizer["Packs"]:</p>
+        <div class="row" id="editUser">
+            @Html.HiddenFor(m => m.UserId)
+            <div class="hidden">
+                <select asp-for="Packs"
+                    asp-items="Model.GetPacksSelectItems()"
+                    id="packsSelect">
+                </select>
+            </div>
+            @foreach (var category in (Model.GetPacks()))
+            {
+                <div class="d-flex">
+                @foreach (var pack in category.Value.OrderBy(p => p.Code))
+                {
+                    <a href="#" class="text-reset text-decoration-none pack-select active" id="pack-select--@pack.PackId"
+                            onclick="selectPack('@pack.PackId')" title="@Model.MsgManager.Msg(pack.Title)">
+                        <i class="bi-circle-fill hidden"></i>
+                        <img src="/Images/Packs/@(pack.Code).webp" width="35px" height="35px"/>
+                    </a>
+                }
+                </div>
+            }
+
+            <div class="row mt-3">
+                <div class="col col-auto">
+                    <input type="submit" value="@Localizer["Save"]" class="btn btn-light"/>
+                </div>
+            </div>
+        </div>   
+    } 
+</div>

@@ -28,6 +28,7 @@ namespace Domain.Migrator
             new Pack { Code = "EP11", Title = "pack_EP11" },
             new Pack { Code = "EP12", Title = "pack_EP12" },
             new Pack { Code = "EP13", Title = "pack_EP13" },
+            new Pack { Code = "EP14", Title = "pack_EP14" },
             new Pack { Code = "GP01", Title = "pack_GP01" },
             new Pack { Code = "GP02", Title = "pack_GP02" },
             new Pack { Code = "GP03", Title = "pack_GP03" },
@@ -58,6 +59,7 @@ namespace Domain.Migrator
             new Pack { Code = "SP16", Title = "pack_SP16" },
             new Pack { Code = "SP17", Title = "pack_SP17" },
             new Pack { Code = "SP18", Title = "pack_SP18" },
+            new Pack { Code = "SP46", Title = "pack_SP46" },
             new Pack { Code = "FP01", Title = "pack_FP01" },
         };
 
@@ -130,6 +132,11 @@ namespace Domain.Migrator
             { new Goal { Code = "childGenius", IsChild = true, Title = "goal_childGenius"}, "EP13" },
             { new Goal { Code = "childMindAndBody", IsChild = true, Title = "goal_childMindAndBody"}, "EP13" },
             { new Goal { Code = "childParty", IsChild = true, Title = "goal_childParty"}, "EP13" },
+            { new Goal { Code = "childParty", IsChild = true, Title = "goal_childParty"}, "EP13" },
+            { new Goal { Code = "rider", IsChild = false, Title = "goal_rider"}, "EP14" },
+            { new Goal { Code = "nectar", IsChild = false, Title = "goal_nectar"}, "EP14" },
+            { new Goal { Code = "appliance", IsChild = false, Title = "goal_appliance"}, "SP46" },
+            { new Goal { Code = "market", IsChild = false, Title = "goal_market"}, "SP46" },
         };
 
         private static readonly Dictionary<Preference, string> Preferences = new Dictionary<Preference,string>()
@@ -422,6 +429,18 @@ namespace Domain.Migrator
                             MinAge = Ages.Child}, "EP13" },
             { new Preference {Category = (PreferenceCategories)1, Code = "soul", Title = "preference_soul",
                             MinAge = Ages.Child}, "EP13" },
+            { new Preference {Category = (PreferenceCategories)2, Code = "horse", Title = "preference_horse",
+                            MinAge = Ages.Child}, "SP14" },
+            { new Preference {Category = (PreferenceCategories)2, Code = "nectarMaking", Title = "preference_nectarMaking",
+                            MinAge = Ages.Teen}, "SP14" },
+            { new Preference {Category = (PreferenceCategories)1, Code = "batuuMusic", Title = "preference_batuuMusic",
+                            MinAge = Ages.Child}, "GP09" },
+            { new Preference {Category = (PreferenceCategories)1, Code = "carnaval", Title = "preference_carnaval",
+                            MinAge = Ages.Child}, "base" },
+            { new Preference {Category = (PreferenceCategories)1, Code = "rb", Title = "preference_rb",
+                            MinAge = Ages.Child}, "base" },
+            { new Preference {Category = (PreferenceCategories)1, Code = "ranch", Title = "preference_ranch",
+                            MinAge = Ages.Child}, "base" },
         };                              
 
         private static readonly Dictionary<Career, string> Careers = new Dictionary<Career, string>()
@@ -687,7 +706,8 @@ namespace Domain.Migrator
             new Msg {Code = "career_teacher", MsgRu = "Преподаватель", MsgEn = "Education"},
             new Msg {Code = "career_waiter", MsgRu = "Официант", MsgEn = "Fast Food Employee"},
             new Msg {Code = "career_writer", MsgRu = "Писатель", MsgEn = "Writer"},
-            new Msg {Code = "age_Baby", MsgRu = "Младенец", MsgEn = "Baby"},
+            new Msg {Code = "age_Newborn", MsgRu = "Новорожденный", MsgEn = "Newborn"},
+            new Msg {Code = "age_Infant", MsgRu = "Младенец", MsgEn = "Infant"},
             new Msg {Code = "age_Toddler", MsgRu = "Тоддлер", MsgEn = "Toddler"},
             new Msg {Code = "age_Child", MsgRu = "Ребенок", MsgEn = "Child"},
             new Msg {Code = "age_Teen", MsgRu = "Подросток", MsgEn = "Teen"},
@@ -836,6 +856,21 @@ namespace Domain.Migrator
             new Msg {Code = "pack_SP17", MsgRu = "Нарядные нитки", MsgEn = "Nifty Knitting Stuff"},
             new Msg {Code = "pack_SP18", MsgRu = "Паранормальное", MsgEn = "Paranormal Stuff"},
             new Msg {Code = "pack_FP01", MsgRu = "Ни пылинки", MsgEn = "Bust the Dust Kit"},
+            new Msg {Code = "err_ChangePass", 
+                        MsgRu = "Вы указали неверный пароль. Пожалуйста,повторите попытку.", 
+                        MsgEn = "Wrong password. Please, try again."},
+            new Msg {Code = "pack_EP14", MsgRu = "Конное ранчо", MsgEn = "Horse Ranch"},
+            new Msg {Code = "pack_SP46", MsgRu = "Кулинарные страсти", MsgEn = "Home Chef Hustle"},
+            new Msg {Code = "goal_rider", MsgRu = "Чемпионская езда", MsgEn = "Championship Rider"},
+            new Msg {Code = "goal_nectar", MsgRu = "Эксперт по нектару", MsgEn = "Expert Nectar Maker"},
+            new Msg {Code = "goal_appliance", MsgRu = "Чудеса техники", MsgEn = "Appliance Wiz"},
+            new Msg {Code = "goal_market", MsgRu = "Гроза рынка", MsgEn = "Market Magnate"},
+            new Msg {Code = "preference_horse", MsgRu = "Верховая езда", MsgEn = "Horse Riding"},
+            new Msg {Code = "preference_nectarMaking", MsgRu = "Приготовление нектара", MsgEn = "Nectar Making"},
+            new Msg {Code = "preference_batuuMusic", MsgRu = "Музыка Батуу", MsgEn = "Batuu"},
+            new Msg {Code = "preference_carnaval", MsgRu = "Карнавальная музыка", MsgEn = "Carnaval Beats"},
+            new Msg {Code = "preference_rb", MsgRu = "Музыка в жанре ар-н-би", MsgEn = "R&B"},
+            new Msg {Code = "preference_ranch", MsgRu = "Музыка ранчо", MsgEn = "Ranch"},
         };
 
         public Migrator(

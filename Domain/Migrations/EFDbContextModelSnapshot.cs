@@ -282,6 +282,19 @@ namespace Domain.Migrations
 
                     b.ToTable("Users");
                 });
+
+            modelBuilder.Entity("Domain.Entities.UserPack", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PackId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "PackId");
+
+                    b.ToTable("UserPacks");
+                });
 #pragma warning restore 612, 618
         }
     }

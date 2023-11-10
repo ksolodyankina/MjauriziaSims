@@ -47,6 +47,28 @@
                 <div class="p-1">@Localizer["ConfirmPassword"] :</div>
                 @Html.Password("ConfirmPassword", null, new { @class = "form-control" , id="confirmPassword"})
             </div>
+            <div class="col-sm-6">
+            </div>
+            <p class="pt-3">@Localizer["Packs"]:</p>
+            <div class="hidden">
+                <select asp-for="Packs"
+                    asp-items="Model.GetPacksSelectItems()"
+                    id="packsSelect">
+                </select>
+            </div>
+            @foreach (var category in (Model.GetPacks()))
+            {
+                <div class="d-flex">
+                @foreach (var pack in category.Value.OrderBy(p => p.Code))
+                {
+                    <a href="#" class="text-reset text-decoration-none pack-select active" id="pack-select--@pack.PackId"
+                            onclick="selectPack('@pack.PackId')" title="@Model.MsgManager.Msg(pack.Title)">
+                        <i class="bi-circle-fill hidden"></i>
+                        <img src="/Images/Packs/@(pack.Code).webp" width="35px" height="35px"/>
+                    </a>
+                }
+                </div>
+            }
         </div>
 
 

@@ -6,12 +6,13 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = @Localizer["Header"];
+    ViewBag.Title = @Localizer["Title"];
     ViewBag.TabId = "nav-families";
+    ViewBag.Description = @Localizer["Description"];
 }
 
 <div class="m-3">
-    <h3>@ViewBag.Title</h3>
+    <h3>@Localizer["Header"]</h3>
 
     @using (Html.BeginForm())
     {

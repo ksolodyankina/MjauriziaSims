@@ -308,6 +308,32 @@ function preferencesPanelCollapse(id) {
     }
 }
 
+function selectPack(pack) {
+    event.preventDefault();
+    var $packBtn = $("#pack-select--" + pack);
+    var $packOption = $("#packsSelect option[value = " + pack + "]");
+    if ($packBtn.hasClass("active")) {
+        $packOption.removeAttr("selected");
+        $packBtn.removeClass("active");
+        $packBtn.find("i").removeClass("hidden");
+    } else {
+        $packOption.attr("selected", true);
+        $packBtn.addClass("active");
+        $packBtn.find("i").addClass("hidden");
+    }
+}
+
+function setSelectPackOptionsState() {
+    var $packOptions = $("#packsSelect option");
+    for (var i = 0; i < $packOptions.length; i++) {
+        var $packBtn = $("#pack-select--" + $packOptions[i].value);
+        if (!$($packOptions[i]).attr("selected")) {
+            $packBtn.removeClass("active");
+            $packBtn.find("i").removeClass("hidden");
+        }
+    }
+}
+
 $(document).ready(function () {
     $(".removed-character").addClass("hidden");
 
@@ -418,6 +444,25 @@ $(document).ready(function () {
             var isOk = true;
             var formId = "resetPassForm";
 
+            var fields = ["oldPassword", "password"];
+            for (var i = 0; i < 2; i++) {
+                isOk = checkFieldIsNotEmpty(formId, fields[i]) && isOk;
+            };
+            isOk = confirmPassword(formId) && isOk;
+
+            var url = "/Account/ChangePassword";
+
+            if (isOk) {
+                postForm(formId, url);
+            }
+        });
+
+    $("#changePassBtn").on("click",
+        function () {
+            event.preventDefault();
+            var isOk = true;
+            var formId = "changePassForm";
+
             isOk = checkFieldIsNotEmpty(formId, "password");
             isOk = confirmPassword(formId) && isOk;
 
@@ -482,7 +527,7 @@ $(document).ready(function () {
 
     setGoalsSelectOptions();
 
-    var ages = ["baby", "toddler", "child", "teen", "young", "adult", "old"];
+    var ages = ["newborn", "infant", "toddler", "child", "teen", "young", "adult", "old"];
 
     $("#ageSelect").on("change",
         function () {
@@ -522,4 +567,6 @@ $(document).ready(function () {
     $("#parent1Select").trigger("change");
 
     setActivePreferences();
+
+    setSelectPackOptionsState();
 });

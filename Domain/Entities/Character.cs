@@ -8,7 +8,8 @@ namespace Domain.Entities
 {
     public enum Ages
     {
-        Baby,
+        Newborn,
+        Infant,
         Toddler,
         Child,
         Teen,
@@ -31,7 +32,7 @@ namespace Domain.Entities
         public int Generation { get; set; } = 1;
         public bool Glasses { get; set; } = false;
         public int Goal { get; set; } = 0;
-        public Ages Age { get; set; } = Ages.Baby;
+        public Ages Age { get; set; } = Ages.Newborn;
         public bool InFamily { get; set; } = true;
         public Chronotypes? Chronotype { get; set; }
         public int? Career { get; set; }

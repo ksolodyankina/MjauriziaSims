@@ -73,9 +73,9 @@ namespace MjauriziaSims.Models
             }
 
             var count = (Likes == null ? 0 : Likes.Count()) + (Dislikes == null ? 0 : Dislikes.Count());
+            var characterPreferences = new CharacterPreference[count];
             if (count > 0)
             {
-                var characterPreferences = new CharacterPreference[count];
                 var i = 0;
                 if (Likes != null)
                 {
@@ -105,8 +105,8 @@ namespace MjauriziaSims.Models
                         i++;
                     }
                 }
-                characterPreferenceRepository.SaveCharacterPreferences(characterPreferences);
             }
+            characterPreferenceRepository.SaveCharacterPreferences(characterPreferences);
         }
     }
 }

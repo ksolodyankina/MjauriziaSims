@@ -55,7 +55,8 @@ namespace MjauriziaSims.Controllers
                 AddPreferencesForNewLifestage(character);
                 SetRandomPreferences(character);
 
-                if (character.Age == Ages.Toddler || character.Age == Ages.Adult || character.Age == Ages.Old)
+                if (character.Age == Ages.Infant || character.Age == Ages.Toddler 
+                    || character.Age == Ages.Adult || character.Age == Ages.Old)
                 {
                     character.Glasses = RandomizeGlasses(character);
                 }
@@ -100,7 +101,8 @@ namespace MjauriziaSims.Controllers
                 var character = new CharacterFormModel()
                 {
                     Family = family.FamilyId,
-                    Partner = partnerId
+                    Partner = partnerId,
+                    Age = partnerId > 0 ? Ages.Young : Ages.Newborn,
                 };
 
                 var characterVewModel = new CharacterViewModel()
@@ -245,7 +247,7 @@ namespace MjauriziaSims.Controllers
                 }
 
                 var random = new Random();
-                return random.Next(1, 10) < 1 + (parent1HasGlasses ? 4 : 0) + (parent2HasGlasses ? 4 : 0);
+                return random.Next(1, 11) < 1 + (parent1HasGlasses ? 4 : 0) + (parent2HasGlasses ? 4 : 0);
             }
         }
 
@@ -253,7 +255,7 @@ namespace MjauriziaSims.Controllers
         {
             var random = new Random();
             var goals = _goalRepository.Goals.Where(g => g.IsChild == (character.Age == Ages.Child));
-            var goalNumber = random.Next(1, goals.Count());
+            var goalNumber = random.Next(1, goals.Count() + 1);
             var goalId = -1;
             var i = 1;
             foreach (var goal in goals)
@@ -268,11 +270,12 @@ namespace MjauriziaSims.Controllers
             return goalId;
         }
 
-        private int RandomizePreferences(PreferenceCategories category)
+        private int RandomizePreferences(PreferenceCategories category, Ages age)
         {
             var random = new Random();
-            var preferences = _preferenceRepository.Preferences.Where(p => p.Category == (PreferenceCategories)category);
-            var preferenceNumber = random.Next(1, preferences.Count());
+            var preferences = _preferenceRepository.Preferences
+                .Where(p => p.Category == (PreferenceCategories)category && p.MinAge <= age);
+            var preferenceNumber = random.Next(1, preferences.Count() + 1);
             var preferenceId = -1;
             var i = 1;
             foreach (var preference in preferences)
@@ -290,7 +293,7 @@ namespace MjauriziaSims.Controllers
         private Chronotypes RandomizeChronotype()
         {
             var random = new Random();
-            var chronotype = random.Next(1, 2);
+            var chronotype = random.Next(1, 3);
             if (chronotype == 1)
             {
                 return Chronotypes.MorningPerson;
@@ -308,7 +311,7 @@ namespace MjauriziaSims.Controllers
             {
                 var random = new Random();
                 var careers = _careerRepository.Careers;
-                var careerNumber = random.Next(1, careers.Count());
+                var careerNumber = random.Next(1, careers.Count() + 1);
                 var i = 1;
                 foreach (var career in careers)
                 {
@@ -330,7 +333,9 @@ namespace MjauriziaSims.Controllers
                 Join(_preferenceRepository.Preferences,
                     cp => cp.PreferenceId,
                     p => p.PreferenceId,
-                    (cp, p) => p.Category);
+                    (cp, p) => p.Category).
+                Distinct().
+                ToList();
             var newPreferenceCategories = _preferenceRepository.Preferences.
                 Where(p => p.MinAge == character.Age).
                 GroupBy(p => p.Category).
@@ -339,12 +344,12 @@ namespace MjauriziaSims.Controllers
                 ToList();
             foreach (var category in newPreferenceCategories)
             {
-                if (!existingPreferenceCategories.Any(c => c == category))
+                if (existingPreferenceCategories == null || !existingPreferenceCategories.Any(c => c == category))
                 {
                     var newCharacterPreference = new CharacterPreference
                     {
                         CharacterId = character.CharacterId,
-                        PreferenceId = RandomizePreferences(category),
+                        PreferenceId = RandomizePreferences(category, character.Age),
                         IsLike = true
                     };
                     _characterPreferenceRepository.SaveCharacterPreference(newCharacterPreference);
@@ -362,14 +367,14 @@ namespace MjauriziaSims.Controllers
                 ToList();
             foreach (var category in availableCategories)
             {
-                var addInCategory = random.Next(1, availableCategories.Count());
+                var addInCategory = random.Next(1, availableCategories.Count() + 1);
                 if (addInCategory <= 2)
                 {
                     var newCharacterPreference = new CharacterPreference
                     {
                         CharacterId = character.CharacterId,
-                        PreferenceId = RandomizePreferences(category),
-                        IsLike = random.Next(0, 1) == 1
+                        PreferenceId = RandomizePreferences(category, character.Age),
+                        IsLike = random.Next(0, 2) == 1
                     };
                     if (!_characterPreferenceRepository.CharacterPreferences.
                             Any(cp => cp.CharacterId == newCharacterPreference.CharacterId

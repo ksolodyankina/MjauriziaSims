@@ -129,6 +129,9 @@
   <data name="loginHelp" xml:space="preserve">
     <value>Пожалуйста, заполните поле логин</value>
   </data>
+  <data name="Packs" xml:space="preserve">
+    <value>Дополнения</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>

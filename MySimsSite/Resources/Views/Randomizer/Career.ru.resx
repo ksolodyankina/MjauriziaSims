@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CareerHeader" xml:space="preserve">
-    <value>Выбор карьеры</value>
+  <data name="Description" xml:space="preserve">
+    <value>Генератор случайных значений характеристик для игры Sims 4. Случайно сгенерировать карьеру для игры Sims 4.</value>
   </data>
   <data name="DisableAll" xml:space="preserve">
     <value>Запретить все</value>
@@ -128,5 +128,8 @@
   </data>
   <data name="Randomize" xml:space="preserve">
     <value>Сгенерировать</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Генератор случайной карьеры для игры Sims 4</value>
   </data>
 </root>

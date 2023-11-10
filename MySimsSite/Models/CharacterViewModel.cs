@@ -81,9 +81,9 @@ namespace MjauriziaSims.Models
         {
             var items = new List<SelectListItem>();
 
-            for (var i = allValues ? 0 : 4; i <= 6; i++)
+            for (var i = allValues ? Ages.Newborn : Ages.Young; i <= Ages.Old; i++)
             {
-                items.Add(new SelectListItem { Text = MsgManager.Msg("age_" + ((Ages)i).ToString()), Value = $"{i}" });
+                items.Add(new SelectListItem { Text = MsgManager.Msg("age_" + ((Ages)i).ToString()), Value = $"{(int)i}" });
             }
             return items;
         }
@@ -116,7 +116,7 @@ namespace MjauriziaSims.Models
         public List<SelectListItem> GetPartnerSelectItems()
         {
             var relatives = new List<Character>();
-
+            /*
             var parents = Characters.Where(c => c.CharacterId == Character.Parent1 || c.CharacterId == Character.Parent2).ToList();                                     
             foreach (var parent in parents)
             {
@@ -176,7 +176,7 @@ namespace MjauriziaSims.Models
                     break;
                 }
             }
-
+            */
             var possiblePartners = Characters.Except(relatives);
             var items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = MsgManager.Msg("notSet"), Value = "0" });

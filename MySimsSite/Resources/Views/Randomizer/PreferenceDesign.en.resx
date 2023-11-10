@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="designHeader" xml:space="preserve">
-    <value>Randomize decor preference</value>
+  <data name="Description" xml:space="preserve">
+    <value>Randomizer for Sims 4 characteristics. Generate random decor for Sims 4.</value>
   </data>
   <data name="DisableAll" xml:space="preserve">
     <value>Disable all</value>
@@ -128,5 +128,8 @@
   </data>
   <data name="Randomize" xml:space="preserve">
     <value>Randomize</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Sims 4 decor randomizer</value>
   </data>
 </root>

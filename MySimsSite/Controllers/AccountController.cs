@@ -10,6 +10,8 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.Google;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using System.Security.Principal;
 
 namespace MjauriziaSims.Controllers
 {
@@ -17,12 +19,18 @@ namespace MjauriziaSims.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly MessageManager.MessageManager _msgManager;
+        private readonly IEnumerable<Pack> _packs;
+        private readonly IUserPackRepository _userPackRepository;
         public AccountController(
             IUserRepository userRepository, 
-            MessageManager.MessageManager msgManager)
+            MessageManager.MessageManager msgManager,
+            IPackRepository packRepository,
+            IUserPackRepository userPackRepository)
         {
             _userRepository = userRepository;
             _msgManager = msgManager;
+            _packs = packRepository.Packs.ToList();
+            _userPackRepository = userPackRepository;
         }
 
         [HttpPost]
@@ -98,7 +106,10 @@ namespace MjauriziaSims.Controllers
             var newUser = new User();
             var model = new RegisterModel()
             {
-                Role = newUser.Role
+                Role = newUser.Role,
+                Packs = _packs.Select(p => p.PackId).ToList(),
+                PackRepository = _packs,
+                MsgManager = _msgManager
             };
             return View(model);
         }
@@ -121,6 +132,8 @@ namespace MjauriziaSims.Controllers
                         ConfirmationToken = token, 
                         Role=model.Role
                     });
+                    var newUser = _userRepository.Users.Last(u => u.Email == model.Email).UserId;
+                    _userPackRepository.SaveUserPacks(newUser, model.Packs);
 
                     var emailText = _msgManager.Msg("registrationText").
                             Replace("<url>", $"https://mjauriziasims.ru/Account/Confirmation?ConfirmationToken={token}");
@@ -144,6 +157,36 @@ namespace MjauriziaSims.Controllers
                 result.ErrorMsg = String.Join(". ", allErrors.Select(v => v.ErrorMessage));
             }
             return result;
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            var user = int.Parse(User.FindFirst("UserId").Value);
+            var model = new UserEditModel()
+            {
+                UserId = user,
+                Username = _userRepository.Users.First(u => u.UserId ==  user).Username,
+                Packs = _userPackRepository.UserPacks.Where(u => u.UserId == user).Select(u => u.PackId).ToList(),
+                PackRepository = _packs,
+                MsgManager = _msgManager
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UserEditModel model)
+        {
+            var user = _userRepository.Users.First(u => u.UserId == model.UserId);
+            if (user.Username != model.Username)
+            {
+                user.Username = model.Username;
+                _userRepository.SaveUser(user);
+            }
+            _userPackRepository.SaveUserPacks(model.UserId, model.Packs);
+
+            return Redirect("/Account/Edit/");
         }
 
         [HttpGet]
@@ -238,7 +281,42 @@ namespace MjauriziaSims.Controllers
                 }
                 else
                 {
-                    user.Password = model.Password;
+                    user.Password = EncryptPassword(model.Password, user.Email);
+                    _userRepository.SaveUser(user);
+                }
+
+            }
+            else
+            {
+                result.IsSuccess = false;
+                var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                result.ErrorMsg = String.Join(". ", allErrors.Select(v => v.ErrorMessage));
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<Result> ChangePassword(ChangePassModel model)
+        {
+            var result = new Result() { IsSuccess = true };
+            if (ModelState.IsValid)
+            {
+                var user = _userRepository.Users.FirstOrDefault
+                    (u => u.UserId == int.Parse(User.FindFirst("UserId").Value));
+                if (user.Password != EncryptPassword(model.OldPassword, user.Email))
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMsg = _msgManager.Msg("err_ChangePass");
+                }
+                else
+                {
+                    user.Password = EncryptPassword(model.Password, user.Email);
                     _userRepository.SaveUser(user);
                 }
 

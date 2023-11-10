@@ -6,15 +6,16 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewBag.Title = Model.Family.Family.Surname;
+    ViewBag.Title = @Localizer["Title"] + ": " + Model.Family.Family.Surname;
     ViewBag.TabId = "nav-families";
+    ViewBag.Description = @Localizer["Description"];
 }
 
 
 <div class="row m-3">
     <div class="col-sm-10 mb-4">
         <h1>
-            @ViewBag.Title
+            @Model.Family.Family.Surname
             @if (Model.CanEdit)
             {
                 <a href="/Character/Create/@Model.Family.Family.FamilyId" 

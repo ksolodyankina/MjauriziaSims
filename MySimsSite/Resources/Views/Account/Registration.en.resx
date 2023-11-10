@@ -129,6 +129,9 @@
   <data name="loginHelp" xml:space="preserve">
     <value>Please, fill login field</value>
   </data>
+  <data name="Packs" xml:space="preserve">
+    <value>Addons</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>

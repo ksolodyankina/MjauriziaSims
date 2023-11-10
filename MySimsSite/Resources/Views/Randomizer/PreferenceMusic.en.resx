@@ -117,16 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Description" xml:space="preserve">
+    <value>Randomizer for Sims 4 characteristics. Generate random music genre for Sims 4.</value>
+  </data>
   <data name="DisableAll" xml:space="preserve">
     <value>Disable all</value>
   </data>
   <data name="EnableAll" xml:space="preserve">
     <value>Enable all</value>
   </data>
-  <data name="musicHeader" xml:space="preserve">
-    <value>Randomize music preference</value>
-  </data>
   <data name="Randomize" xml:space="preserve">
     <value>Randomize</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Sims 4 music genre randomizer</value>
   </data>
 </root>

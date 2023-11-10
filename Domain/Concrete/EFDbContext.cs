@@ -16,12 +16,13 @@ namespace Domain.Concrete
         public DbSet<Msg> Messages { get; set; }
         public DbSet<CharacterPreference> CharacterPreferences { get; set; }
         public DbSet<Pack> Packs { get; set; }
+        public DbSet<UserPack> UserPacks { get; set; }
 
         private readonly string _connectionString;
 
         public EFDbContext()
         {
-            _connectionString = "User ID=sims;Password=gogorengers;Host=5.53.125.205;Port=5433;Database=sims;";
+            _connectionString = "User ID=postgres;Password=gogorengers;Host=mjauriziasims.ru;Port=5432;Database=sims;";
         }
         public EFDbContext(string connectionString)
         {

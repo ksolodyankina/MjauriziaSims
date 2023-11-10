@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Security.Claims;
 
 @inject IViewLocalizer Localizer
 
@@ -7,6 +8,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
           crossorigin="anonymous">
@@ -15,7 +18,6 @@
     <script src="/js/jquery-2.2.0.min.js"></script>
     <script src="/js/scripts.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <title>@ViewBag.Title</title>
     <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </head>
@@ -59,39 +61,52 @@
                 </ul>
             </div>
             
-            <div class="collapse navbar-collapse" id="locale">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 dropstart">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" id="nav-goals"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            @if (Thread.CurrentThread.CurrentCulture.ToString() == "ru")
-                            {
-                                <img src="/Images/Locale/ru.png" width="20" height="20" title="Русский"/>
-                            }
-                            else
-                            {
-                                <img src="/Images/Locale/en.png" width="20" height="20" title="English"/>
-                            }
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item localeSwitcher" id="localeSwitcherEn" href="#">
-                                <img src="/Images/Locale/en.png" width="20" height="20" title="English"/> English
-                            </a></li>
-                            <li><a class="dropdown-item localeSwitcher" id="localeSwitcherRu" href="#">
-                                <img src="/Images/Locale/ru.png" width="20" height="20" title="Русский"/> Русский
-                            </a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            
             @if (User.Identity.IsAuthenticated)
             {
-
-                <a href="/Account/Logout" class="nav-link text-light loginBtn">
-                    <i class="bi-box-arrow-right"></i>
-                    @Localizer["LogOut"]
-                </a>
+                <div class="collapse navbar-collapse" id="locale">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 dropstart">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                @if (Thread.CurrentThread.CurrentCulture.ToString() == "ru")
+                                {
+                                    <img src="/Images/Locale/ru.png" width="20" height="20" title="Русский" />
+                                }
+                                else
+                                {
+                                    <img src="/Images/Locale/en.png" width="20" height="20" title="English" />
+                                }
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item localeSwitcher" id="localeSwitcherEn" href="#">
+                                        <img src="/Images/Locale/en.png" width="20" height="20" title="English" /> English
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item localeSwitcher" id="localeSwitcherRu" href="#">
+                                        <img src="/Images/Locale/ru.png" width="20" height="20" title="Русский" /> Русский
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle user-icon" href="#" role="button" id="nav-account"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi-person-fill"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/Account/Edit/">
+                                    @Localizer["Edit"]
+                                </a></li>
+                                <li><a href="/Account/Logout" class="dropdown-item">
+                                    <i class="bi-box-arrow-right"></i>
+                                    @Localizer["LogOut"]
+                                </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             }
             else
             {
