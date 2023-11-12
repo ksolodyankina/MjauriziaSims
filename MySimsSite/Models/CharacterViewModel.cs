@@ -26,7 +26,7 @@ namespace MjauriziaSims.Models
                     Value = goal.GoalId.ToString()
                 });
             }
-            return items;
+            return items.OrderBy(g => g.Value == "0" ? g.Value : g.Text).ToList();
         }
 
         public string GetGoalsJSON()
@@ -60,7 +60,11 @@ namespace MjauriziaSims.Models
 
             foreach (var preference in Preferences)
             {
-                items.Add(new SelectListItem { Text = MsgManager.Msg(preference.Title), Value = preference.PreferenceId.ToString() });
+                items.Add(
+                    new SelectListItem { 
+                        Text = MsgManager.Msg(preference.Title), 
+                        Value = preference.PreferenceId.ToString() 
+                    });
             }
             return items;
         }
@@ -72,9 +76,13 @@ namespace MjauriziaSims.Models
 
             foreach (var career in Careers)
             {
-                items.Add(new SelectListItem { Text = MsgManager.Msg(career.Title), Value = career.CareerId.ToString() });
+                items.Add(
+                    new SelectListItem { 
+                        Text = MsgManager.Msg(career.Title), 
+                        Value = career.CareerId.ToString() 
+                    });
             }
-            return items;
+            return items.OrderBy(c => c.Value == "0" ? c.Value : c.Text).ToList();
         }
 
         public List<SelectListItem> GetAgeSelectItems(bool allValues = false)
@@ -83,7 +91,11 @@ namespace MjauriziaSims.Models
 
             for (var i = allValues ? Ages.Newborn : Ages.Young; i <= Ages.Old; i++)
             {
-                items.Add(new SelectListItem { Text = MsgManager.Msg("age_" + ((Ages)i).ToString()), Value = $"{(int)i}" });
+                items.Add(
+                    new SelectListItem { 
+                        Text = MsgManager.Msg("age_" + ((Ages)i).ToString()), 
+                        Value = $"{(int)i}" 
+                    });
             }
             return items;
         }
@@ -95,8 +107,11 @@ namespace MjauriziaSims.Models
 
             for (var i = 0; i <= 1; i++)
             {
-                items.Add(new SelectListItem 
-                    { Text = MsgManager.Msg("chronotype_" + ((Chronotypes)(i)).ToString()), Value = $"{i}" });
+                items.Add(
+                    new SelectListItem { 
+                        Text = MsgManager.Msg("chronotype_" + ((Chronotypes)(i)).ToString()), 
+                        Value = $"{i}" 
+                    });
             }
             return items;
         }
