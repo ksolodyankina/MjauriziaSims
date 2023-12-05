@@ -1,5 +1,6 @@
 ﻿using Domain.Abstract;
 using Domain.Entities;
+using Domain.Migrations;
 
 namespace Domain.Migrator
 {
@@ -65,7 +66,7 @@ namespace Domain.Migrator
 
         private static readonly Dictionary<Goal, string> Goals = new Dictionary<Goal, string>() {
             { new Goal { Code = "academician", IsChild = false, Title = "goal_academician" }, "EP08" },
-            { new Goal { Code = "actor", IsChild = false, Title = "goal_actor"}, "EP06" },
+            { new Goal { Code = "masterActor", IsChild = false, Title = "goal_masterActor"}, "EP06" },
             { new Goal { Code = "adviser", IsChild = false, Title = "goal_adviser"}, "base" },
             { new Goal { Code = "animator", IsChild = false, Title = "goal_animator"}, "base" },
             { new Goal { Code = "archeologist", IsChild = false, Title = "goal_archeologist"}, "GP06" },
@@ -141,7 +142,7 @@ namespace Domain.Migrator
 
         private static readonly Dictionary<Preference, string> Preferences = new Dictionary<Preference,string>()
         {
-            { new Preference {Category = (PreferenceCategories)2, Code = "actor", Title = "preference_actor",
+            { new Preference {Category = (PreferenceCategories)2, Code = "acting", Title = "preference_acting",
                             MinAge = Ages.Teen}, "EP06" },
             { new Preference {Category = (PreferenceCategories)1, Code = "alternative", Title = "preference_alternative",
                             MinAge = Ages.Child}, "base" },
@@ -372,7 +373,7 @@ namespace Domain.Migrator
             { new Preference {Category = (PreferenceCategories)5, Code = "discussingInterests", Title = "preference_discussingInterests",
                             MinAge = Ages.Child}, "EP13" },
             { new Preference {Category = (PreferenceCategories)5, Code = "flirtation", Title = "preference_flirtation",
-                            MinAge = Ages.Child}, "EP13" },
+                            MinAge = Ages.Teen}, "EP13" },
             { new Preference {Category = (PreferenceCategories)5, Code = "gossip", Title = "preference_gossip",
                             MinAge = Ages.Child}, "EP13" },
             { new Preference {Category = (PreferenceCategories)5, Code = "jokes", Title = "preference_jokes",
@@ -380,7 +381,7 @@ namespace Domain.Migrator
             { new Preference {Category = (PreferenceCategories)5, Code = "maliciousInteractions", Title = "preference_maliciousInteractions",
                             MinAge = Ages.Child}, "EP13" },
             { new Preference {Category = (PreferenceCategories)5, Code = "physicalIntimacy", Title = "preference_physicalIntimacy",
-                            MinAge = Ages.Child}, "EP13" },
+                            MinAge = Ages.Teen}, "EP13" },
             { new Preference {Category = (PreferenceCategories)5, Code = "pottyHumor", Title = "preference_pottyHumor",
                             MinAge = Ages.Child}, "EP13" },
             { new Preference {Category = (PreferenceCategories)5, Code = "pranks", Title = "preference_pranks",
@@ -424,7 +425,7 @@ namespace Domain.Migrator
             { new Preference {Category = (PreferenceCategories)6, Code = "mischievous", Title = "preference_mischievous",
                             MinAge = Ages.Child}, "EP13" },
             { new Preference {Category = (PreferenceCategories)6, Code = "romanceEnthusiast", Title = "preference_romanceEnthusiast",
-                            MinAge = Ages.Child}, "EP13" },
+                            MinAge = Ages.Teen}, "EP13" },
             { new Preference {Category = (PreferenceCategories)6, Code = "spirited", Title = "preference_spirited",
                             MinAge = Ages.Child}, "EP13" },
             { new Preference {Category = (PreferenceCategories)1, Code = "soul", Title = "preference_soul",
@@ -492,7 +493,7 @@ namespace Domain.Migrator
 
         private static readonly Msg[] Messages = new[] {
             new Msg {Code = "goal_academician", MsgRu = "Академик", MsgEn = "Academic"},
-            new Msg {Code = "goal_actor", MsgRu = "Опытный актер", MsgEn = "Master Actor"},
+            new Msg {Code = "goal_masterActor", MsgRu = "Опытный актер", MsgEn = "Master Actor"},
             new Msg {Code = "goal_adviser", MsgRu = "Надежный сосед", MsgEn = "Neighborhood Confidante"},
             new Msg {Code = "goal_animator", MsgRu = "Душа компании", MsgEn = "Party Animal"},
             new Msg {Code = "goal_archeologist", MsgRu = "Специалист по археологии", MsgEn = "Archaeology Scholar"},
@@ -562,7 +563,7 @@ namespace Domain.Migrator
             new Msg {Code = "goal_batuuHope", MsgRu = "Символ Надежды", MsgEn = "Paragon of Hope"},
             new Msg {Code = "goal_batuuOrder", MsgRu = "Силовик Ордена", MsgEn = "Enforcer of Order"},
             new Msg {Code = "goal_batuuPrivateer", MsgRu = "Галактический приватир", MsgEn = "Galactic Privateer"},
-            new Msg {Code = "preference_actor", MsgRu = "Актёрское мастерство", MsgEn = "Acting"},
+            new Msg {Code = "preference_acting", MsgRu = "Актёрское мастерство", MsgEn = "Acting"},
             new Msg {Code = "preference_alternative", MsgRu = "Альтернативная музыка", MsgEn = "Alternative"},
             new Msg {Code = "preference_americana", MsgRu = "Американа", MsgEn = "Americana"},
             new Msg {Code = "preference_artSong", MsgRu = "Авторская песня", MsgEn = "Singer Songwriter"},
@@ -889,80 +890,94 @@ namespace Domain.Migrator
 
         public void Migrate()
         {
-            foreach (var pack in Packs)
+            if (_packRepository.Packs.Count() < Packs.Length)
             {
-                var packDB = _packRepository.Packs.FirstOrDefault(p => p.Code == pack.Code);
-                if (packDB == null)
+                foreach (var pack in Packs)
                 {
-                    _packRepository.SavePack(pack);
+                    var packDB = _packRepository.Packs.FirstOrDefault(p => p.Code == pack.Code);
+                    if (packDB == null)
+                    {
+                        _packRepository.SavePack(pack);
+                    }
                 }
             }
 
-            foreach (var msg in Messages)
+            if (_msgRepository.Messages.Count() < Messages.Length)
             {
-                var msgDB = _msgRepository.Messages.FirstOrDefault(m => m.Code == msg.Code);
-                if (msgDB == null)
+                foreach (var msg in Messages)
                 {
-                    _msgRepository.SaveMsg(msg);
-                }
-                else if (msgDB.MsgEn != msg.MsgEn || msgDB.MsgRu != msg.MsgRu)
-                {
-                    msgDB.MsgEn = msg.MsgEn;
-                    msgDB.MsgRu = msg.MsgRu;
-                    _msgRepository.SaveMsg(msgDB); ;
+                    var msgDB = _msgRepository.Messages.FirstOrDefault(m => m.Code == msg.Code);
+                    if (msgDB == null)
+                    {
+                        _msgRepository.SaveMsg(msg);
+                    }
+                    else if (msgDB.MsgEn != msg.MsgEn || msgDB.MsgRu != msg.MsgRu)
+                    {
+                        msgDB.MsgEn = msg.MsgEn;
+                        msgDB.MsgRu = msg.MsgRu;
+                        _msgRepository.SaveMsg(msgDB); ;
+                    }
                 }
             }
 
-            foreach (var g in Goals)
+            if (_goalRepository.Goals.Count() < Goals.Count())
             {
-                var goal = g.Key;
-                goal.Pack = _packRepository.Packs.First(p => p.Code == g.Value).PackId;
-                var goalDB = _goalRepository.Goals.FirstOrDefault(v => v.Code == goal.Code);
-                if (goalDB == null)
+                foreach (var g in Goals)
                 {
-                    _goalRepository.SaveGoal(goal);
-                }
-                else if (goal.Title != goalDB.Title || goal.IsChild != goalDB.IsChild || goal.Pack != goalDB.Pack)
-                {
-                    goal.GoalId = goalDB.GoalId;
-                    _goalRepository.SaveGoal(goal);
+                    var goal = g.Key;
+                    goal.Pack = _packRepository.Packs.First(p => p.Code == g.Value).PackId;
+                    var goalDB = _goalRepository.Goals.FirstOrDefault(v => v.Code == goal.Code);
+                    if (goalDB == null)
+                    {
+                        _goalRepository.SaveGoal(goal);
+                    }
+                    else if (goal.Title != goalDB.Title || goal.IsChild != goalDB.IsChild || goal.Pack != goalDB.Pack)
+                    {
+                        goal.GoalId = goalDB.GoalId;
+                        _goalRepository.SaveGoal(goal);
+                    }
                 }
             }
 
-            foreach (var p in Preferences)
+            if (_preferenceRepository.Preferences.Count() < Preferences.Count())
             {
-                var preference = p.Key;
-                preference.Pack = _packRepository.Packs.First(v => v.Code == p.Value).PackId;
-                var preferenceDB = _preferenceRepository.Preferences.FirstOrDefault(
-                        v => v.Code == preference.Code && v.Category == preference.Category);
-                if (preferenceDB == null)
+                foreach (var p in Preferences)
                 {
-                    _preferenceRepository.SavePreference(preference);
-                }
-                else if (preferenceDB.Title != preference.Title || preferenceDB.MinAge != preference.MinAge || 
-                            preferenceDB.Pack != preference.Pack)
-                {
-                    preference.PreferenceId = preferenceDB.PreferenceId;
-                    _preferenceRepository.SavePreference(preference);
+                    var preference = p.Key;
+                    preference.Pack = _packRepository.Packs.First(v => v.Code == p.Value).PackId;
+                    var preferenceDB = _preferenceRepository.Preferences.FirstOrDefault(
+                            v => v.Code == preference.Code && v.Category == preference.Category);
+                    if (preferenceDB == null)
+                    {
+                        _preferenceRepository.SavePreference(preference);
+                    }
+                    else if (preferenceDB.Title != preference.Title || preferenceDB.MinAge != preference.MinAge ||
+                                preferenceDB.Pack != preference.Pack)
+                    {
+                        preference.PreferenceId = preferenceDB.PreferenceId;
+                        _preferenceRepository.SavePreference(preference);
+                    }
                 }
             }
 
-            foreach (var c in Careers)
+            if (_careerRepository.Careers.Count() < Careers.Count())
             {
-                var career = c.Key;
-                career.Pack = _packRepository.Packs.First(v => v.Code == c.Value).PackId;
-                var careerDB = _careerRepository.Careers.FirstOrDefault(c => c.Code == career.Code);
-                if (careerDB == null)
+                foreach (var c in Careers)
                 {
-                    _careerRepository.SaveCareer(career);
-                }
-                else if (career.Title != careerDB.Title || career.Pack != careerDB.Pack)
-                {
-                    career.CareerId = careerDB.CareerId;
-                    _careerRepository.SaveCareer(career);
+                    var career = c.Key;
+                    career.Pack = _packRepository.Packs.First(v => v.Code == c.Value).PackId;
+                    var careerDB = _careerRepository.Careers.FirstOrDefault(c => c.Code == career.Code);
+                    if (careerDB == null)
+                    {
+                        _careerRepository.SaveCareer(career);
+                    }
+                    else if (career.Title != careerDB.Title || career.Pack != careerDB.Pack)
+                    {
+                        career.CareerId = careerDB.CareerId;
+                        _careerRepository.SaveCareer(career);
+                    }
                 }
             }
-
         }
     }
 }

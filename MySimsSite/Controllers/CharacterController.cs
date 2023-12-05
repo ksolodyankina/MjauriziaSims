@@ -105,6 +105,8 @@ namespace MjauriziaSims.Controllers
                     Age = partnerId > 0 ? Ages.Young : Ages.Newborn,
                 };
 
+
+
                 var characterVewModel = new CharacterViewModel()
                 {
                     Family = family,
