@@ -16,8 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Scripts\" />
-    <Folder Include="wwwroot\Images\Goals\" />
-    <Folder Include="wwwroot\Images\Preferences\" />
   </ItemGroup>
 
   <ItemGroup>
