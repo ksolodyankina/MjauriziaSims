@@ -30,6 +30,7 @@ namespace Domain.Migrator
             new Pack { Code = "EP12", Title = "pack_EP12" },
             new Pack { Code = "EP13", Title = "pack_EP13" },
             new Pack { Code = "EP14", Title = "pack_EP14" },
+            new Pack { Code = "EP15", Title = "pack_EP15" },
             new Pack { Code = "GP01", Title = "pack_GP01" },
             new Pack { Code = "GP02", Title = "pack_GP02" },
             new Pack { Code = "GP03", Title = "pack_GP03" },
@@ -61,6 +62,7 @@ namespace Domain.Migrator
             new Pack { Code = "SP17", Title = "pack_SP17" },
             new Pack { Code = "SP18", Title = "pack_SP18" },
             new Pack { Code = "SP46", Title = "pack_SP46" },
+            new Pack { Code = "SP20", Title = "pack_SP20" },
             new Pack { Code = "FP01", Title = "pack_FP01" },
         };
 
@@ -138,6 +140,9 @@ namespace Domain.Migrator
             { new Goal { Code = "nectar", IsChild = false, Title = "goal_nectar"}, "EP14" },
             { new Goal { Code = "appliance", IsChild = false, Title = "goal_appliance"}, "SP46" },
             { new Goal { Code = "market", IsChild = false, Title = "goal_market"}, "SP46" },
+            { new Goal { Code = "tomaraniKnowledge", IsChild = false, Title = "goal_tomaraniKnowledge"}, "EP15" },
+            { new Goal { Code = "discerningDweller", IsChild = false, Title = "goal_discerningDweller"}, "EP15" },
+            { new Goal { Code = "cristalCrafter", IsChild = false, Title = "goal_cristalCrafter"}, "SP20" },
         };
 
         private static readonly Dictionary<Preference, string> Preferences = new Dictionary<Preference,string>()
@@ -442,6 +447,8 @@ namespace Domain.Migrator
                             MinAge = Ages.Child}, "base" },
             { new Preference {Category = (PreferenceCategories)1, Code = "ranch", Title = "preference_ranch",
                             MinAge = Ages.Child}, "base" },
+            { new Preference {Category = (PreferenceCategories)2, Code = "gemology", Title = "preference_gemology",
+                            MinAge = Ages.Teen}, "SP20" },
         };                              
 
         private static readonly Dictionary<Career, string> Careers = new Dictionary<Career, string>()
@@ -872,6 +879,15 @@ namespace Domain.Migrator
             new Msg {Code = "preference_carnaval", MsgRu = "Карнавальная музыка", MsgEn = "Carnaval Beats"},
             new Msg {Code = "preference_rb", MsgRu = "Музыка в жанре ар-н-би", MsgEn = "R&B"},
             new Msg {Code = "preference_ranch", MsgRu = "Музыка ранчо", MsgEn = "Ranch"},
+            new Msg {Code = "pack_EP15", MsgRu = "Сдается", MsgEn = "For Rent"},
+            new Msg {Code = "goal_tomaraniKnowledge", 
+                        MsgRu = "Источник знаний о Томаранге", MsgEn = "Fount of Tomarani Knowledge"},
+            new Msg {Code = "pack_SP20", MsgRu = "Сияние самоцветов", MsgEn = "Crystal Creations"},
+            new Msg {Code = "goal_cristalCrafter", 
+                        MsgRu = "Изготовитель кристаллов", MsgEn = "Crystal Crafter"},
+            new Msg {Code = "goal_discerningDweller", 
+                        MsgRu = "Проницательный жилец", MsgEn = "Discerning Dweller"},
+            new Msg {Code = "preference_gemology", MsgRu = "Геммология", MsgEn = "Gemology"},
         };
 
         public Migrator(

@@ -148,7 +148,7 @@ app.MapControllerRoute(
     new { controller = "Family", action = "List", familyId = @"\d+" }
 );
 
-//var migrator = app.Services.GetRequiredService<Domain.Migrator.Migrator>();
-//migrator.Migrate();
+var migrator = app.Services.GetRequiredService<Domain.Migrator.Migrator>();
+migrator.Migrate();
 
 app.Run();
